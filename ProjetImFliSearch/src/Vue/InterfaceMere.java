@@ -312,7 +312,7 @@ public class InterfaceMere extends JFrame implements ActionListener{
 							JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
 						}//if les villes départ/arrivée existent et la liste des aéroports n'est pas vide
 					}//if toutes les info ont été saisies correctement
-					else if (perimetreEntre<0)
+					else if (perimetreEntre<=0)
 					{
 						JOptionPane.showMessageDialog(this, "Votre périmètre est négatif, ou égal à zéro... ",
 						"Erreur : Périmètre",JOptionPane.ERROR_MESSAGE);
