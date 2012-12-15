@@ -1,4 +1,4 @@
-﻿package Vue;//test
+﻿package Vue;
 
 import java.awt.*;
 
