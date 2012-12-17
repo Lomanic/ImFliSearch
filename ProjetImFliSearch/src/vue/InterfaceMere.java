@@ -1,4 +1,4 @@
-﻿package Vue;
+﻿package vue;
 
 import java.awt.*;
 
@@ -295,8 +295,7 @@ public class InterfaceMere extends JFrame implements ActionListener{
 							chDateAnnee.getSelectedIndex(),chDateJourRetour.getSelectedIndex(),chDateMoisRetour.getSelectedIndex(),chDateAnneeRetour.getSelectedIndex());
 						
 							
-							BareBonesBrowserLaunch hey = new BareBonesBrowserLaunch();
-							hey.openURL("http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listAirportDepart.get(0).getName()+
+							BareBonesBrowserLaunch.openURL("http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listAirportDepart.get(0).getName()+
 									"&ar.rt.leaveSlice.dest.key="+listAirportArrivee.get(0).getName()+"&ar.rt.leaveSlice.date=12%2F12%2F12&ar.rt.leaveSlice." +
 											"time=Anytime&ar.rt.returnSlice.date=22%2F01%2F13&ar.rt.returnSlice.time=Anytime&_ar.rt.flexAirSearch=0&ar.rt.numAdult="+
 											Constantes.nombres[chNbAdulte.getSelectedIndex()]+"&ar.rt.numChild="+Constantes.nombres[chNbEnfants.getSelectedIndex()]+

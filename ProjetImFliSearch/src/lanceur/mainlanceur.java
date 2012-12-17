@@ -1,9 +1,10 @@
-﻿package Lanceur;
+﻿package lanceur;
 
 import org.geonames.*;
 import org.geonames.utils.Distance;
 
-import Vue.InterfaceMere;
+import vue.InterfaceMere;
+
 
 public class mainlanceur {
 
