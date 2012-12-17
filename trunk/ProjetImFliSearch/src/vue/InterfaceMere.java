@@ -1,10 +1,14 @@
-﻿package vue;
+﻿
+package vue;
 
 import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.*;
@@ -54,10 +58,21 @@ public class InterfaceMere extends JFrame implements ActionListener{
 	private JButton chBoutonValidation = new JButton("Validation");
 	private JButton chBoutonAnnulation = new JButton("Annulation");
 	
+	//Données pour l'affichage de la date courante
+	Calendar rightNow = Calendar.getInstance();
+	int numJour=rightNow.get(Calendar.DAY_OF_MONTH);
+	int numMois=rightNow.get(Calendar.MONTH);
+	
+	
+	
 	
 	public InterfaceMere(String parTitre)
 	{
 		super(parTitre);
+		
+	
+		
+		
 		
 		JPanel contentPane=new JPanel();//conteneur père
 		this.setContentPane(contentPane);
@@ -82,8 +97,8 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		panelVille.setBorder(new TitledBorder("Ville")) ;
 		panelVille.setLayout(new GridBagLayout());
 		
-		JLabel labelDepart=new JLabel("Ville depart :");
-		JLabel labelArrive=new JLabel("Ville arrivee :");
+		JLabel labelDepart=new JLabel("Ville départ :");
+		JLabel labelArrive=new JLabel("Ville arrivée :");
 		
 		this.ajoutComposant(labelDepart, panelVille, 0, 0, 1, 1);
 		this.ajoutComposant(chVilleDepart, panelVille, 1, 0, 1, 1);
@@ -94,7 +109,7 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		chVilleArrive.addActionListener(this);
 		//-----------------PANEL-PERIMETRE----------------------------//
 		JPanel panelPerimetre = new JPanel() ;
-		panelPerimetre.setBorder(new TitledBorder("Perimetre de recherche")) ;
+		panelPerimetre.setBorder(new TitledBorder("Périmètre de recherche")) ;
 		panelPerimetre.setLayout(new GridBagLayout());
 		JLabel LabelchoixPerimetre=new JLabel("Distance maximale de recherche (en km):");
 		 
@@ -127,7 +142,7 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		panelVoyageur.setBorder(new TitledBorder("Type de voyageur")) ;
 		panelVoyageur.setLayout(new GridBagLayout());
 		JLabel chLabelAdulte=new JLabel("Adulte(s)");
-		JLabel chLabelEnfant=new JLabel("Enfants ( 0 - 17 ans )");
+		JLabel chLabelEnfant=new JLabel("Enfant(s) ( 0 - 17 ans )");
 		//JLabel chLabelBebe=new JLabel("Bebes (-2 ans)");
 		
 		this.ajoutComposant(chLabelAdulte, panelVoyageur, 0, 0, 1, 1);
@@ -161,6 +176,9 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		this.ajoutComposant(chDateMois, panelDateDepart, 2, 0, 1, 1);
 		this.ajoutComposant(chDateAnnee, panelDateDepart, 3, 0, 1, 1);
 		
+		chDateJour.setSelectedIndex(numJour-1);
+		chDateMois.setSelectedIndex(numMois);
+		
 		
 		JPanel panelDateArrivee = new JPanel();
 		panelDateArrivee.setBorder(new TitledBorder("Date de l'arrivée"));
@@ -170,6 +188,9 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		this.ajoutComposant(chDateJourRetour, panelDateArrivee, 1, 0, 1, 1);
 		this.ajoutComposant(chDateMoisRetour, panelDateArrivee, 2, 0, 1, 1);
 		this.ajoutComposant(chDateAnneeRetour, panelDateArrivee, 3, 0, 1, 1);
+		
+		chDateJourRetour.setSelectedIndex(numJour-1);
+		chDateMoisRetour.setSelectedIndex(numMois);
 		
 
 		//---------------------BOUTONS-VALIDATION-ANNULATION----------------------//
@@ -211,6 +232,7 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		this.pack();
 		this.setMinimumSize(this.getSize());
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setLocationRelativeTo(null);
 
 	}//InterfaceMere(String parTitre)
 	
@@ -253,65 +275,95 @@ public class InterfaceMere extends JFrame implements ActionListener{
 				else
 				{
 					//Condition permettant d'indiquer si l'utilisateur a bien entre toutes les valeurs demandees
-					if(VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && perimetreEntre>0 && (chNbAdulte.getSelectedIndex()!=0 || chNbEnfants.getSelectedIndex()!=0/* || chNbBebe.getSelectedIndex()!=0*/) )
+					if(VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && perimetreEntre>0 && (chNbAdulte.getSelectedIndex()!=0 ||
+							chNbEnfants.getSelectedIndex()!=0/* || chNbBebe.getSelectedIndex()!=0*/) )
 					{	
-						System.out.println("Les aéroports à "+perimetreEntre+"km de "+ VilleDepart1+" sont:");
-						List<Toponym> listAirportDepart = VilleDepart.listAirport((double)perimetreEntre);
-						for (int j = 0; j < listAirportDepart.size(); j++)
-						{ 
-							Toponym toponym = listAirportDepart.get(j); 
-							System.out.println(toponym.getName());
-							//System.out.println(toponym));
-				  		  
-						}//for pour générer la liste d'aéroports
 						
-						System.out.println("Les aéroports à "+perimetreEntre+"km de "+ VilleArrivee1+" sont:");
-						List<Toponym> listAirportArrivee = VilleArrivee.listAirport((double)perimetreEntre);
+						//------------------Création de la liste d'aéroports proches de la ville de départ--------//
 						
-						for (int j = 0; j < listAirportArrivee.size(); j++) 
-						{ 
-							Toponym toponym = listAirportArrivee.get(j);	
-							System.out.println(toponym.getName());
-				  		  
-						}//for affiche la liste des aéroports
+						String[] listeVilleDepartAeroportCorrige = VilleDepart.listAirport((double)perimetreEntre);
+					
+			  		  
+						//------------------Création de la liste d'aéroports proches de la ville d'arrivée--------//
 						
-					    if (listAirportDepart.size()==0)
+						
+						String [] listeVilleArriveeAeroportCorrige = VilleArrivee.listAirport((double)perimetreEntre);
+						
+						//------------------------------------------------------------------------//
+						
+					    if (listeVilleDepartAeroportCorrige.length==0 && listeVilleArriveeAeroportCorrige.length==0)
 						{
-					    	JOptionPane.showMessageDialog(this, "Aucun aeroport n'a été trouvé pour le perimetre choisi.",
+					    	JOptionPane.showMessageDialog(this, "Aucun aéroport n'a été trouvé pour le périmètre choisi.",
 							"Erreur : Perimetre trop faible",JOptionPane.ERROR_MESSAGE);
 					    }//if la liste des aéroports est vide pour la ville de départ
 						    
-					    if (listAirportArrivee.size()==0)
+					    else if (listeVilleArriveeAeroportCorrige.length==0 || listeVilleDepartAeroportCorrige.length==0)
 						{
-					    	JOptionPane.showMessageDialog(this, "Aucun aeroport n'a été trouvé pour le perimetre choisi.",
+					    	JOptionPane.showMessageDialog(this, "Aucun aéroport n'a été trouvé pour le périmètre choisi.",
 							"Erreur : Perimetre trop faible",JOptionPane.ERROR_MESSAGE);
 					    }//if la liste des aéroports est vide pour la ville d'arrivée
 						    
-						if (VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && listAirportArrivee.size()!=0 && listAirportDepart.size()!=0 )
+						if (VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && listeVilleArriveeAeroportCorrige.length!=0 && listeVilleDepartAeroportCorrige.length!=0 )
 						{
 							//On instancie un objet Vol qui va contenir les informations du vol recherché par l'utilisateur
 							Vol unVol= new Vol(VilleDepart,VilleArrivee,perimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
 							/*chNbBebe.getSelectedIndex(),*/chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
 							chDateAnnee.getSelectedIndex(),chDateJourRetour.getSelectedIndex(),chDateMoisRetour.getSelectedIndex(),chDateAnneeRetour.getSelectedIndex());
-						
 							
-							BareBonesBrowserLaunch.openURL("http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listAirportDepart.get(0).getName()+
-									"&ar.rt.leaveSlice.dest.key="+listAirportArrivee.get(0).getName()+"&ar.rt.leaveSlice.date=12%2F12%2F12&ar.rt.leaveSlice." +
+							
+							BareBonesBrowserLaunch hey = new BareBonesBrowserLaunch();
+							
+							/*for(int t=0;t<10;t++)
+							{
+								if(listAirportArrivee.get(t).getName()!="Faux" && listAirportDepart.get(t).getName()!="Faux")
+								{
+									hey.openURL("http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listAirportDepart.get(t).getName()+
+									"&ar.rt.leaveSlice.dest.key="+listAirportArrivee.get(t).getName()+"&ar.rt.leaveSlice.date=12%2F12%2F12&ar.rt.leaveSlice." +
 											"time=Anytime&ar.rt.returnSlice.date=22%2F01%2F13&ar.rt.returnSlice.time=Anytime&_ar.rt.flexAirSearch=0&ar.rt.numAdult="+
 											Constantes.nombres[chNbAdulte.getSelectedIndex()]+"&ar.rt.numChild="+Constantes.nombres[chNbEnfants.getSelectedIndex()]+
-											"&ar.rt.child[0]=3&ar.rt.child[1]=4&ar.rt.child[2]=&ar.rt.child[3]=&ar.rt.child[4]=&ar.rt.child[5]=&ar.rt.child[6]=" +
+											"&ar.rt.child[0]=3&ar.rt.child[1]=4&ar.rt.child[2]=4&ar.rt.child[3]=&ar.rt.child[4]=5&ar.rt.child[5]=&ar.rt.child[6]=3" +
 											"&ar.rt.child[7]=&_ar.rt.nonStop=0&_ar.rt.narrowSel=0&ar.rt.narrow=airlines&ar.rt.carriers[0]=&ar.rt.carriers[1]=&ar.rt." +
 											"carriers[2]=&ar.rt.cabin=C&search=Rechercher&search=Rechercher");
+								}//if
+								else
+								{
+									System.out.println("Aucun CODE IATA");
+								}
+							}//for*/
+							
+							//Boucle permettant de génerer les différentes combinaisons entre les aéroports trouvés
+						/*	for(int f=0;f<listeVilleDepartAeroportCorrige.length;f++)
+							{
+								for(int z=0;z<listeVilleArriveeAeroportCorrige.length;z++)
+								{
+									//Lance le navigateur avec autant d'onglets que de combinaisons
+									//System.out.println(ListeVilleDepartCorrige[f]+" avec "+ListeVilleDepartCorrige[z]);
+									hey.openURL("http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listeVilleDepartAeroportCorrige[f]+
+											"&ar.rt.leaveSlice.dest.key="+listeVilleArriveeAeroportCorrige[z]+"&ar.rt.leaveSlice.date=12%2F12%2F12&ar.rt.leaveSlice." +
+													"time=Anytime&ar.rt.returnSlice.date=22%2F01%2F13&ar.rt.returnSlice.time=Anytime&_ar.rt.flexAirSearch=0&ar.rt.numAdult="+
+													Constantes.nombres[chNbAdulte.getSelectedIndex()]+"&ar.rt.numChild="+Constantes.nombres[chNbEnfants.getSelectedIndex()]+
+													"&ar.rt.child[0]=3&ar.rt.child[1]=4&ar.rt.child[2]=4&ar.rt.child[3]=&ar.rt.child[4]=5&ar.rt.child[5]=&ar.rt.child[6]=3" +
+													"&ar.rt.child[7]=&_ar.rt.nonStop=0&_ar.rt.narrowSel=0&ar.rt.narrow=airlines&ar.rt.carriers[0]=&ar.rt.carriers[1]=&ar.rt." +
+													"carriers[2]=&ar.rt.cabin=C&search=Rechercher&search=Rechercher");
+								}//for
+							}//for*/
 							
 							
-							
+							//Il faudrait créer une classe pour récuperer les valeurs de la page web comme les prix, les aéroports, les dates de départ, etc.
+							//Il faudrait aussi créer une interface pour afficher les résultats à l'utilisateur.
+						
+						
 							//On affiche une fenetre indiquant les informations sur le vol pour que l'utilisateur puisse confirmer
-							JOptionPane.showConfirmDialog(this, "Voici les informations que vous avez tapees:"+"\n"+unVol.toString()+"\n"
-							+"Voulez vous valider ces informations ?","Resume",
-							JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
+							JOptionPane.showConfirmDialog(this, "Voici les informations que vous avez tapées:"+"\n"+unVol.toString()+"\n"
+							+"Voulez vous valider ces informations ?","Resume",JOptionPane.OK_CANCEL_OPTION);
+							
+							
+							
+							
+							
 						}//if les villes départ/arrivée existent et la liste des aéroports n'est pas vide
 					}//if toutes les info ont été saisies correctement
-					else if (perimetreEntre<=0)
+					else if (perimetreEntre<0)
 					{
 						JOptionPane.showMessageDialog(this, "Votre périmètre est négatif, ou égal à zéro... ",
 						"Erreur : Périmètre",JOptionPane.ERROR_MESSAGE);
@@ -324,21 +376,23 @@ public class InterfaceMere extends JFrame implements ActionListener{
 					else if (VilleDepart.existe()!=0 && VilleArrivee.existe()==0)
 					{
 						JOptionPane.showMessageDialog(this, "La ville d'arrivee n'existe pas. ",
-								"Erreur : ville d'arrivee",JOptionPane.ERROR_MESSAGE);
+								"Erreur : ville d'arrivée",JOptionPane.ERROR_MESSAGE);
 					}// la ville de départ existe  mais la ville d'arrivée n'existe pas
 					else if (VilleDepart.existe()==0 && VilleArrivee.existe()==0)
 					{
 						JOptionPane.showMessageDialog(this, "Les villes de depart et d'arrivee n'existent pas. ",
-								"Erreur : ville Depart/Arrivee",JOptionPane.ERROR_MESSAGE);
+								"Erreur : ville Depart/Arrivée",JOptionPane.ERROR_MESSAGE);
 					}// les deux villes n'existent pas 
 					
 					
-					else if(VilleDepart1.length()==0 || perimetreEntre==0 || VilleArrivee1.length()==0 || perimetreEntre==0 || (chNbAdulte.getSelectedIndex()==0 && chNbEnfants.getSelectedIndex()==0 /*&& chNbBebe.getSelectedIndex()==0*/))
+					else if(VilleDepart1.length()==0 || perimetreEntre==0 || VilleArrivee1.length()==0 || perimetreEntre==0 || (chNbAdulte.getSelectedIndex()==0 &&
+							chNbEnfants.getSelectedIndex()==0 /*&& chNbBebe.getSelectedIndex()==0*/))
 					{
 						JOptionPane.showMessageDialog(this, "Une information est manquante. Veuillez remplir tous les champs",
 								"Erreur lors de l'entrÃ©e des informations",JOptionPane.ERROR_MESSAGE);
 					}//au moins une information est manquante
-					else if (VilleDepart1.length()==0 && VilleArrivee1.length()==0 && perimetreEntre==0 && (chNbAdulte.getSelectedIndex()==0 && chNbEnfants.getSelectedIndex()==0 /*&& chNbBebe.getSelectedIndex()==0*/))
+					else if (VilleDepart1.length()==0 && VilleArrivee1.length()==0 && perimetreEntre==0 && (chNbAdulte.getSelectedIndex()==0 && chNbEnfants.getSelectedIndex()==0
+							/*&& chNbBebe.getSelectedIndex()==0*/))
 					{
 						JOptionPane.showMessageDialog(this, "Une information est manquante. Veuillez remplir tous les champs",
 							"Erreur lors de l'entree des informations",JOptionPane.ERROR_MESSAGE);	
@@ -363,15 +417,27 @@ public class InterfaceMere extends JFrame implements ActionListener{
 			chPerimetre.setText("");
 			chNbAdulte.setSelectedIndex(0);
 			chNbEnfants.setSelectedIndex(0);
-			/*chNbBebe.setSelectedIndex(0);*/
+			//chNbBebe.setSelectedIndex(0);
 			chButtonAllerRetour[0].setSelected(true);
 			chClasse.setSelectedIndex(0);
-			chDateJour.setSelectedIndex(0);
-			chDateMois.setSelectedIndex(0);
+			//chDateJour.setSelectedIndex(0);
+			//chDateMois.setSelectedIndex(0);
 			chDateAnnee.setSelectedIndex(0);
-			chDateJourRetour.setSelectedIndex(0);
-			chDateMoisRetour.setSelectedIndex(0);
-			chDateAnneeRetour.setSelectedIndex(0);	
+			//chDateJourRetour.setSelectedIndex(0);
+			//chDateMoisRetour.setSelectedIndex(0);
+			chDateAnneeRetour.setSelectedIndex(0);
+			
+			rightNow = Calendar.getInstance();
+			int numJour=rightNow.get(Calendar.DAY_OF_MONTH);
+			int numMois=rightNow.get(Calendar.MONTH);
+			
+			chDateJour.setSelectedIndex(numJour-1);
+			chDateMois.setSelectedIndex(numMois);
+			
+			chDateJourRetour.setSelectedIndex(numJour-1);
+			chDateMoisRetour.setSelectedIndex(numMois);
+			
+			
 		}//bouton Annulation
 		
 	}//actionPerformed

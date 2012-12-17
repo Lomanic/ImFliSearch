@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.lang.Math;
 
 import org.geonames.FeatureClass;
@@ -34,25 +35,39 @@ public class Ville {
 			//On se connecte avec un identifiant
 			WebService.setUserName("davidjg");   
 	     
+			/*String maChaine = parVille;
+			StringTokenizer tokenizer = new StringTokenizer(maChaine," -,/.");*/
+
+			/*while ( tokenizer.hasMoreTokens() ) {
+				String temp =tokenizer.nextToken(); 
+				if(temp.length()==2)
+				{
+					searchCriteria.setCountryCode(temp);
+				}
+			    System.out.println(temp);
+			}
+			
+			*/
+			
 			//On cherche la ville de depart
 			searchCriteria.setNameEquals(parVille); 
+			
 	    
 			ToponymSearchResult searchResultVille = WebService.search(searchCriteria); 
 			
 			
 			chExiste=searchResultVille.getTotalResultsCount();
 			
-			
 			//On cree une liste qui va contenir les resultats de la recherche
 			List<Toponym>res = searchResultVille.getToponyms(); 
 			
-			for (int j = 0; j < res.size(); j++) { 
+			/*for (int j = 0; j < res.size(); j++) { 
 				Toponym toponym = res.get(j); 
+				System.out.println(res.get(j));
 	  		  
-				}//for
+				}*/
 	  
-	  
-			if(res.get(0).getFeatureCode().startsWith("PPL"))
+			if(res.get(0).getFeatureCode().startsWith("PP"))
 			{
 				
 				chNom=res.get(0).getName();
@@ -73,26 +88,13 @@ public class Ville {
 		{
 			//e.printStackTrace();
 			System.out.println("Erreur: try du constructeur ville.");
-			chExiste=0;
 		}
 		
 		
 	}//public Ville(String)
 	
-	public  List<Toponym> listAirport(double parDistance)
+	public  String[] listAirport(double parDistance)
 	{
-		/*double r = parDistance/6371; 
-		System.out.println(parDistance);
-		double latmin = chLatitude - r;
-		double latmax = chLatitude + r;
-		
-		
-		double latT = Math.asin(Math.sin(chLatitude)/Math.cos(r));
-		double Δlon = Math.asin(Math.sin(r)/Math.cos(chLatitude)) ;
-		double lonmin = chLongitude - Δlon ;
-		double lonmax = chLongitude + Δlon;
-		System.out.println(r);*/
-		//--------------------------------------------------------------------------
 		
 		
 		try
@@ -105,15 +107,54 @@ public class Ville {
 		
 		String[] tab = new String[1];
 		tab[0]="AIRP"; //Pour aéroport
-		//WebService
 		
-	    return WebService.findNearby(this.chLatitude, this.chLongitude,parDistance,FeatureClass.S, tab,"iata",500);
+	    List<Toponym> listeAeroport = new ArrayList<Toponym>();
+	    listeAeroport=WebService.findNearby(this.chLatitude, this.chLongitude,parDistance,FeatureClass.S, tab,"iata",500);
+	    
+	    int taillecorrect=0; //On récupère une taille qui permettra de construire le tableau corrigé
+		for (int j = 0; j < listeAeroport.size(); j++)
+		{ 
+			Toponym toponym1 = listeAeroport.get(j); 
+			 if (!toponym1.getName().isEmpty())
+			{
+				//System.out.println(toponym1.getName());
+				//On incrémente la variable taillecorrect si le code IATA n'est pas vide
+				taillecorrect=taillecorrect+1;
+			}
+  		  
+		}//for pour générer la liste d'aéroports
+		
+		
+		//Tableau permettant de récuperer les codes IATA non vide
+		System.out.println("Les aéroports à "+parDistance+"km de "+ chNom+" sont:");
+		String [] ListeVilleDepartCorrige= new String[taillecorrect];
+		int h=0;
+		for (int j = 0; j < listeAeroport.size(); j++)
+		{ 
+			Toponym toponym1 = listeAeroport.get(j); 
+			if (!toponym1.getName().isEmpty())
+			{
+				//Remplit le tableau si le code IATA n'est pas vide
+				ListeVilleDepartCorrige[h]=toponym1.getName();
+				h++;
+			}
+  		  
+		}//for
+		
+		//On affiche le tableau corrigé
+		for(int e=0;e<ListeVilleDepartCorrige.length;e++)
+		{
+			System.out.println(ListeVilleDepartCorrige[e]);	
+									
+		}
+		return ListeVilleDepartCorrige;
 	    }
 		catch(Exception e)
 		{
 			System.out.println("erreur: listAirPort(double parDistance)");
 		}
-		List<Toponym> vide = new ArrayList<Toponym>();
+		
+		String[] vide=new String[0];
 		return vide;
 		
 		//---------------------------------------------------------------------------------
