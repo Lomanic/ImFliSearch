@@ -20,9 +20,10 @@ import org.geonames.Toponym;
 import org.geonames.WebService;
 
 import constantes.Constantes;
+import donnees.Aeroport;
 import donnees.BareBonesBrowserLaunch;
 import donnees.Ville;
-import donnees.Vol;
+import donnees.CritereVol;
 
 public class InterfaceMere extends JFrame implements ActionListener{
 	
@@ -281,13 +282,13 @@ public class InterfaceMere extends JFrame implements ActionListener{
 						
 						//------------------Création de la liste d'aéroports proches de la ville de départ--------//
 						
-						String[] listeVilleDepartAeroportCorrige = VilleDepart.listAirport((double)perimetreEntre);
+						Aeroport [] listeVilleDepartAeroportCorrige = VilleDepart.listAirport((double)perimetreEntre);
 					
 			  		  
 						//------------------Création de la liste d'aéroports proches de la ville d'arrivée--------//
 						
 						
-						String [] listeVilleArriveeAeroportCorrige = VilleArrivee.listAirport((double)perimetreEntre);
+						Aeroport [] listeVilleArriveeAeroportCorrige = VilleArrivee.listAirport((double)perimetreEntre);
 						
 						//------------------------------------------------------------------------//
 						
@@ -306,7 +307,7 @@ public class InterfaceMere extends JFrame implements ActionListener{
 						if (VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && listeVilleArriveeAeroportCorrige.length!=0 && listeVilleDepartAeroportCorrige.length!=0 )
 						{
 							//On instancie un objet Vol qui va contenir les informations du vol recherché par l'utilisateur
-							Vol unVol= new Vol(VilleDepart,VilleArrivee,perimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
+							CritereVol lesCriteres= new CritereVol(VilleDepart,VilleArrivee,perimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
 							/*chNbBebe.getSelectedIndex(),*/chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
 							chDateAnnee.getSelectedIndex(),chDateJourRetour.getSelectedIndex(),chDateMoisRetour.getSelectedIndex(),chDateAnneeRetour.getSelectedIndex());
 							
@@ -354,7 +355,7 @@ public class InterfaceMere extends JFrame implements ActionListener{
 						
 						
 							//On affiche une fenetre indiquant les informations sur le vol pour que l'utilisateur puisse confirmer
-							JOptionPane.showConfirmDialog(this, "Voici les informations que vous avez tapées:"+"\n"+unVol.toString()+"\n"
+							JOptionPane.showConfirmDialog(this, "Voici les informations que vous avez tapées:"+"\n"+lesCriteres.toString()+"\n"
 							+"Voulez vous valider ces informations ?","Resume",JOptionPane.OK_CANCEL_OPTION);
 							
 							

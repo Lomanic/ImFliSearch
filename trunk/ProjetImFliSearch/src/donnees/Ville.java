@@ -34,20 +34,6 @@ public class Ville {
 			ToponymSearchCriteria searchCriteria = new ToponymSearchCriteria(); 
 			//On se connecte avec un identifiant
 			WebService.setUserName("davidjg");   
-	     
-			/*String maChaine = parVille;
-			StringTokenizer tokenizer = new StringTokenizer(maChaine," -,/.");*/
-
-			/*while ( tokenizer.hasMoreTokens() ) {
-				String temp =tokenizer.nextToken(); 
-				if(temp.length()==2)
-				{
-					searchCriteria.setCountryCode(temp);
-				}
-			    System.out.println(temp);
-			}
-			
-			*/
 			
 			//On cherche la ville de depart
 			searchCriteria.setNameEquals(parVille); 
@@ -93,7 +79,7 @@ public class Ville {
 		
 	}//public Ville(String)
 	
-	public  String[] listAirport(double parDistance)
+	public  Aeroport[] listAirport(double parDistance)
 	{
 		
 		
@@ -126,8 +112,8 @@ public class Ville {
 		
 		
 		//Tableau permettant de récuperer les codes IATA non vide
-		System.out.println("Les aéroports à "+parDistance+"km de "+ chNom+" sont:");
-		String [] ListeVilleDepartCorrige= new String[taillecorrect];
+		System.out.println("Les aéroports à "+parDistance+"km de "+ chNom+" sont:\n");
+		Aeroport [] ListeVilleDepartCorrige= new Aeroport[taillecorrect];
 		int h=0;
 		for (int j = 0; j < listeAeroport.size(); j++)
 		{ 
@@ -135,7 +121,9 @@ public class Ville {
 			if (!toponym1.getName().isEmpty())
 			{
 				//Remplit le tableau si le code IATA n'est pas vide
-				ListeVilleDepartCorrige[h]=toponym1.getName();
+				ListeVilleDepartCorrige[h]=new Aeroport(toponym1.getName(),toponym1.getLatitude(),
+						toponym1.getLongitude());
+				//System.out.println(toponym1);
 				h++;
 			}
   		  
@@ -154,7 +142,7 @@ public class Ville {
 			System.out.println("erreur: listAirPort(double parDistance)");
 		}
 		
-		String[] vide=new String[0];
+		Aeroport[] vide=new Aeroport[0];
 		return vide;
 		
 		//---------------------------------------------------------------------------------

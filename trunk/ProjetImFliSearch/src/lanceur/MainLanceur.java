@@ -6,7 +6,7 @@ import org.geonames.utils.Distance;
 import vue.InterfaceMere;
 
 
-public class mainlanceur 
+public class MainLanceur 
 {
 
 	
