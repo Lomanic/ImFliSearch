@@ -311,26 +311,7 @@ public class InterfaceMere extends JFrame implements ActionListener{
 							/*chNbBebe.getSelectedIndex(),*/chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
 							chDateAnnee.getSelectedIndex(),chDateJourRetour.getSelectedIndex(),chDateMoisRetour.getSelectedIndex(),chDateAnneeRetour.getSelectedIndex());
 							
-							
-							BareBonesBrowserLaunch hey = new BareBonesBrowserLaunch();
-							
-							/*for(int t=0;t<10;t++)
-							{
-								if(listAirportArrivee.get(t).getName()!="Faux" && listAirportDepart.get(t).getName()!="Faux")
-								{
-									hey.openURL("http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listAirportDepart.get(t).getName()+
-									"&ar.rt.leaveSlice.dest.key="+listAirportArrivee.get(t).getName()+"&ar.rt.leaveSlice.date=12%2F12%2F12&ar.rt.leaveSlice." +
-											"time=Anytime&ar.rt.returnSlice.date=22%2F01%2F13&ar.rt.returnSlice.time=Anytime&_ar.rt.flexAirSearch=0&ar.rt.numAdult="+
-											Constantes.nombres[chNbAdulte.getSelectedIndex()]+"&ar.rt.numChild="+Constantes.nombres[chNbEnfants.getSelectedIndex()]+
-											"&ar.rt.child[0]=3&ar.rt.child[1]=4&ar.rt.child[2]=4&ar.rt.child[3]=&ar.rt.child[4]=5&ar.rt.child[5]=&ar.rt.child[6]=3" +
-											"&ar.rt.child[7]=&_ar.rt.nonStop=0&_ar.rt.narrowSel=0&ar.rt.narrow=airlines&ar.rt.carriers[0]=&ar.rt.carriers[1]=&ar.rt." +
-											"carriers[2]=&ar.rt.cabin=C&search=Rechercher&search=Rechercher");
-								}//if
-								else
-								{
-									System.out.println("Aucun CODE IATA");
-								}
-							}//for*/
+						
 							
 							//Boucle permettant de génerer les différentes combinaisons entre les aéroports trouvés
 						/*	for(int f=0;f<listeVilleDepartAeroportCorrige.length;f++)
@@ -355,9 +336,13 @@ public class InterfaceMere extends JFrame implements ActionListener{
 						
 						
 							//On affiche une fenetre indiquant les informations sur le vol pour que l'utilisateur puisse confirmer
-							JOptionPane.showConfirmDialog(this, "Voici les informations que vous avez tapées:"+"\n"+lesCriteres.toString()+"\n"
+							int confirmation=JOptionPane.showConfirmDialog(this, "Voici les informations que vous avez tapées:"+"\n"+lesCriteres.toString()+"\n"
 							+"Voulez vous valider ces informations ?","Resume",JOptionPane.OK_CANCEL_OPTION);
 							
+							if (confirmation==JOptionPane.YES_OPTION)
+							{
+								
+							}//recherche confirmée
 							
 							
 							
