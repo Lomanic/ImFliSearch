@@ -1,5 +1,7 @@
 ﻿package constantes;
 
+import donnees.CritereVol;
+
 public class Constantes {
 	
 	public static String[] nombres = {"0","1","2","3","4","5","6"};
@@ -13,4 +15,5 @@ public class Constantes {
 		"septembre","octobre","novembre","decembre"};
 	
 	public static String[] annees={"2012","2013","2014","2015"};
+	
 }

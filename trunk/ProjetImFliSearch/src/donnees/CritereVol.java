@@ -48,13 +48,116 @@ public class CritereVol {
 			chMoisRetour=parMoisRetour;
 			chAnneeRetour=parAnneeRetour;
 		
-	}
+	}//constructeur
 	
 	public String toString()
 	{
 		return "La ville de depart est "+chVilleDepart.getChNom()+" pour le "+Constantes.jours[chJourAller]+" "+Constantes.mois[chMoisAller]+
 		" "+Constantes.annees[chAnneeAller]+" et la ville d'arrivee est "+chVilleArrivee.getChNom()+". \n"+"La distance choisie est de "+chDistance+" km."+" Le vol est un aller avec "+
 		Constantes.nombres[chNbAdulte]+" adulte(s), "+Constantes.nombres[chNbEnfant]+" enfant(s)  "/*+Constantes.nombres[chNbBebe]+" bebe(s) en "*/+Constantes.classes[chClasse]+".";
-	}	
+	}
 
+	public Ville getChVilleDepart() {
+		return chVilleDepart;
+	}
+
+	public void setChVilleDepart(Ville chVilleDepart) {
+		this.chVilleDepart = chVilleDepart;
+	}
+
+	public Ville getChVilleArrivee() {
+		return chVilleArrivee;
+	}
+
+	public void setChVilleArrivee(Ville chVilleArrivee) {
+		this.chVilleArrivee = chVilleArrivee;
+	}
+
+	public int getChDistance() {
+		return chDistance;
+	}
+
+	public void setChDistance(int chDistance) {
+		this.chDistance = chDistance;
+	}
+
+	public int getChAllerRetour() {
+		return chAllerRetour;
+	}
+
+	public void setChAllerRetour(int chAllerRetour) {
+		this.chAllerRetour = chAllerRetour;
+	}
+
+	public int getChNbAdulte() {
+		return chNbAdulte;
+	}
+
+	public void setChNbAdulte(int chNbAdulte) {
+		this.chNbAdulte = chNbAdulte;
+	}
+
+	public int getChNbEnfant() {
+		return chNbEnfant;
+	}
+
+	public void setChNbEnfant(int chNbEnfant) {
+		this.chNbEnfant = chNbEnfant;
+	}
+
+	public int getChClasse() {
+		return chClasse;
+	}
+
+	public void setChClasse(int chClasse) {
+		this.chClasse = chClasse;
+	}
+
+	public int getChJourAller() {
+		return chJourAller;
+	}
+
+	public void setChJourAller(int chJourAller) {
+		this.chJourAller = chJourAller;
+	}
+
+	public int getChMoisAller() {
+		return chMoisAller;
+	}
+
+	public void setChMoisAller(int chMoisAller) {
+		this.chMoisAller = chMoisAller;
+	}
+
+	public int getChAnneeAller() {
+		return chAnneeAller;
+	}
+
+	public void setChAnneeAller(int chAnneeAller) {
+		this.chAnneeAller = chAnneeAller;
+	}
+
+	public int getChJourRetour() {
+		return chJourRetour;
+	}
+
+	public void setChJourRetour(int chJourRetour) {
+		this.chJourRetour = chJourRetour;
+	}
+
+	public int getChMoisRetour() {
+		return chMoisRetour;
+	}
+
+	public void setChMoisRetour(int chMoisRetour) {
+		this.chMoisRetour = chMoisRetour;
+	}
+
+	public int getChAnneeRetour() {
+		return chAnneeRetour;
+	}
+
+	public void setChAnneeRetour(int chAnneeRetour) {
+		this.chAnneeRetour = chAnneeRetour;
+	}	
 }
