@@ -21,7 +21,6 @@ import org.geonames.WebService;
 
 import constantes.Constantes;
 import donnees.Aeroport;
-import donnees.BareBonesBrowserLaunch;
 import donnees.Ville;
 import donnees.CritereVol;
 

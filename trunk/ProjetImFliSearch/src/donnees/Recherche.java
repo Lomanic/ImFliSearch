@@ -26,8 +26,8 @@ public class Recherche
 				"&ar.rt.child[7]=3";
 		
 		
-		http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listeVilleDepartAeroportCorrige[f]+
-			"&ar.rt.leaveSlice.dest.key="+listeVilleArriveeAeroportCorrige[z]+"&ar.rt.leaveSlice.date=12%2F12%2F12" +
+		//http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listeVilleDepartAeroportCorrige[f]+
+			/*"&ar.rt.leaveSlice.dest.key="+listeVilleArriveeAeroportCorrige[z]+"&ar.rt.leaveSlice.date=12%2F12%2F12" +
 					"&ar.rt.leaveSlice." +
 					"time=Anytime&ar.rt.returnSlice.date=22%2F01%2F13" +
 					"&ar.rt.returnSlice.time=Anytime&_ar.rt.flexAirSearch=0" +
@@ -43,6 +43,6 @@ public class Recherche
 					"&ar.rt.carriers[1]=" +
 					"&ar.rt.carriers[2]=" +
 					"&ar.rt.cabin=C&search=Rechercher" +
-					"&search=Rechercher"
+					"&search=Rechercher"*/
 	}
 }
