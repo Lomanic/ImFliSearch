@@ -1,4 +1,6 @@
 package donnees;
+import donnees.Ville;
+import donnees.Aeroport;
 
 public class Vol {
 

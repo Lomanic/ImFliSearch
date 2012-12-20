@@ -97,6 +97,8 @@ public class Ville {
 	    List<Toponym> listeAeroport = new ArrayList<Toponym>();
 	    listeAeroport=WebService.findNearby(this.chLatitude, this.chLongitude,parDistance,FeatureClass.S, tab,"iata",500);
 	    
+	    
+	    
 	    int taillecorrect=0; //On récupère une taille qui permettra de construire le tableau corrigé
 		for (int j = 0; j < listeAeroport.size(); j++)
 		{ 
@@ -112,7 +114,7 @@ public class Ville {
 		
 		
 		//Tableau permettant de récuperer les codes IATA non vide
-		System.out.println("Les aéroports à "+parDistance+"km de "+ chNom+" sont:\n");
+		System.out.println("\n Les aéroports à "+parDistance+"km de "+ chNom+" sont:\n");
 		Aeroport [] ListeVilleDepartCorrige= new Aeroport[taillecorrect];
 		int h=0;
 		for (int j = 0; j < listeAeroport.size(); j++)
@@ -122,8 +124,8 @@ public class Ville {
 			{
 				//Remplit le tableau si le code IATA n'est pas vide
 				ListeVilleDepartCorrige[h]=new Aeroport(toponym1.getName(),toponym1.getLatitude(),
-						toponym1.getLongitude());
-				//System.out.println(toponym1);
+						toponym1.getLongitude(),this);
+				
 				h++;
 			}
   		  
