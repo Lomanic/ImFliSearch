@@ -84,7 +84,9 @@ public class Ville {
 		
 		
 		try
-		{PostalCodeSearchCriteria searchCriteria = new PostalCodeSearchCriteria(); 
+		{
+			
+		PostalCodeSearchCriteria searchCriteria = new PostalCodeSearchCriteria(); 
 		//On se connecte avec un identifiant
 		WebService.setUserName("davidjg");   
      
@@ -121,12 +123,33 @@ public class Ville {
 		{ 
 			Toponym toponym1 = listeAeroport.get(j); 
 			if (!toponym1.getName().isEmpty())
-			{
-				//Remplit le tableau si le code IATA n'est pas vide
-				ListeVilleDepartCorrige[h]=new Aeroport(toponym1.getName(),toponym1.getLatitude(),
+			{	
+				
+				try{
+				List<Toponym> listeAeroport1 = new ArrayList<Toponym>();
+				listeAeroport1=WebService.findNearby(toponym1.getLatitude(), toponym1.getLongitude(),1,FeatureClass.S,tab,"fr",1);
+				
+				for(int i=0;i<3;i++){
+					
+					Toponym toponym2 =listeAeroport1.get(i);
+					//System.out.println(toponym2.getName());
+					
+					
+					ListeVilleDepartCorrige[h]=new Aeroport(toponym2.getName(),toponym1.getName(),toponym1.getLatitude(),
 						toponym1.getLongitude(),this);
 				
 				h++;
+				}}
+				catch(Exception e)
+					{//System.out.println("Erreur");
+					
+					}
+				
+				
+				
+				
+				//Remplit le tableau si le code IATA n'est pas vide
+				
 			}
   		  
 		}//for

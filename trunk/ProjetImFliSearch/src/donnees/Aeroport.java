@@ -10,8 +10,9 @@ public class Aeroport {
 	private double chLongitude;
 	private Ville chVille;
 	
-	public Aeroport(String parCodeIATA, double parLatitude, double parLongitude,Ville parVille)
+	public Aeroport(String parNom,String parCodeIATA, double parLatitude, double parLongitude,Ville parVille)
 	{
+		chNom=parNom;
 		chCodeIATA=parCodeIATA;
 		chLatitude=parLatitude;
 		chLongitude=parLongitude;
@@ -21,13 +22,12 @@ public class Aeroport {
 	
 	public void recupererNomAeroport(int parCodeIATA)
 	{
-		//Cette classe permettra de récuperer le nom complet de l'aÃ©roport
+		//Cette classe permettra de récuperer le nom complet de l'aéroport
 	}
 
 	public String toString()
 	{
-		return "L'aeroport a pour code IATA : "+chCodeIATA+"."+"\nLatitude : "+chLatitude+"\nLongitude : "+chLongitude+"\n" +
-				"La distance est de "+recupererDistance()+" km"+
+		return "\nL'aeroport "+chNom+" ("+chCodeIATA+") à "+recupererDistance()+" km."+"\nLatitude : "+chLatitude+"\nLongitude : "+chLongitude+"\n" +
 				"\n---------------------------------------------------";
 				
 	}
