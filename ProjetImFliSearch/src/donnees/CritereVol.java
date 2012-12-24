@@ -52,7 +52,7 @@ public class CritereVol {
 	
 	public String toString()
 	{
-		return "La ville de depart est "+chVilleDepart.getChNom()+" pour le "+Constantes.jours[chJourAller]+" "+Constantes.mois[chMoisAller]+
+		return "La ville de depart est "+chVilleDepart.getChNom()+" pour le "+Constantes.joursDepart[chJourAller]+" "+Constantes.mois[chMoisAller]+
 		" "+Constantes.annees[chAnneeAller]+" et la ville d'arrivee est "+chVilleArrivee.getChNom()+". \n"+"La distance choisie est de "+chDistance+" km."+" Le vol est un aller avec "+
 		Constantes.nombres[chNbAdulte]+" adulte(s), "+Constantes.nombres[chNbEnfant]+" enfant(s)  "/*+Constantes.nombres[chNbBebe]+" bebe(s) en "*/+Constantes.classes[chClasse]+".";
 	}
