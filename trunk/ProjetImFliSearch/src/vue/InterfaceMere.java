@@ -5,27 +5,21 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
-import org.geonames.FeatureClass;
-import org.geonames.Toponym;
-import org.geonames.WebService;
 
 import constantes.Constantes;
 import donnees.Aeroport;
 import donnees.Ville;
 import donnees.CritereVol;
 
-public class InterfaceMere extends JFrame implements ActionListener{
+public class InterfaceMere extends JFrame implements ActionListener, ItemListener{
 	
+	JPanel contentPane;
 	
 	//panelVille
 	private JTextField chVilleDepart = new JTextField();
@@ -41,12 +35,19 @@ public class InterfaceMere extends JFrame implements ActionListener{
 	//panelPerimetre
 	private JTextField chPerimetre = new JTextField();
 	//panelDate
-	private JComboBox chDateJour=new JComboBox(Constantes.jours);
+	private JPanel panelDateDepart = new JPanel();
+	private JPanel panelDateRetour = new JPanel();
+	
+	
+	private JComboBox chDateJour;
 	private JComboBox chDateMois=new JComboBox(Constantes.mois);
-	private JComboBox chDateAnnee=new JComboBox(Constantes.annees);
-	private JComboBox chDateJourRetour=new JComboBox(Constantes.jours);
+	private JComboBox chDateAnnee;
+	private JComboBox chDateJourRetour;
 	private JComboBox chDateMoisRetour=new JComboBox(Constantes.mois);
-	private JComboBox chDateAnneeRetour=new JComboBox(Constantes.annees);
+	private JComboBox chDateAnneeRetour;
+	
+	
+	
 	
 	//panelAllerRetour
 	private JRadioButton[] chButtonAllerRetour= new JRadioButton[2];
@@ -59,10 +60,11 @@ public class InterfaceMere extends JFrame implements ActionListener{
 	private JButton chBoutonAnnulation = new JButton("Annulation");
 	
 	//Données pour l'affichage de la date courante
-	Calendar rightNow = Calendar.getInstance();
-	int numJour=rightNow.get(Calendar.DAY_OF_MONTH);
-	int numMois=rightNow.get(Calendar.MONTH);
-	
+	private Calendar calendarMaintenant = Calendar.getInstance();
+	private int numJour=calendarMaintenant.get(Calendar.DAY_OF_MONTH);
+	private int numMois=calendarMaintenant.get(Calendar.MONTH);
+	private int numAnnee=calendarMaintenant.get(Calendar.YEAR);
+	private int numDeJourMois=calendarMaintenant.getActualMaximum(Calendar.DAY_OF_MONTH);
 	
 	
 	
@@ -70,11 +72,22 @@ public class InterfaceMere extends JFrame implements ActionListener{
 	{
 		super(parTitre);
 		
-	
+		//-----------------Instanciation de Constantes.annees--------------------//
+		
+		int nbAnnee=5;
+		Constantes.annees= new String[5];
+		for(int i=0; i<nbAnnee; i++)
+		{
+			Constantes.annees[i]= String.valueOf(numAnnee+i);
+		}
+		chDateAnnee=new JComboBox(Constantes.annees);
+		chDateAnneeRetour=new JComboBox(Constantes.annees);
+		
+		//-----------------FIN Instanciation de Constantes.annees--------------------//
+				
 		
 		
-		
-		JPanel contentPane=new JPanel();//conteneur père
+		contentPane=new JPanel();
 		this.setContentPane(contentPane);
 		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
@@ -167,30 +180,25 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		
 		//-------------------PANEL-DATE----------------------------------------//
 		
-		JPanel panelDateDepart = new JPanel();
-		panelDateDepart.setBorder(new TitledBorder("Dates du Départ"));
-		panelDateDepart.setLayout(new GridBagLayout());
-		JLabel chLabelJourDepart=new JLabel("Jour du depart :");		 
-		this.ajoutComposant(chLabelJourDepart, panelDateDepart, 0, 0, 1, 1);
-		this.ajoutComposant(chDateJour, panelDateDepart, 1, 0, 1, 1);
-		this.ajoutComposant(chDateMois, panelDateDepart, 2, 0, 1, 1);
-		this.ajoutComposant(chDateAnnee, panelDateDepart, 3, 0, 1, 1);
+		constructionPanelDateDepart(numDeJourMois);
+		constructionPanelDateRetour(numDeJourMois);
 		
 		chDateJour.setSelectedIndex(numJour-1);
 		chDateMois.setSelectedIndex(numMois);
 		
+		chDateJour.addItemListener(this);
+		chDateMois.addItemListener(this);
+		chDateAnnee.addItemListener(this);
 		
-		JPanel panelDateArrivee = new JPanel();
-		panelDateArrivee.setBorder(new TitledBorder("Date de l'arrivée"));
-		panelDateArrivee.setLayout(new GridBagLayout());
-		JLabel chLabelJourRetour=new JLabel("Jour du retour :");		 
-		this.ajoutComposant(chLabelJourRetour, panelDateArrivee, 0, 0, 1, 1);
-		this.ajoutComposant(chDateJourRetour, panelDateArrivee, 1, 0, 1, 1);
-		this.ajoutComposant(chDateMoisRetour, panelDateArrivee, 2, 0, 1, 1);
-		this.ajoutComposant(chDateAnneeRetour, panelDateArrivee, 3, 0, 1, 1);
 		
 		chDateJourRetour.setSelectedIndex(numJour-1);
 		chDateMoisRetour.setSelectedIndex(numMois);
+		
+		chDateJourRetour.addItemListener(this);
+		chDateMoisRetour.addItemListener(this);
+		chDateAnneeRetour.addItemListener(this);
+			
+		
 		
 
 		//---------------------BOUTONS-VALIDATION-ANNULATION----------------------//
@@ -216,10 +224,7 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		this.ajoutComposant(panelVoyageur,contentPane,0,3,1,1);
 		// Ajout panelType de Voyageur
 		this.ajoutComposant(panelClasse,contentPane,1,3,1,1);
-		//Ajout panelDateDepart
-		this.ajoutComposant(panelDateDepart,contentPane,0,4,1,1);
-		//Ajout panelDateArrivee
-		this.ajoutComposant(panelDateArrivee,contentPane,1,4,1,1);
+		
 		
 		//Ajout boutons		
 		chContraintes.fill = GridBagConstraints.CENTER;
@@ -247,6 +252,54 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		chContraintes.gridheight=parHauteur;
 		parConteneur.add(parComponent, chContraintes);
 	}//setContraintes
+	
+	public void constructionPanelDateDepart(int parNbJoursDuMois)
+	{
+		Constantes.joursDepart= new String[parNbJoursDuMois];
+		for(int i=0; i<parNbJoursDuMois; i++)
+		{
+			Constantes.joursDepart[i]= String.valueOf(i+1);
+		}
+		chDateJour=new JComboBox(Constantes.joursDepart);
+		
+		panelDateDepart = new JPanel();
+		panelDateDepart.setBorder(new TitledBorder("Dates du Départ"));
+		panelDateDepart.setLayout(new GridBagLayout());
+		JLabel chLabelJourDepart=new JLabel("Jour du depart :");		 
+		this.ajoutComposant(chLabelJourDepart, panelDateDepart, 0, 0, 1, 1);
+		this.ajoutComposant(chDateJour, panelDateDepart, 1, 0, 1, 1);
+		this.ajoutComposant(chDateMois, panelDateDepart, 2, 0, 1, 1);
+		this.ajoutComposant(chDateAnnee, panelDateDepart, 3, 0, 1, 1);
+		
+		
+		//Ajout panelDateDepart
+		this.ajoutComposant(panelDateDepart,contentPane,0,4,1,1);
+		
+	}
+	
+	public void constructionPanelDateRetour(int parNbJoursDuMois)
+	{
+		Constantes.joursRetour= new String[parNbJoursDuMois];
+		for(int i=0; i<parNbJoursDuMois; i++)
+		{
+			Constantes.joursRetour[i]= String.valueOf(i+1);
+		}
+		chDateJourRetour=new JComboBox(Constantes.joursRetour);
+		
+		panelDateRetour = new JPanel();
+		panelDateRetour.setBorder(new TitledBorder("Date du Retour"));
+		panelDateRetour.setLayout(new GridBagLayout());
+		JLabel chLabelJourRetour=new JLabel("Jour du retour :");		 
+		this.ajoutComposant(chLabelJourRetour, panelDateRetour, 0, 0, 1, 1);
+		this.ajoutComposant(chDateJourRetour, panelDateRetour, 1, 0, 1, 1);
+		this.ajoutComposant(chDateMoisRetour, panelDateRetour, 2, 0, 1, 1);
+		this.ajoutComposant(chDateAnneeRetour, panelDateRetour, 3, 0, 1, 1);
+		
+		//Ajout panelDateretour
+		this.ajoutComposant(panelDateRetour,contentPane,1,4,1,1);
+	}
+			
+
 	
 	public void actionPerformed (ActionEvent telEvenement)
 	{
@@ -412,9 +465,9 @@ public class InterfaceMere extends JFrame implements ActionListener{
 			//chDateMoisRetour.setSelectedIndex(0);
 			chDateAnneeRetour.setSelectedIndex(0);
 			
-			rightNow = Calendar.getInstance();
-			int numJour=rightNow.get(Calendar.DAY_OF_MONTH);
-			int numMois=rightNow.get(Calendar.MONTH);
+			calendarMaintenant = Calendar.getInstance();
+			int numJour=calendarMaintenant.get(Calendar.DAY_OF_MONTH);
+			int numMois=calendarMaintenant.get(Calendar.MONTH);
 			
 			chDateJour.setSelectedIndex(numJour-1);
 			chDateMois.setSelectedIndex(numMois);
@@ -426,5 +479,64 @@ public class InterfaceMere extends JFrame implements ActionListener{
 		}//bouton Annulation
 		
 	}//actionPerformed
+
+
+
+	public void itemStateChanged(ItemEvent e)
+	{
+		if (e.getStateChange() == 1) 
+		{
+			System.out.println(e.getSource()==chDateAnnee);
+			if(e.getSource()==chDateJour || e.getSource()==chDateMois || e.getSource()==chDateAnnee)
+			{
+				Calendar calendarChangeDepart = Calendar.getInstance();
+				
+				int numJourDepart= Integer.parseInt(Constantes.joursDepart[chDateJour.getSelectedIndex()]);
+				int numMoisDepart=chDateMois.getSelectedIndex();
+				int numAnneeDepart= Integer.parseInt(Constantes.annees[chDateAnnee.getSelectedIndex()]);
+
+				calendarChangeDepart.set(numAnneeDepart, numMoisDepart, numJourDepart);
+				/*
+				System.out.println("Jour Depart:" + calendarChangeDepart.get(Calendar.DAY_OF_MONTH));
+				System.out.println("Mois Depart:" + calendarChangeDepart.get(Calendar.MONTH));
+				System.out.println("Annee Depart:" + calendarChangeDepart.get(Calendar.YEAR));
+				*/
+				int numDeJourMoisDepart=calendarChangeDepart.getActualMaximum(Calendar.DAY_OF_MONTH);
+				System.out.println("Nombre Jours du Mois Depart:" + numDeJourMoisDepart);
+				
+				remove(panelDateDepart);
+				constructionPanelDateDepart(numDeJourMoisDepart);
+			}
+			
+			if(e.getSource()==chDateJourRetour || e.getSource()==chDateMoisRetour || e.getSource()==chDateAnneeRetour)
+			{
+				Calendar calendarChangeArrivee = Calendar.getInstance();
+				
+				int numJourArrivee= Integer.parseInt(Constantes.joursRetour[chDateJourRetour.getSelectedIndex()]);
+				int numMoisArrivee=chDateMoisRetour.getSelectedIndex();
+				int numAnneeArrivee= Integer.parseInt(Constantes.annees[chDateAnneeRetour.getSelectedIndex()]);
+				
+				calendarChangeArrivee.set(numAnneeArrivee, numMoisArrivee, numJourArrivee);
+				/*
+				System.out.println("Jour Arrivee:" + calendarChangeArrivee.get(Calendar.DAY_OF_MONTH));
+				System.out.println("Mois Arrivee:" + calendarChangeArrivee.get(Calendar.MONTH));
+				System.out.println("Annee Arrivee:" + calendarChangeArrivee.get(Calendar.YEAR));
+				*/
+				int numDeJourMoisArrivee=calendarChangeArrivee.getActualMaximum(Calendar.DAY_OF_MONTH);
+				System.out.println("Nombre Jours du Mois Arrivee:" + numDeJourMoisArrivee);
+				
+				remove(panelDateRetour);
+				constructionPanelDateRetour(numDeJourMoisArrivee);
+			}
+			
+			//actualisationJours(numDeJourMoisDepart, numDeJourMoisArrivee);
+				
+			
+			contentPane.updateUI();
+			
+		}
+		
+	}
+
 	
 }//class InterfaceMere
