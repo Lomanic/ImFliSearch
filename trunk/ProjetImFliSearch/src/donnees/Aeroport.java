@@ -4,7 +4,7 @@ import org.geonames.utils.Distance;
 
 public class Aeroport {
 	
-	private String chNom; //Il reste ‡ rÈcupÈrer le nom de l'aÈroport
+	private String chNom; //Il reste √† r√©cup√©rer le nom de l'a√©roport
 	private String chCodeIATA;
 	private double chLatitude;
 	private double chLongitude;
@@ -22,12 +22,12 @@ public class Aeroport {
 	
 	public void recupererNomAeroport(int parCodeIATA)
 	{
-		//Cette classe permettra de rÈcuperer le nom complet de l'aÈroport
+		//Cette classe permettra de r√©cuperer le nom complet de l'a√©roport
 	}
 
 	public String toString()
 	{
-		return "\nL'aeroport "+chNom+" ("+chCodeIATA+") ‡ "+recupererDistance()+" km."+"\nLatitude : "+chLatitude+"\nLongitude : "+chLongitude+"\n" +
+		return "\nL'a√©roport "+chNom+" ("+chCodeIATA+") √† "+recupererDistance()+" km."+"\nLatitude : "+chLatitude+"\nLongitude : "+chLongitude+"\n"+
 				"\n---------------------------------------------------";
 				
 	}
@@ -78,9 +78,7 @@ public class Aeroport {
 	
 	public double recupererDistance()
 	{
-		Distance uneDistance=new Distance();
-		return uneDistance.distanceKM(chLatitude, chLongitude, chVille.getChLatitude(),
-				chVille.getChLongitude());
+		return Distance.distanceKM(chLatitude, chLongitude, chVille.getChLatitude(), chVille.getChLongitude());
 		
 	}
 }
