@@ -38,6 +38,9 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	private JPanel panelDateDepart = new JPanel();
 	private JPanel panelDateRetour = new JPanel();
 	
+	JLabel chLabelJourDepart=new JLabel("Jour du depart :");
+	JLabel chLabelJourRetour=new JLabel("Jour du retour :");
+	
 	
 	private JComboBox chDateJour;
 	private JComboBox chDateMois=new JComboBox(Constantes.mois);
@@ -265,17 +268,21 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		panelDateDepart = new JPanel();
 		panelDateDepart.setBorder(new TitledBorder("Dates du Départ"));
 		panelDateDepart.setLayout(new GridBagLayout());
-		JLabel chLabelJourDepart=new JLabel("Jour du depart :");		 
+		
+		chContraintes.anchor = GridBagConstraints.CENTER;
+		chContraintes.fill = GridBagConstraints.HORIZONTAL;
+		
 		this.ajoutComposant(chLabelJourDepart, panelDateDepart, 0, 0, 1, 1);
 		this.ajoutComposant(chDateJour, panelDateDepart, 1, 0, 1, 1);
 		this.ajoutComposant(chDateMois, panelDateDepart, 2, 0, 1, 1);
 		this.ajoutComposant(chDateAnnee, panelDateDepart, 3, 0, 1, 1);
 		
-		
+		chContraintes.anchor = GridBagConstraints.NORTH;
+		chContraintes.fill = GridBagConstraints.BOTH;
 		//Ajout panelDateDepart
 		this.ajoutComposant(panelDateDepart,contentPane,0,4,1,1);
 		
-	}
+	}//constructionPanelDateDepart(int parNbJoursDuMois)
 	
 	public void constructionPanelDateRetour(int parNbJoursDuMois)
 	{
@@ -289,17 +296,70 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		panelDateRetour = new JPanel();
 		panelDateRetour.setBorder(new TitledBorder("Date du Retour"));
 		panelDateRetour.setLayout(new GridBagLayout());
-		JLabel chLabelJourRetour=new JLabel("Jour du retour :");		 
+		
+		chContraintes.anchor = GridBagConstraints.CENTER;
+		chContraintes.fill = GridBagConstraints.HORIZONTAL;
+		
 		this.ajoutComposant(chLabelJourRetour, panelDateRetour, 0, 0, 1, 1);
 		this.ajoutComposant(chDateJourRetour, panelDateRetour, 1, 0, 1, 1);
 		this.ajoutComposant(chDateMoisRetour, panelDateRetour, 2, 0, 1, 1);
 		this.ajoutComposant(chDateAnneeRetour, panelDateRetour, 3, 0, 1, 1);
 		
+		chContraintes.anchor = GridBagConstraints.NORTH;
+		chContraintes.fill = GridBagConstraints.BOTH;
 		//Ajout panelDateretour
 		this.ajoutComposant(panelDateRetour,contentPane,1,4,1,1);
-	}
+	}//constructionPanelDateRetour(int parNbJoursDuMois)
 			
 
+
+	public void itemStateChanged(ItemEvent e)
+	{
+		if (e.getStateChange() == 1) 
+		{
+			if(e.getSource()==chDateMois || e.getSource()==chDateAnnee)
+			{
+				Calendar calendarChangeDepart = Calendar.getInstance();
+				
+				int numJourDepart= Integer.parseInt(Constantes.joursDepart[chDateJour.getSelectedIndex()]);
+				int numMoisDepart=chDateMois.getSelectedIndex();
+				int numAnneeDepart= Integer.parseInt(Constantes.annees[chDateAnnee.getSelectedIndex()]);
+
+				calendarChangeDepart.set(numAnneeDepart, numMoisDepart, numJourDepart);
+
+				int numDeJourMoisDepart=calendarChangeDepart.getActualMaximum(Calendar.DAY_OF_MONTH);
+				System.out.println("Nombre Jours du Mois Depart:" + numDeJourMoisDepart);
+				
+				remove(panelDateDepart);
+				constructionPanelDateDepart(numDeJourMoisDepart);
+			}//if
+			
+			if(e.getSource()==chDateMoisRetour || e.getSource()==chDateAnneeRetour)
+			{
+				Calendar calendarChangeArrivee = Calendar.getInstance();
+				
+				int numJourArrivee= Integer.parseInt(Constantes.joursRetour[chDateJourRetour.getSelectedIndex()]);
+				int numMoisArrivee=chDateMoisRetour.getSelectedIndex();
+				int numAnneeArrivee= Integer.parseInt(Constantes.annees[chDateAnneeRetour.getSelectedIndex()]);
+				
+				calendarChangeArrivee.set(numAnneeArrivee, numMoisArrivee, numJourArrivee);
+
+				int numDeJourMoisArrivee=calendarChangeArrivee.getActualMaximum(Calendar.DAY_OF_MONTH);
+				System.out.println("Nombre Jours du Mois Arrivee:" + numDeJourMoisArrivee);
+				
+				remove(panelDateRetour);
+				constructionPanelDateRetour(numDeJourMoisArrivee);
+			}//if
+			
+			
+			contentPane.updateUI();
+			
+		}//if
+		
+	}//itemStateChanged(ItemEvent e)
+	
+	
+	
 	
 	public void actionPerformed (ActionEvent telEvenement)
 	{
@@ -479,64 +539,6 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		}//bouton Annulation
 		
 	}//actionPerformed
-
-
-
-	public void itemStateChanged(ItemEvent e)
-	{
-		if (e.getStateChange() == 1) 
-		{
-			System.out.println(e.getSource()==chDateAnnee);
-			if(e.getSource()==chDateJour || e.getSource()==chDateMois || e.getSource()==chDateAnnee)
-			{
-				Calendar calendarChangeDepart = Calendar.getInstance();
-				
-				int numJourDepart= Integer.parseInt(Constantes.joursDepart[chDateJour.getSelectedIndex()]);
-				int numMoisDepart=chDateMois.getSelectedIndex();
-				int numAnneeDepart= Integer.parseInt(Constantes.annees[chDateAnnee.getSelectedIndex()]);
-
-				calendarChangeDepart.set(numAnneeDepart, numMoisDepart, numJourDepart);
-				/*
-				System.out.println("Jour Depart:" + calendarChangeDepart.get(Calendar.DAY_OF_MONTH));
-				System.out.println("Mois Depart:" + calendarChangeDepart.get(Calendar.MONTH));
-				System.out.println("Annee Depart:" + calendarChangeDepart.get(Calendar.YEAR));
-				*/
-				int numDeJourMoisDepart=calendarChangeDepart.getActualMaximum(Calendar.DAY_OF_MONTH);
-				System.out.println("Nombre Jours du Mois Depart:" + numDeJourMoisDepart);
-				
-				remove(panelDateDepart);
-				constructionPanelDateDepart(numDeJourMoisDepart);
-			}
-			
-			if(e.getSource()==chDateJourRetour || e.getSource()==chDateMoisRetour || e.getSource()==chDateAnneeRetour)
-			{
-				Calendar calendarChangeArrivee = Calendar.getInstance();
-				
-				int numJourArrivee= Integer.parseInt(Constantes.joursRetour[chDateJourRetour.getSelectedIndex()]);
-				int numMoisArrivee=chDateMoisRetour.getSelectedIndex();
-				int numAnneeArrivee= Integer.parseInt(Constantes.annees[chDateAnneeRetour.getSelectedIndex()]);
-				
-				calendarChangeArrivee.set(numAnneeArrivee, numMoisArrivee, numJourArrivee);
-				/*
-				System.out.println("Jour Arrivee:" + calendarChangeArrivee.get(Calendar.DAY_OF_MONTH));
-				System.out.println("Mois Arrivee:" + calendarChangeArrivee.get(Calendar.MONTH));
-				System.out.println("Annee Arrivee:" + calendarChangeArrivee.get(Calendar.YEAR));
-				*/
-				int numDeJourMoisArrivee=calendarChangeArrivee.getActualMaximum(Calendar.DAY_OF_MONTH);
-				System.out.println("Nombre Jours du Mois Arrivee:" + numDeJourMoisArrivee);
-				
-				remove(panelDateRetour);
-				constructionPanelDateRetour(numDeJourMoisArrivee);
-			}
-			
-			//actualisationJours(numDeJourMoisDepart, numDeJourMoisArrivee);
-				
-			
-			contentPane.updateUI();
-			
-		}
-		
-	}
 
 	
 }//class InterfaceMere
