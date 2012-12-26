@@ -12,8 +12,6 @@ public class MainLanceur
 	
 	public static void main(String[] args) 
 	{
-		
-	
 		InterfaceMere interfacemere = new InterfaceMere("ImFliSearch");
 		
 	}//main
