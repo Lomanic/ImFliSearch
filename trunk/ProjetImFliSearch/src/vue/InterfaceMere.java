@@ -35,6 +35,9 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	//panelPerimetre
 	private JTextField chPerimetre = new JTextField();
 	//panelDate
+
+	
+
 	private JPanel panelDateDepart = new JPanel();
 	private JPanel panelDateRetour = new JPanel();
 	
@@ -43,6 +46,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	
 	
 	private JComboBox chDateJour;
+
 	private JComboBox chDateMois=new JComboBox(Constantes.mois);
 	private JComboBox chDateAnnee;
 	private JComboBox chDateJourRetour;
@@ -361,6 +365,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	
 	
 	
+
 	public void actionPerformed (ActionEvent telEvenement)
 	{
 		//On récupere les valeurs indiquées par l'utilisateur lorqu'il selectionne le bouton de validation
@@ -420,27 +425,12 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 						{
 							//On instancie un objet Vol qui va contenir les informations du vol recherché par l'utilisateur
 							CritereVol lesCriteres= new CritereVol(VilleDepart,VilleArrivee,perimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
-							/*chNbBebe.getSelectedIndex(),*/chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
+							/*chNbBebe.getSelectedIndex(),*/0,0,0,0,0,0,0,0,chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
 							chDateAnnee.getSelectedIndex(),chDateJourRetour.getSelectedIndex(),chDateMoisRetour.getSelectedIndex(),chDateAnneeRetour.getSelectedIndex());
 							
 						
 							
-							//Boucle permettant de génerer les différentes combinaisons entre les aéroports trouvés
-						/*	for(int f=0;f<listeVilleDepartAeroportCorrige.length;f++)
-							{
-								for(int z=0;z<listeVilleArriveeAeroportCorrige.length;z++)
-								{
-									//Lance le navigateur avec autant d'onglets que de combinaisons
-									//System.out.println(ListeVilleDepartCorrige[f]+" avec "+ListeVilleDepartCorrige[z]);
-									hey.openURL("http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listeVilleDepartAeroportCorrige[f]+
-											"&ar.rt.leaveSlice.dest.key="+listeVilleArriveeAeroportCorrige[z]+"&ar.rt.leaveSlice.date=12%2F12%2F12&ar.rt.leaveSlice." +
-													"time=Anytime&ar.rt.returnSlice.date=22%2F01%2F13&ar.rt.returnSlice.time=Anytime&_ar.rt.flexAirSearch=0&ar.rt.numAdult="+
-													Constantes.nombres[chNbAdulte.getSelectedIndex()]+"&ar.rt.numChild="+Constantes.nombres[chNbEnfants.getSelectedIndex()]+
-													"&ar.rt.child[0]=3&ar.rt.child[1]=4&ar.rt.child[2]=4&ar.rt.child[3]=&ar.rt.child[4]=5&ar.rt.child[5]=&ar.rt.child[6]=3" +
-													"&ar.rt.child[7]=&_ar.rt.nonStop=0&_ar.rt.narrowSel=0&ar.rt.narrow=airlines&ar.rt.carriers[0]=&ar.rt.carriers[1]=&ar.rt." +
-													"carriers[2]=&ar.rt.cabin=C&search=Rechercher&search=Rechercher");
-								}//for
-							}//for*/
+							
 							
 							
 							//Il faudrait créer une classe pour récuperer les valeurs de la page web comme les prix, les aéroports, les dates de départ, etc.
@@ -453,7 +443,24 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 							
 							if (confirmation==JOptionPane.YES_OPTION)
 							{
-								
+								//Boucle permettant de génerer les différentes combinaisons entre les aéroports trouvés
+								for(int f=0;f<listeVilleDepartAeroportCorrige.length;f++)
+								{
+									for(int z=0;z<listeVilleArriveeAeroportCorrige.length;z++)
+									{
+										//Lance le navigateur avec autant d'onglets que de combinaisons
+										//System.out.println(ListeVilleDepartCorrige[f]+" avec "+ListeVilleDepartCorrige[z]);
+										/*hey.openURL("http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listeVilleDepartAeroportCorrige[f]+
+												"&ar.rt.leaveSlice.dest.key="+listeVilleArriveeAeroportCorrige[z]+"&ar.rt.leaveSlice.date=12%2F12%2F12&ar.rt.leaveSlice." +
+														"time=Anytime&ar.rt.returnSlice.date=22%2F01%2F13&ar.rt.returnSlice.time=Anytime&_ar.rt.flexAirSearch=0&ar.rt.numAdult="+
+														Constantes.nombres[chNbAdulte.getSelectedIndex()]+"&ar.rt.numChild="+Constantes.nombres[chNbEnfants.getSelectedIndex()]+
+														"&ar.rt.child[0]=3&ar.rt.child[1]=4&ar.rt.child[2]=4&ar.rt.child[3]=&ar.rt.child[4]=5&ar.rt.child[5]=&ar.rt.child[6]=3" +
+														"&ar.rt.child[7]=&_ar.rt.nonStop=0&_ar.rt.narrowSel=0&ar.rt.narrow=airlines&ar.rt.carriers[0]=&ar.rt.carriers[1]=&ar.rt." +
+														"carriers[2]=&ar.rt.cabin=C&search=Rechercher&search=Rechercher");*/
+										System.out.println(lesCriteres.urlRecherche(listeVilleDepartAeroportCorrige[f], listeVilleArriveeAeroportCorrige[z]));
+										
+									}//for
+								}//for
 							}//recherche confirmée
 							
 							
@@ -539,6 +546,8 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		}//bouton Annulation
 		
 	}//actionPerformed
+
+
 
 	
 }//class InterfaceMere
