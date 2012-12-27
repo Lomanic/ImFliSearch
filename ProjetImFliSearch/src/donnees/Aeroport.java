@@ -27,7 +27,7 @@ public class Aeroport {
 
 	public String toString()
 	{
-		return "\nL'aÃ©roport "+chNom+" ("+chCodeIATA+") Ã  "+recupererDistance()+" km."+"\nLatitude : "+chLatitude+"\nLongitude : "+chLongitude+"\n"+
+		return "\nL'aéroport "+chNom+" ("+chCodeIATA+") à "+recupererDistance()+" km."+"\nLatitude : "+chLatitude+"\nLongitude : "+chLongitude+"\n"+
 				"\n---------------------------------------------------";
 				
 	}
