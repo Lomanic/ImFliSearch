@@ -442,7 +442,10 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 							+"Voulez vous valider ces informations ?","Resume",JOptionPane.OK_CANCEL_OPTION);
 							
 							if (confirmation==JOptionPane.YES_OPTION)
-							{
+							{	//affichage de la liste des vols :
+								InterfaceResultat interfaceR = new InterfaceResultat();
+								
+								
 								//Boucle permettant de génerer les différentes combinaisons entre les aéroports trouvés
 								for(int f=0;f<listeVilleDepartAeroportCorrige.length;f++)
 								{
