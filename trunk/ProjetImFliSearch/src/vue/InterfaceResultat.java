@@ -30,7 +30,7 @@ public class InterfaceResultat extends JFrame implements ActionListener
 	public InterfaceResultat ()
 	{
 		
-		super("Liste des vols trouvés");
+		super("Résultats de la recherche");
 		//création du panel principal de la JFrame :
 		JPanel contentPane=new JPanel();
 		contentPane.setLayout(new GridBagLayout());
@@ -93,6 +93,8 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		panel.add(parComposant,chContraintes);
 		
 	}//ajoute composant
+	
+	//pour le tri en fonction des colonnes: http://docs.oracle.com/javase/tutorial/uiswing/components/table.html#sorting
 	
 	public void actionPerformed(ActionEvent arg0) {
 		

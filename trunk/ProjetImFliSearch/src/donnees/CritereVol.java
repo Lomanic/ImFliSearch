@@ -61,9 +61,12 @@ public class CritereVol {
 	
 	public String toString()
 	{
+		String[] allerRetour={"Aller/Retour","Aller simple"};
+		
 		return "La ville de depart est "+chVilleDepart.getChNom()+" pour le "+Constantes.joursDepart[chJourAller]+" "+Constantes.mois[chMoisAller]+
-		" "+Constantes.annees[chAnneeAller]+" et la ville d'arrivee est "+chVilleArrivee.getChNom()+". \n"+"La distance choisie est de "+chDistance+" km."+" Le vol est un aller avec "+
-		Constantes.nombres[chNbAdulte]+" adulte(s), "+Constantes.nombres[chNbEnfant]+" enfant(s)  "/*+Constantes.nombres[chNbBebe]+" bebe(s) en "*/+Constantes.classes[chClasse]+".";
+		" "+Constantes.annees[chAnneeAller]+" et la ville d'arrivee est "+chVilleArrivee.getChNom()+" pour le "+Constantes.joursDepart[chJourRetour]+" "+Constantes.mois[chMoisRetour]+
+		" "+Constantes.annees[chAnneeRetour]+".\n"+"La distance choisie est de "+chDistance+" km."+" Le vol est un "+allerRetour[chAllerRetour]+" avec "+
+		Constantes.nombres[chNbAdulte]+" adulte(s), "+Constantes.nombres[chNbEnfant]+" enfant(s) en "/*+Constantes.nombres[chNbBebe]+" bebe(s) en "*/+Constantes.classes[chClasse]+".";
 	}
 	
 	public String urlRecherche(Aeroport aeroDepart,Aeroport aeroArrivee)

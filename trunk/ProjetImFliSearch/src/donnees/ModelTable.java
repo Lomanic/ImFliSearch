@@ -2,8 +2,6 @@ package donnees;
 
 
 
-import java.util.Iterator;
-import java.util.TreeSet;
 
 import javax.swing.table.DefaultTableModel;
 

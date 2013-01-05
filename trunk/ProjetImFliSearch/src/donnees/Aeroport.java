@@ -10,7 +10,7 @@ public class Aeroport {
 	private double chLongitude;
 	private Ville chVille;
 	
-	public Aeroport(String parNom,String parCodeIATA, double parLatitude, double parLongitude,Ville parVille)
+	public Aeroport(String parNom, String parCodeIATA, double parLatitude, double parLongitude, Ville parVille)
 	{
 		chNom=parNom;
 		chCodeIATA=parCodeIATA;

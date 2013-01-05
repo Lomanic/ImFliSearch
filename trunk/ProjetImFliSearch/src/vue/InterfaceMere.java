@@ -7,15 +7,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import constantes.Constantes;
 import donnees.Aeroport;
 import donnees.Ville;
 import donnees.CritereVol;
+import donnees.Vol;
 
 public class InterfaceMere extends JFrame implements ActionListener, ItemListener{
 	
@@ -423,7 +430,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 						    
 						if (VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && listeVilleArriveeAeroportCorrige.length!=0 && listeVilleDepartAeroportCorrige.length!=0 )
 						{
-							//On instancie un objet Vol qui va contenir les informations du vol recherché par l'utilisateur
+							//On instancie un objet CritereVol qui va contenir les critères du vol recherché par l'utilisateur
 							CritereVol lesCriteres= new CritereVol(VilleDepart,VilleArrivee,perimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
 							/*chNbBebe.getSelectedIndex(),*/0,0,0,0,0,0,0,0,chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
 							chDateAnnee.getSelectedIndex(),chDateJourRetour.getSelectedIndex(),chDateMoisRetour.getSelectedIndex(),chDateAnneeRetour.getSelectedIndex());
@@ -442,9 +449,11 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 							+"Voulez vous valider ces informations ?","Resume",JOptionPane.OK_CANCEL_OPTION);
 							
 							if (confirmation==JOptionPane.YES_OPTION)
-							{	//affichage de la liste des vols :
-								InterfaceResultat interfaceR = new InterfaceResultat();
-								
+							{
+								ArrayList<Vol> resultatsRecherche=new ArrayList<Vol>();
+								ArrayList<String> ligneJsoupSearchBarContent= new ArrayList<String>();
+								ArrayList<String> ligneJsoupContainer= new ArrayList<String>();
+								ArrayList<String> ligneJsoupButtonLink= new ArrayList<String>();
 								
 								//Boucle permettant de génerer les différentes combinaisons entre les aéroports trouvés
 								for(int f=0;f<listeVilleDepartAeroportCorrige.length;f++)
@@ -462,8 +471,64 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 														"carriers[2]=&ar.rt.cabin=C&search=Rechercher&search=Rechercher");*/
 										System.out.println(lesCriteres.urlRecherche(listeVilleDepartAeroportCorrige[f], listeVilleArriveeAeroportCorrige[z]));
 										
+										
+										Document doc = Jsoup.connect(lesCriteres.urlRecherche(listeVilleDepartAeroportCorrige[f], listeVilleArriveeAeroportCorrige[z])).timeout(50000).get();
+										
+										if(doc.select(".container").isEmpty())
+										{
+											JOptionPane.showMessageDialog(this, "Pas  de vols trouvés entre "+listeVilleDepartAeroportCorrige[f].getChNom()+" et "+listeVilleArriveeAeroportCorrige[z].getChNom());
+										}
+										else
+										{
+
+											//paramètres de recherche
+											java.util.Iterator<Element> it1 = doc.select(".searchBarContent").iterator();
+											while (it1.hasNext())
+											{
+												String temp =it1.next().text();
+												ligneJsoupSearchBarContent.add(temp);
+											}
+											
+											
+											//vols
+											java.util.Iterator<Element> it2 = doc.select(".container").iterator();
+											while (it2.hasNext())
+											{
+												String temp =it2.next().text();
+												ligneJsoupContainer.add(temp);
+											}
+											
+											
+											
+											//liens
+											java.util.Iterator<Element> it3 = doc.select(".container>.secondary>.content>.linkAsButton>.buttonLink.link").iterator();
+											while (it3.hasNext())
+											{
+												String temp =it3.next().attr("href");
+												ligneJsoupButtonLink.add(temp);
+											}
+											
+											
+											for (int i=0;i<ligneJsoupContainer.size();i++)//peuplement de la ArrayList de Vol 
+											{
+												resultatsRecherche.add(new Vol(ligneJsoupSearchBarContent.get(0),ligneJsoupContainer.get(i),ligneJsoupButtonLink.get(i)));
+											}
+											
+											//remise à zéro des ligneJsoup pour éviter les duplicatas
+											ligneJsoupSearchBarContent=null;
+											ligneJsoupContainer=null;
+											ligneJsoupButtonLink=null;
+										}//else du test du nombre d'aéroports trouvés
+										
 									}//for
 								}//for
+								
+								//affichage de la liste des vols :
+								InterfaceResultat interfaceR = new InterfaceResultat();
+								interfaceR.setLocationRelativeTo(this);
+								
+								//normalement...
+								//InterfaceResultat interfaceR =new InterfaceResultat(resultatsRecherche);
 							}//recherche confirmée
 							
 							
@@ -497,7 +562,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 							chNbEnfants.getSelectedIndex()==0 /*&& chNbBebe.getSelectedIndex()==0*/))
 					{
 						JOptionPane.showMessageDialog(this, "Une information est manquante. Veuillez remplir tous les champs",
-								"Erreur lors de l'entrÃ©e des informations",JOptionPane.ERROR_MESSAGE);
+								"Erreur lors de l'entrée des informations",JOptionPane.ERROR_MESSAGE);
 					}//au moins une information est manquante
 					else if (VilleDepart1.length()==0 && VilleArrivee1.length()==0 && perimetreEntre==0 && (chNbAdulte.getSelectedIndex()==0 && chNbEnfants.getSelectedIndex()==0
 							/*&& chNbBebe.getSelectedIndex()==0*/))
@@ -512,6 +577,10 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	            System.out.println("Erreur: La valeur entrée pour le périmètre n'est pas un entier.");
 	            JOptionPane.showMessageDialog(this, "Erreur: La valeur entrée pour le périmètre n'est pas un entier.", "Erreur", JOptionPane.ERROR_MESSAGE);
 			}//catch
+ catch (IOException e) {
+	 			System.out.println("JSOUP");
+				e.printStackTrace();
+			}
 			
 				
 				
