@@ -524,7 +524,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 								}//for
 								
 								//affichage de la liste des vols :
-								InterfaceResultat interfaceR = new InterfaceResultat();
+								InterfaceResultat interfaceR = new InterfaceResultat(resultatsRecherche);
 								interfaceR.setLocationRelativeTo(this);
 								
 								//normalement...
