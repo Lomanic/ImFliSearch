@@ -2,11 +2,13 @@ package vue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 import javax.swing.*;
 
 import donnees.ModelTable;
+import donnees.Vol;
 
 
 
@@ -27,7 +29,7 @@ public class InterfaceResultat extends JFrame implements ActionListener
 	private GridBagConstraints chContraintes = new GridBagConstraints();GridBagConstraints Contraintes = new GridBagConstraints();
 
 
-	public InterfaceResultat ()
+	public InterfaceResultat (ArrayList<Vol> parResultat)
 	{
 		
 		super("Résultats de la recherche");
@@ -46,7 +48,7 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		tableDesVols = new JTable();
 		tableDesVols.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		//Ajout du model a la JTable
-		tableDesVols.setModel(new ModelTable());
+		tableDesVols.setModel(new ModelTable(parResultat));
 		//Hauteur des lignes 
 		tableDesVols.setRowHeight(20);
 		

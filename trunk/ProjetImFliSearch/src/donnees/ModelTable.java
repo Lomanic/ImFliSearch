@@ -3,6 +3,8 @@ package donnees;
 
 
 
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
 
 
@@ -11,7 +13,7 @@ public class ModelTable extends DefaultTableModel
 {
 	//-------------------------------------------------------------------------------------------------------------------
 	//constructeur pour la class ModelTable
-	public ModelTable ()
+	public ModelTable (ArrayList<Vol> parResultat)
 	{
 		//colonnes :
 		//les entetes de colonne :
@@ -22,20 +24,38 @@ public class ModelTable extends DefaultTableModel
 		this.setColumnIdentifiers(identifierColumn);
 	
 		//lignes :
-		this.setRowCount(20);
+		this.setRowCount(parResultat.size());
 		
+		System.out.println(parResultat.get(1).getLien());
 		
+		for(int i=0;i<parResultat.size()-1;i++)
+		{
+			for(int k=0;k<this.getColumnCount();k++)
+			{
+				if(k==0)
+				{
+					this.setValueAt(parResultat.get(i).getAeroportDepart(), i, k);
+				}
+				else if(k==1)
+				{
+					this.setValueAt(parResultat.get(i).getAeroportArrivee(), i, k);
+				}
+				else if(k==2)
+				{
+					this.setValueAt(parResultat.get(i).getDateAllerDepart(), i, k);
+				}
+				else if(k==8)
+				{
+					this.setValueAt(parResultat.get(i).getPrix(), i, k);
+				}
+				
+				
+			}
+		}
 		
 		/*//Ajout des valeurs dans les cellules
 		Iterator <Reservation> it = treesetannee.iterator();
 		Reservation res;
-		while (it.hasNext())
-		{	res=it.next();
-			if (res.chmois == parMois && res.chsalle == parIndiceNomSalle)
-			{
-				int numligne;
-				int numcolonne;
-				numligne=res.chheure;
 				numcolonne=res.chjour;
 				this.setValueAt(res,numligne,numcolonne);
 		
