@@ -17,7 +17,7 @@ public class ModelTable extends DefaultTableModel
 	{
 		//colonnes :
 		//les entetes de colonne :
-		String[] identifierColumn = {"Aeroport depart","Aeroport arrivee","Date-heure/départ-arrivé/Aller","Durée Aller","Date-heure/départ-arrivé/Retour","Durée Retour","Compagnie","Prix","Lien"};
+		String[] identifierColumn = {"Aeroport depart","Aeroport arrivee","Date-heure/départ-arrivé/Aller","Durée Aller","Compagnie Aller","Date-heure/départ-arrivé/Retour","Durée Retour","Compagnie Retour","Prix","Lien"};
 		//le nombre de colonne :
 		this.setColumnCount(identifierColumn.length);
 		//On ajoute les entetes
@@ -44,9 +44,25 @@ public class ModelTable extends DefaultTableModel
 				{
 					this.setValueAt(parResultat.get(i).getDateAllerDepart(), i, k);
 				}
+				else if(k==3)
+				{
+					this.setValueAt(parResultat.get(i).getDateAllerDepart(), i, k);
+				}
+				else if(k==4)
+				{
+					this.setValueAt(parResultat.get(i).getCompagnieAller(), i, k);
+				}
+				else if(k==7)
+				{
+					this.setValueAt(parResultat.get(i).getCompagnieRetour(), i, k);
+				}
 				else if(k==8)
 				{
 					this.setValueAt(parResultat.get(i).getPrix(), i, k);
+				}
+				else if(k==9)
+				{
+					this.setValueAt(parResultat.get(i).getLien(), i, k);
 				}
 				
 				

@@ -66,6 +66,8 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		tableDesVols.getColumnModel().getColumn(6).setPreferredWidth(100);
 		tableDesVols.getColumnModel().getColumn(7).setPreferredWidth(100);
 		tableDesVols.getColumnModel().getColumn(8).setPreferredWidth(100);
+		
+		
 		// Ajout de la JTable dans son panel
 		panelTables	= new JPanel(new FlowLayout());
 		panelTables.add(new JScrollPane(tableDesVols));
