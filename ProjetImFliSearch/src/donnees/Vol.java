@@ -61,12 +61,22 @@ public class Vol {
 			}
 			String dateRechercheArriveeMois=m1.group(7);
 			this.dateRechercheArriveeAnnee=m1.group(8);
+		}else
+		{//aller simple
+			Pattern o1=Pattern.compile("Aller:.+([a-zA-Z]{3}\\.)\\s+([0-9]{1,2})\\s+([a-zA-ZÀ-ÿ]{4}\\.)\\s+([0-9]{4})");
+			Matcher n1 = o1.matcher(ligneJsoupSearchBarContent);
+			
+			if(n1.find())
+			{
+				this.dateRechercheDepartAnnee=n1.group(4);
+			}
+			
 		}
 		
 		
 		
 		
-		
+		//Pattern p2 commun à aller simple/aller-retour
 		Pattern p2=Pattern.compile("Aller\\s+([a-zA-Z]{3}\\.)\\s+([0-9]{1,2})\\s+([a-zA-ZÀ-ÿ]{4}\\.)\\s+(\\d{2})\\:(\\d{2})");//Aller ven. 1 févr. 19:55
 		Matcher m2 = p2.matcher(ligneJsoupContainer);
 		
@@ -93,27 +103,27 @@ public class Vol {
 				dateRetourDepart=parseur.parse(stringDateRetourDepart);
 			}catch(ParseException e){System.out.println("erreur->"+stringDateRetourDepart);}
 		}
+
+		//Aller mar. 8 janv. 13:55 Paris ORY 21:55 Berlin TXL 1 escale 8h 0 Air Berlin 5083 British Airways 988 Changement de compagnie aérienne Vol 5083 Opéré par British Airways Cliquez pour choisir ce vol retour Retour sam. 12 janv. 06:45 Berlin TXL 08:40 Paris ORY Direct 1h 55 Air Berlin 8154
 		//Aller ven. 1 févr. 19:55 Paris CDG 21:30 *Berlin *TXL Direct 1h 35 Lufthansa 3245 Cliquez pour choisir ce vol retour Retour dim. 17 févr. 15:10 Berlin TXL 22:45 Paris CDG 1 escale 7h 35 Lufthansa 2039 / 2240                         m4.group(10)
 		Pattern p4=Pattern.compile("Aller.+\\s([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3}).+\\d{1,3}h\\s+\\d{1,2}\\s+([a-zA-ZÀ-ÿ ]{2,})\\s+([0-9 /]{2,}+).+Retour.+\\s([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3}).+\\d{1,3}h\\s+\\d{1,2}\\s+([a-zA-ZÀ-ÿ ]{2,})\\s+?([0-9 /]{2,}+).*");//attention aux compagnies/escales multiples + les récupérer.
 		Matcher m4 = p4.matcher(ligneJsoupContainer);
 		
 		if (m4.find())
 		{
-			for(int j=0;j<AeroportsDepart.length;j++)
+			for(Aeroport j:AeroportsDepart)
 			{
-				if(m4.group(2).equals(AeroportsDepart[j].getChCodeIATA()));
+				if(m4.group(2).equals(j.getChCodeIATA()));
 					{
-						aeroportDepart=new Aeroport(AeroportsDepart[j].getChNom(),AeroportsDepart[j].getChCodeIATA(),
-								AeroportsDepart[j].getChLatitude(),AeroportsDepart[j].getChLongitude(),AeroportsDepart[j].getChVille());
+						aeroportDepart=j;
 					}
 			}
 			
-			for(int j=0;j<AeroportsArrivee.length;j++)
+			for(Aeroport j:AeroportsArrivee)
 			{
-				if(m4.group(5).equals(AeroportsArrivee[j].getChCodeIATA()));
+				if(m4.group(5).equals(j.getChCodeIATA()));
 					{
-						aeroportArrivee=new Aeroport(AeroportsArrivee[j].getChNom(),AeroportsArrivee[j].getChCodeIATA(),
-								AeroportsArrivee[j].getChLatitude(),AeroportsArrivee[j].getChLongitude(),AeroportsArrivee[j].getChVille());
+						aeroportArrivee=j;
 					}
 			}
 			
@@ -139,14 +149,10 @@ public class Vol {
 			this.compagnieRetour=m4.group(13);
 			this.numVolRetour=m4.group(14);
 		}
-		else
-			System.out.println("erreur de find\n"+ligneJsoupContainer);
-
-		//Aller mar. 8 janv. 13:55 Paris ORY 21:55 Berlin TXL 1 escale 8h 0 Air Berlin 5083 British Airways 988 Changement de compagnie aérienne Vol 5083 Opéré par British Airways Cliquez pour choisir ce vol retour Retour sam. 12 janv. 06:45 Berlin TXL 08:40 Paris ORY Direct 1h 55 Air Berlin 8154
 
 		
 		
-		
+		//Lien et prix communs aux aller/retour et aux allers simples.
 		//lien
 		lien=ligneJsoupButtonLink;
 		
@@ -156,6 +162,47 @@ public class Vol {
 
 		if (m3.find())
 			prix=m3.group();
+		
+		
+		
+		
+		
+		
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		//ALLER SIMPLE
+		
+		//Modifier la recherche Votre voyage (De / A) Date Aller: Paris (ORY) à Berlin (TXL) jeu. 10 janv. 2013
+		
+		
+		
+		
+		
+		
+		//1 751 € Tarif total Choisir Détails du vol Aller jeu. 10 janv. 19:25 Paris ORY 11:55 Berlin TXL 1 escale 16h 30 Air Berlin 5085 Lufthansa 3373 Vol de nuit, arrivée le lendemain. Changement de compagnie aérienne Vol 5085 Opéré par British Airways
+		
+		Pattern o2=Pattern.compile("Aller\\s+([a-zA-Z]{3}\\.)\\s+([0-9]{1,2})\\s+([a-zA-ZÀ-ÿ]{4}\\.)\\s+(\\d{2})\\:(\\d{2})\\s+([a-zA-ZÀ-ÿ]{2,})");//Aller ven. 1 févr. 19:55
+		Matcher n2 = o2.matcher(ligneJsoupContainer);
+		
+		if (n2.find())
+		{
+			String stringDateAllerDepart=n2.group(1)+" "+n2.group(2)+" "+n2.group(3)+" "+this.dateRechercheDepartAnnee+" "+n2.group(4)+":"+n2.group(5)+":00";
+			
+			SimpleDateFormat parseur = new SimpleDateFormat("EEE dd MMM yyyy HH:mm:ss", Locale.FRENCH);
+			try{
+				dateAllerDepart=parseur.parse(stringDateAllerDepart);
+			}catch(ParseException e){System.out.println(stringDateAllerDepart);}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		System.out.println(prix+"AllerD:"+dateAllerDepart+"/AllerA:"+dateAllerArrivee+"\nRetourD:"+dateRetourDepart+"/RetourA:"+dateRetourArrivee);
 		System.out.println(aeroportDepart);
