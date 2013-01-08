@@ -20,7 +20,7 @@ public class ModelTable extends DefaultTableModel
 	{
 		//colonnes :
 		//les entetes de colonne :
-		String[] identifierColumn = {"Aeroport depart","Aeroport arrivee","Date-heure/Départ/Aller","Date-heure/Arrivée/Aller","Durée Aller","Compagnie Aller","Date-heure/Départ/Retour","Date-heure/Arrivée/Retour","Durée Retour","Compagnie Retour","Prix","Lien"};
+		String[] identifierColumn = {"N° Vol Aller","Aeroport depart","Aeroport arrivee","Date-heure/Départ/Aller","Date-heure/Arrivée/Aller","Durée Aller","Compagnie Aller","N° Vol Retour","Date-heure/Départ/Retour","Date-heure/Arrivée/Retour","Durée Retour","Compagnie Retour","Prix","Lien"};
 		//le nombre de colonne :
 		this.setColumnCount(identifierColumn.length);
 		//On ajoute les entetes
@@ -37,42 +37,51 @@ public class ModelTable extends DefaultTableModel
 			{
 				if(k==0)
 				{
-					this.setValueAt(parResultat.get(i).getAeroportDepart(), i, k);
+					this.setValueAt(parResultat.get(i).getNumVolAller(), i, k);
 				}
 				else if(k==1)
 				{
-					this.setValueAt(parResultat.get(i).getAeroportArrivee(), i, k);
+					this.setValueAt(parResultat.get(i).getAeroportDepart(), i, k);
 				}
 				else if(k==2)
 				{
-					this.setValueAt(parResultat.get(i).getDateAllerDepart(), i, k);
+					this.setValueAt(parResultat.get(i).getAeroportArrivee(), i, k);
 				}
 				else if(k==3)
 				{
-					this.setValueAt(parResultat.get(i).getDateAllerArrivee(), i, k);
+					this.setValueAt(parResultat.get(i).getDateAllerDepart(), i, k);
 				}
 				else if(k==4)
+				{
+					this.setValueAt(parResultat.get(i).getDateAllerArrivee(), i, k);
+				}
+				else if(k==5)
 				{	
 					long dureeAller=parResultat.get(i).getDateAllerArrivee().getTime()-parResultat.get(i).getDateAllerDepart().getTime();
+					
 					dureeAller=dureeAller-(3600*1000);
 					DateFormat df = new SimpleDateFormat("HH'h'mm");
 					
 					
 					this.setValueAt(df.format(dureeAller), i, k);
 				}
-				else if(k==5)
+				else if(k==6)
 				{
 					this.setValueAt(parResultat.get(i).getCompagnieAller(), i, k);
 				}
-				else if(k==6)
+				else if(k==7)
+				{
+					this.setValueAt(parResultat.get(i).getNumVolRetour(), i, k);
+				}
+				else if(k==8)
 				{
 					this.setValueAt(parResultat.get(i).getDateRetourDepart(), i, k);
 				}
-				else if(k==7)
+				else if(k==9)
 				{
 					this.setValueAt(parResultat.get(i).getDateRetourArrivee(), i, k);
 				}
-				else if(k==8)
+				else if(k==10)
 				{
 					long dureeRetour=parResultat.get(i).getDateRetourArrivee().getTime()-parResultat.get(i).getDateRetourDepart().getTime();
 					dureeRetour=dureeRetour-(3600*1000);
@@ -80,15 +89,15 @@ public class ModelTable extends DefaultTableModel
 
 					this.setValueAt(df.format(dureeRetour), i, k);
 				}
-				else if(k==9)
+				else if(k==11)
 				{
 					this.setValueAt(parResultat.get(i).getCompagnieRetour(), i, k);
 				}
-				else if(k==10)
+				else if(k==12)
 				{
 					this.setValueAt(parResultat.get(i).getPrix(), i, k);
 				}
-				else if(k==11)
+				else if(k==13)
 				{
 					this.setValueAt(parResultat.get(i).getLien(), i, k);
 				}
