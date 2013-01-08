@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.*;
@@ -85,6 +87,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	public InterfaceMere(String parTitre)
 	{
 		super(parTitre);
+		
 		
 		//-----------------Instanciation de Constantes.annees--------------------//
 		
@@ -444,6 +447,13 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		//On récupere les valeurs indiquées par l'utilisateur lorqu'il selectionne le bouton de validation
 		if (telEvenement.getSource()==chBoutonValidation)
 		{
+			//-----------------Test de la connexion internet-------------------------//
+			
+			try{
+				//On teste la connexion internet
+				testConnexion();
+			
+			
 			//On recupere le type de vol
 			int AllerRetour=Integer.parseInt(chboutonGroupe.getSelection().getActionCommand());
 			
@@ -609,11 +619,17 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 							
 						}//if les villes départ/arrivée existent et la liste des aéroports n'est pas vide
 					}//if toutes les info ont été saisies correctement
-					else if (perimetreEntre<0)
+					else if (perimetreEntre<=0)
 					{
 						JOptionPane.showMessageDialog(this, "Votre périmètre est négatif, ou égal à zéro... ",
 						"Erreur : Périmètre",JOptionPane.ERROR_MESSAGE);
 					}// le périmètre est null ou négatif
+					else if (perimetreEntre>300)
+					{
+						JOptionPane.showMessageDialog(this, "Votre périmètre ne peut pas être supérieur à 300 km. ",
+						"Erreur : Périmètre",JOptionPane.ERROR_MESSAGE);
+					}// le périmètre est null ou négatif
+					
 					else if (VilleDepart.existe()==0 && VilleArrivee.existe()!=0)
 					{
 						JOptionPane.showMessageDialog(this, "La ville de depart n'existe pas. ",
@@ -655,7 +671,13 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				e.printStackTrace();
 			}
 			
-				
+			}
+			
+			
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(this, "Aucune connexion internet n'a été trouvé.\n Veuillez vous connecter pour utiliser ImFliSearch.","Connexion internet introuvable",JOptionPane.ERROR_MESSAGE);
+			}//catch de la connexion internet
 				
 		}//if
 		
@@ -692,7 +714,15 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		
 	}//actionPerformed
 
-
+	//Méthode permettant de tester la connexion internet
+	public void testConnexion() throws IOException{
+		 
+		//On utilise l'URL du site ebookers.fr, comme ça si le site ne fonctionne pas le logiciel non plus
+		URL url = new URL("http://www.ebookers.fr/");
+		HttpURLConnection urlConn = (HttpURLConnection)url.openConnection();
+		urlConn.connect();
+ 
+	}
 
 	
 }//class InterfaceMere
