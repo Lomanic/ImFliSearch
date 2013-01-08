@@ -511,7 +511,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 											
 											for (int i=0;i<ligneJsoupContainer.size();i++)//peuplement de la ArrayList de Vol 
 											{
-												resultatsRecherche.add(new Vol(ligneJsoupSearchBarContent.get(0),ligneJsoupContainer.get(i),ligneJsoupButtonLink.get(i)));
+												resultatsRecherche.add(new Vol(ligneJsoupSearchBarContent.get(0),ligneJsoupContainer.get(i),ligneJsoupButtonLink.get(i),listeVilleDepartAeroportCorrige,listeVilleArriveeAeroportCorrige));
 											}
 											
 											//remise à zéro des ligneJsoup pour éviter les duplicatas

@@ -75,6 +75,10 @@ public class Aeroport {
 		chVille=parVille;
 	}
 	
+	public Ville getChVille() {
+		return chVille;
+	}
+	
 	public double recupererDistance()
 	{
 		return Distance.distanceKM(chLatitude, chLongitude, chVille.getChLatitude(), chVille.getChLongitude());

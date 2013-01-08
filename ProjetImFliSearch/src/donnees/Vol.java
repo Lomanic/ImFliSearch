@@ -31,7 +31,7 @@ public class Vol {
 	private String dateRechercheDepartAnnee;
 	private String dateRechercheArriveeAnnee;
 	
-	public Vol(String ligneJsoupSearchBarContent,String ligneJsoupContainer, String ligneJsoupButtonLink)
+	public Vol(String ligneJsoupSearchBarContent,String ligneJsoupContainer, String ligneJsoupButtonLink, Aeroport [] AeroportsDepart,Aeroport [] AeroportsArrivee)
 	{
 		System.out.println("**********************************************************************");
 		//recherche
@@ -99,8 +99,25 @@ public class Vol {
 		
 		if (m4.find())
 		{
-			aeroportDepart=new Aeroport(m4.group(1),m4.group(2),0,0,new Ville(m4.group(1),0,0));
-			aeroportArrivee=new Aeroport(m4.group(4),m4.group(5),0,0,new Ville(m4.group(4),0,0));
+			for(int j=0;j<AeroportsDepart.length;j++)
+			{
+				if(m4.group(2).equals(AeroportsDepart[j].getChCodeIATA()));
+					{
+						aeroportDepart=new Aeroport(AeroportsDepart[j].getChNom(),AeroportsDepart[j].getChCodeIATA(),
+								AeroportsDepart[j].getChLatitude(),AeroportsDepart[j].getChLongitude(),AeroportsDepart[j].getChVille());
+					}
+			}
+			
+			for(int j=0;j<AeroportsArrivee.length;j++)
+			{
+				if(m4.group(5).equals(AeroportsArrivee[j].getChCodeIATA()));
+					{
+						aeroportArrivee=new Aeroport(AeroportsArrivee[j].getChNom(),AeroportsArrivee[j].getChCodeIATA(),
+								AeroportsArrivee[j].getChLatitude(),AeroportsArrivee[j].getChLongitude(),AeroportsArrivee[j].getChVille());
+					}
+			}
+			
+			//aeroportArrivee=new Aeroport(m4.group(4),m4.group(5),0,0,new Ville(m4.group(4),0,0));
 			
 			String stringDateAllerArrivee=m2.group(1)+" "+m2.group(2)+" "+m2.group(3)+" "+this.dateRechercheDepartAnnee+" "+m4.group(3)+":00";
 		
