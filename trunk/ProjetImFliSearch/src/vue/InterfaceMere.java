@@ -177,6 +177,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		
 		this.ajoutComposant(chLabelEnfant, panelVoyageur, 0, 1, 1, 1);
 		this.ajoutComposant(chNbEnfants, panelVoyageur, 1, 1, 1, 1);
+		chNbEnfants.addActionListener(this);
 		
 		//this.ajoutComposant(chLabelBebe, panelVoyageur, 0, 2, 1, 1);
 		//this.ajoutComposant(chNbBebe, panelVoyageur, 1, 2, 1, 1);
@@ -375,6 +376,71 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 
 	public void actionPerformed (ActionEvent telEvenement)
 	{
+		int [] ageEnfant=new int[8];
+		
+		if(telEvenement.getSource()==chNbEnfants)
+		{
+		//System.out.println(chNbEnfants.getSelectedIndex());
+			if(chNbEnfants.getSelectedIndex()!=0)
+			{
+				JDialog choixEnfants= new JDialog(new JFrame(),"Indiquer l'âge des enfants",true);
+				Container contentPaneDuDialogue = choixEnfants.getContentPane();
+				JPanel uneFenetre= new JPanel();
+				JComboBox [] tab = new JComboBox[Constantes.agesEnfants.length];
+				
+				for(int h=0;h<tab.length;h++)
+				{
+					tab[h]=new JComboBox(Constantes.agesEnfants);
+				}
+				
+				choixEnfants.setLocation(300, 300);
+				
+				for(int g=0;g<chNbEnfants.getSelectedIndex();g++)
+				{
+					GridLayout unLayout = new GridLayout(6,1);
+					uneFenetre.setLayout(unLayout);
+					JLabel unJlabel=new JLabel("Enfant "+(g+1)+" : ");
+					unJlabel.setPreferredSize(new Dimension(10,5));
+					tab[g].addActionListener(this);
+					uneFenetre.add(unJlabel);
+					uneFenetre.add(tab[g]);
+				}
+				
+				JPanel uneFenetre1 = new JPanel();
+				//JButton unBouton = new JButton("Valider");
+			//	unBouton.addActionListener(this);
+				//uneFenetre1.add(unBouton,"CENTER");
+				BorderLayout unLayout1= new BorderLayout();
+				contentPaneDuDialogue.setLayout(unLayout1);
+				contentPaneDuDialogue.add(uneFenetre,"North");
+				contentPaneDuDialogue.add(uneFenetre1,"South");
+				
+				
+				
+				choixEnfants.setMinimumSize(new Dimension(300,200));
+				choixEnfants.pack();
+				choixEnfants.setVisible(true);
+
+				for(int l=0;l<chNbEnfants.getSelectedIndex();l++)
+					{
+						ageEnfant[l]=tab[l].getSelectedIndex();
+						System.out.println(ageEnfant[l]);
+						
+					}			
+				}//if
+			
+			else{
+					for (int f=0;f<7;f++)
+					{
+						ageEnfant[f]=0;
+						System.out.println(ageEnfant[f]);
+					}
+				}
+					
+			
+			}//if
+			
+		
 		//On récupere les valeurs indiquées par l'utilisateur lorqu'il selectionne le bouton de validation
 		if (telEvenement.getSource()==chBoutonValidation)
 		{
@@ -432,7 +498,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 						{
 							//On instancie un objet CritereVol qui va contenir les critères du vol recherché par l'utilisateur
 							CritereVol lesCriteres= new CritereVol(VilleDepart,VilleArrivee,perimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
-							/*chNbBebe.getSelectedIndex(),*/0,0,0,0,0,0,0,0,chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
+							/*chNbBebe.getSelectedIndex(),*/ageEnfant[0],ageEnfant[1],ageEnfant[2],ageEnfant[3],ageEnfant[4],ageEnfant[5],ageEnfant[6],ageEnfant[7],chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
 							chDateAnnee.getSelectedIndex(),chDateJourRetour.getSelectedIndex(),chDateMoisRetour.getSelectedIndex(),chDateAnneeRetour.getSelectedIndex());
 							
 						
@@ -524,8 +590,15 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 								}//for
 								
 								//affichage de la liste des vols :
+								
+								if(resultatsRecherche.size()!=0)
+								{
 								InterfaceResultat interfaceR = new InterfaceResultat(resultatsRecherche);
-								interfaceR.setLocationRelativeTo(this);
+								interfaceR.setLocationRelativeTo(this);}
+								else
+								{
+									JOptionPane.showMessageDialog(this, "Aucun vol n'a été trouvé. Réessayez avec d'autres données");
+								}
 								
 								//normalement...
 								//InterfaceResultat interfaceR =new InterfaceResultat(resultatsRecherche);
