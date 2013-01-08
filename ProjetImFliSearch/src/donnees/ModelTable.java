@@ -17,7 +17,7 @@ public class ModelTable extends DefaultTableModel
 	{
 		//colonnes :
 		//les entetes de colonne :
-		String[] identifierColumn = {"Aeroport depart","Aeroport arrivee","Date-heure/départ-arrivé/Aller","Durée Aller","Compagnie Aller","Date-heure/départ-arrivé/Retour","Durée Retour","Compagnie Retour","Prix","Lien"};
+		String[] identifierColumn = {"Aeroport depart","Aeroport arrivee","Date-heure/Départ/Aller","Date-heure/Arrivée/Aller","Durée Aller","Compagnie Aller","Date-heure/Départ/Retour","Date-heure/Arrivée/Retour","Durée Retour","Compagnie Retour","Prix","Lien"};
 		//le nombre de colonne :
 		this.setColumnCount(identifierColumn.length);
 		//On ajoute les entetes
@@ -46,21 +46,37 @@ public class ModelTable extends DefaultTableModel
 				}
 				else if(k==3)
 				{
-					this.setValueAt(parResultat.get(i).getDateAllerDepart(), i, k);
+					this.setValueAt(parResultat.get(i).getDateAllerArrivee(), i, k);
 				}
 				else if(k==4)
+				{	
+					this.setValueAt("", i, k);
+				}
+				else if(k==5)
 				{
 					this.setValueAt(parResultat.get(i).getCompagnieAller(), i, k);
 				}
+				else if(k==6)
+				{
+					this.setValueAt(parResultat.get(i).getDateRetourDepart(), i, k);
+				}
 				else if(k==7)
 				{
-					this.setValueAt(parResultat.get(i).getCompagnieRetour(), i, k);
+					this.setValueAt(parResultat.get(i).getDateRetourArrivee(), i, k);
 				}
 				else if(k==8)
 				{
-					this.setValueAt(parResultat.get(i).getPrix(), i, k);
+					this.setValueAt("", i, k);
 				}
 				else if(k==9)
+				{
+					this.setValueAt(parResultat.get(i).getCompagnieRetour(), i, k);
+				}
+				else if(k==10)
+				{
+					this.setValueAt(parResultat.get(i).getPrix(), i, k);
+				}
+				else if(k==11)
 				{
 					this.setValueAt(parResultat.get(i).getLien(), i, k);
 				}
