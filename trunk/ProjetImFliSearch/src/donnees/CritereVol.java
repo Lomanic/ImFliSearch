@@ -73,35 +73,38 @@ public class CritereVol {
 	{
 		String[] ar_type={"roundTrip","oneWay"};
 		String[] ar_rt_cabin={"C","E","B","F"};
+		String[] type={"rt","ow"};
 		
+		String t=type[this.getChAllerRetour()];
+				
 		return "http://www.ebookers.fr/shop/home?type=air"+
 				"&ar.type="+ar_type[this.getChAllerRetour()]+
-				"&ar.rt.leaveSlice.orig.key="+aeroDepart.getChCodeIATA()+
-				"&ar.rt.leaveSlice.dest.key="+aeroArrivee.getChCodeIATA()+
-				"&ar.rt.leaveSlice.date="+Constantes.joursDepart[this.getChJourAller()]+"%2F"+(this.getChMoisAller()+1)+"%2F"+Integer.parseInt(Constantes.annees[this.getChAnneeAller()])%100+ //pour avoir les deux derniers chiffres d'un int : http://yhoo.it/UZHfbS
-				"&ar.rt.leaveSlice.time=Anytime" +
+				"&ar."+t+".leaveSlice.orig.key="+aeroDepart.getChCodeIATA()+
+				"&ar."+t+".leaveSlice.dest.key="+aeroArrivee.getChCodeIATA()+
+				"&ar."+t+".leaveSlice.date="+Constantes.joursDepart[this.getChJourAller()]+"%2F"+(this.getChMoisAller()+1)+"%2F"+Integer.parseInt(Constantes.annees[this.getChAnneeAller()])%100+ //pour avoir les deux derniers chiffres d'un int : http://yhoo.it/UZHfbS
+				"&ar."+t+".leaveSlice.time=Anytime" +
 				
-				"&ar.rt.returnSlice.date="+Constantes.joursDepart[this.getChJourRetour()]+"%2F"+(this.getChMoisRetour()+1)+"%2F"+Integer.parseInt(Constantes.annees[this.getChAnneeRetour()])%100+
+				"&ar."+t+".returnSlice.date="+Constantes.joursDepart[this.getChJourRetour()]+"%2F"+(this.getChMoisRetour()+1)+"%2F"+Integer.parseInt(Constantes.annees[this.getChAnneeRetour()])%100+
 
-				"&ar.rt.returnSlice.time=Anytime"+
-				"&_ar.rt.flexAirSearch=0"+
-				"&ar.rt.numAdult="+this.getChNbAdulte()+
-				"&ar.rt.numChild="+this.getChNbEnfant()+
-				"&ar.rt.child[0]="+this.getChAgeEnfant0()+
-				"&ar.rt.child[1]="+this.getChAgeEnfant1()+
-				"&ar.rt.child[2]="+this.getChAgeEnfant2()+
-				"&ar.rt.child[3]="+this.getChAgeEnfant3()+
-				"&ar.rt.child[4]="+this.getChAgeEnfant4()+
-				"&ar.rt.child[5]="+this.getChAgeEnfant5()+
-				"&ar.rt.child[6]="+this.getChAgeEnfant6()+
-				"&ar.rt.child[7]="+this.getChAgeEnfant7()+
-				"&_ar.rt.nonStop=0" +
-				"&_ar.rt.narrowSel=0" +
-				"&ar.rt.narrow=airlines" +
-				"&ar.rt.carriers[0]=" +
-				"&ar.rt.carriers[1]=" +
-				"&ar.rt.carriers[2]=" +
-				"&ar.rt.cabin=" +ar_rt_cabin[this.getChClasse()]+
+				"&ar."+t+".returnSlice.time=Anytime"+
+				"&_ar."+t+".flexAirSearch=0"+
+				"&ar."+t+".numAdult="+this.getChNbAdulte()+
+				"&ar."+t+".numChild="+this.getChNbEnfant()+
+				"&ar."+t+".child[0]="+this.getChAgeEnfant0()+
+				"&ar."+t+".child[1]="+this.getChAgeEnfant1()+
+				"&ar."+t+".child[2]="+this.getChAgeEnfant2()+
+				"&ar."+t+".child[3]="+this.getChAgeEnfant3()+
+				"&ar."+t+".child[4]="+this.getChAgeEnfant4()+
+				"&ar."+t+".child[5]="+this.getChAgeEnfant5()+
+				"&ar."+t+".child[6]="+this.getChAgeEnfant6()+
+				"&ar."+t+".child[7]="+this.getChAgeEnfant7()+
+				"&_ar."+t+".nonStop=0" +
+				"&_ar."+t+".narrowSel=0" +
+				"&ar."+t+".narrow=airlines" +
+				"&ar."+t+".carriers[0]=" +
+				"&ar."+t+".carriers[1]=" +
+				"&ar."+t+".carriers[2]=" +
+				"&ar."+t+".cabin=" +ar_rt_cabin[this.getChClasse()]+
 				"&search=Rechercher" +
 				"&search=Rechercher";
 	}
