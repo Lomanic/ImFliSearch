@@ -35,8 +35,8 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	JPanel contentPane;
 	
 	//panelVille
-	private JTextField chVilleDepart = new JTextField();
-	private JTextField chVilleArrive = new JTextField();
+	private JTextField chVilleDepart = new JTextField(1);
+	private JTextField chVilleArrive = new JTextField(1);
 
 	//panelVoyageur
 	private JComboBox chNbAdulte = new JComboBox(Constantes.nombres);
@@ -46,7 +46,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	//panelClasse
 	private JComboBox chClasse=new JComboBox(Constantes.classes);
 	//panelPerimetre
-	private JTextField chPerimetre = new JTextField();
+	private JTextField chPerimetre = new JTextField(1);
 	//panelDate
 
 	
@@ -117,6 +117,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		chContraintes.insets = new Insets (5, 5, 5, 5);
 		
 		chContraintes.fill = GridBagConstraints.HORIZONTAL;
+		chContraintes.anchor = GridBagConstraints.CENTER;
 		
 		chContraintes.weightx = 1;
 		chContraintes.weighty = 1;	
@@ -141,6 +142,8 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		
 		chVilleDepart.addActionListener(this);
 		chVilleArrive.addActionListener(this);
+		
+		
 		//-----------------PANEL-PERIMETRE----------------------------//
 		JPanel panelPerimetre = new JPanel() ;
 		panelPerimetre.setBorder(new TitledBorder("Périmètre de recherche")) ;
@@ -149,7 +152,6 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		 
 		this.ajoutComposant(LabelchoixPerimetre, panelPerimetre, 0, 0, 1, 1);
 		this.ajoutComposant(chPerimetre, panelPerimetre, 1, 0, 1, 1);
-		chPerimetre.setColumns(6);
 		
 		chPerimetre.addActionListener(this);
 		
@@ -330,6 +332,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		chContraintes.fill = GridBagConstraints.BOTH;
 		//Ajout panelDateretour
 		this.ajoutComposant(panelDateRetour,contentPane,1,4,1,1);
+		
 	}//constructionPanelDateRetour(int parNbJoursDuMois)
 			
 
@@ -449,6 +452,23 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 			
 			}//if
 			
+		if (telEvenement.getSource()==chButtonAllerRetour[1])
+		{
+			this.chDateAnneeRetour.setEnabled(false);
+			this.chDateMoisRetour.setEnabled(false);
+			this.chDateJourRetour.setEnabled(false);
+		}
+		
+		else
+			if(telEvenement.getSource()==chButtonAllerRetour[0])
+			{
+				this.chDateAnneeRetour.setEnabled(true);
+				this.chDateMoisRetour.setEnabled(true);
+				this.chDateJourRetour.setEnabled(true);
+			}
+			
+			
+		
 		
 		//On récupere les valeurs indiquées par l'utilisateur lorqu'il selectionne le bouton de validation
 		if (telEvenement.getSource()==chBoutonValidation)
