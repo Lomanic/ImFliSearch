@@ -1,7 +1,10 @@
 ﻿package donnees;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import org.geonames.FeatureClass;
 import org.geonames.PostalCodeSearchCriteria;
@@ -68,8 +71,10 @@ public class Ville {
 			//System.out.println(res.get(0));
 		
 			}
-		catch(Exception e)
+		catch(IOException e)
 		{
+			JOptionPane.showMessageDialog(null, "Geonames est injoignable.\nVérifiez votre connexion.","Erreur",JOptionPane.ERROR_MESSAGE);
+		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.println("Erreur: try du constructeur ville.");
 		}

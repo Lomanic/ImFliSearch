@@ -106,7 +106,8 @@ public class Vol {
 
 		//Aller mar. 8 janv. 13:55 Paris ORY 21:55 Berlin TXL 1 escale 8h 0 Air Berlin 5083 British Airways 988 Changement de compagnie aérienne Vol 5083 Opéré par British Airways Cliquez pour choisir ce vol retour Retour sam. 12 janv. 06:45 Berlin TXL 08:40 Paris ORY Direct 1h 55 Air Berlin 8154
 		//Aller ven. 1 févr. 19:55 Paris CDG 21:30 *Berlin *TXL Direct 1h 35 Lufthansa 3245 Cliquez pour choisir ce vol retour Retour dim. 17 févr. 15:10 Berlin TXL 22:45 Paris CDG 1 escale 7h 35 Lufthansa 2039 / 2240                         m4.group(10)
-		Pattern p4=Pattern.compile("Aller.+\\s([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3}).+\\d{1,3}h\\s+\\d{1,2}\\s+([a-zA-ZÀ-ÿ ]{2,})\\s+([0-9 /]{2,}+).+Retour.+\\s([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3}).+\\d{1,3}h\\s+\\d{1,2}\\s+([a-zA-ZÀ-ÿ ]{2,})\\s+?([0-9 /]{2,}+).*");//attention aux compagnies/escales multiples + les récupérer.
+		Pattern p4=Pattern.compile("Aller.+\\s([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3}).+(\\d{1,3})h\\s+(\\d{1,2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([0-9 /]{2,}+).+Retour.+\\s([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3}).+(\\d{1,3})h\\s+(\\d{1,2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+?([0-9 /]{2,}+).*");//attention aux compagnies/escales multiples + les récupérer.
+		//											(1)					(2)				(3)						(4)				(5)			_(5+1)		(5+2)_			(6+2)						(7+2)						(8+2)			(9+2)			(10+2)			(11+2)					(12+2)		_(12+3)			(12+4)_			(13+4)					(14+4)
 		Matcher m4 = p4.matcher(ligneJsoupContainer);
 		
 		if (m4.find())
@@ -126,28 +127,18 @@ public class Vol {
 						aeroportArrivee=j;
 					}
 			}
+			Long l1=dateAllerDepart.getTime()+Long.parseLong(m4.group(5+1))* 3600000L+Long.parseLong(m4.group(5+2))*60000L;
+			dateAllerArrivee=new Date(l1);
 			
-			//aeroportArrivee=new Aeroport(m4.group(4),m4.group(5),0,0,new Ville(m4.group(4),0,0));
-			
-			String stringDateAllerArrivee=m2.group(1)+" "+m2.group(2)+" "+m2.group(3)+" "+this.dateRechercheDepartAnnee+" "+m4.group(3)+":00";
-		
-			SimpleDateFormat parseur = new SimpleDateFormat("EEE dd MMM yyyy HH:mm:ss", Locale.FRENCH);
-			try{
-				dateAllerArrivee=parseur.parse(stringDateAllerArrivee);
-			}catch(ParseException e){System.out.println("erreur->"+stringDateAllerArrivee);}
-			
-			this.compagnieAller=m4.group(6);
-			this.numVolAller=m4.group(7);
+			this.compagnieAller=m4.group(6+2);
+			this.numVolAller=m4.group(7+2);
 			
 			//********Retour m.group(8)
+			Long l2=dateRetourDepart.getTime()+Long.parseLong(m4.group(12+3))* 3600000L+Long.parseLong(m4.group(12+4))*60000L;
+			dateRetourArrivee=new Date(l2);
 			
-			String stringDateRetourArrivee=m3.group(1)+" "+m3.group(2)+" "+m3.group(3)+" "+this.dateRechercheArriveeAnnee+" "+m4.group(10)+":00";
-			try{
-				dateRetourArrivee=parseur.parse(stringDateRetourArrivee);
-			}catch(ParseException e){System.out.println("erreur->"+stringDateRetourArrivee);}
-			
-			this.compagnieRetour=m4.group(13);
-			this.numVolRetour=m4.group(14);
+			this.compagnieRetour=m4.group(13+4);
+			this.numVolRetour=m4.group(14+4);
 		}
 
 		
@@ -157,7 +148,7 @@ public class Vol {
 		lien=ligneJsoupButtonLink;
 		
 		//prix
-		p3 = Pattern.compile("\\s*+(\\d+)\\s*+[$€£]");
+		p3 = Pattern.compile("(\\d\\s)*(\\d+)\\s*+[$€£]");
 		m3 = p3.matcher(ligneJsoupContainer);
 
 		if (m3.find())
@@ -181,7 +172,8 @@ public class Vol {
 		
 		//1 751 € Tarif total Choisir Détails du vol Aller jeu. 10 janv. 19:25 Paris ORY 11:55 Berlin TXL 1 escale 16h 30 Air Berlin 5085 Lufthansa 3373 Vol de nuit, arrivée le lendemain. Changement de compagnie aérienne Vol 5085 Opéré par British Airways
 		
-		Pattern o2=Pattern.compile("Aller\\s+([a-zA-Z]{3}\\.)\\s+([0-9]{1,2})\\s+([a-zA-ZÀ-ÿ]{4}\\.)\\s+(\\d{2})\\:(\\d{2})\\s+([a-zA-ZÀ-ÿ]{2,})");//Aller ven. 1 févr. 19:55
+		Pattern o2=Pattern.compile("Aller\\s+([a-zA-Z]{3}\\.)\\s+([0-9]{1,2})\\s+([a-zA-ZÀ-ÿ -]{4}\\.)\\s+(\\d{2})\\:(\\d{2})\\s+([a-zA-ZÀ-ÿ -]{2,})");
+		//										(1)					(2)					(3)					(4)			(5)				(6)
 		Matcher n2 = o2.matcher(ligneJsoupContainer);
 		
 		if (n2.find())
@@ -192,6 +184,8 @@ public class Vol {
 			try{
 				dateAllerDepart=parseur.parse(stringDateAllerDepart);
 			}catch(ParseException e){System.out.println(stringDateAllerDepart);}
+			
+	/**/	//dateAllerArrivee=		//finir l'implémentation de l'aller simple
 		}
 		
 		
