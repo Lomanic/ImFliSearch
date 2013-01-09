@@ -106,7 +106,7 @@ public class Vol {
 
 		//Aller mar. 8 janv. 13:55 Paris ORY 21:55 Berlin TXL 1 escale 8h 0 Air Berlin 5083 British Airways 988 Changement de compagnie aérienne Vol 5083 Opéré par British Airways Cliquez pour choisir ce vol retour Retour sam. 12 janv. 06:45 Berlin TXL 08:40 Paris ORY Direct 1h 55 Air Berlin 8154
 		//Aller ven. 1 févr. 19:55 Paris CDG 21:30 *Berlin *TXL Direct 1h 35 Lufthansa 3245 Cliquez pour choisir ce vol retour Retour dim. 17 févr. 15:10 Berlin TXL 22:45 Paris CDG 1 escale 7h 35 Lufthansa 2039 / 2240                         m4.group(10)
-		Pattern p4=Pattern.compile("Aller.+\\s([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3}).+(\\d{1,3})h\\s+(\\d{1,2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([0-9 /]{2,}+).+Retour.+\\s([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3}).+(\\d{1,3})h\\s+(\\d{1,2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+?([0-9 /]{2,}+).*");//attention aux compagnies/escales multiples + les récupérer.
+		Pattern p4=Pattern.compile("Aller.+\\s([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3}).+\\D(\\d{1,3})h\\s+(\\d{1,2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([0-9 /]{2,}+).+Retour.+\\s([a-zA-ZÀ-ÿ]{2,})\\s+([A-Z]{3})\\s+(\\d{2}:\\d{2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3}).+\\D(\\d{1,3})h\\s+(\\d{1,2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+?([0-9 /]{2,}+).*");//attention aux compagnies/escales multiples + les récupérer.
 		//											(1)					(2)				(3)						(4)				(5)			_(5+1)		(5+2)_			(6+2)						(7+2)						(8+2)			(9+2)			(10+2)			(11+2)					(12+2)		_(12+3)			(12+4)_			(13+4)					(14+4)
 		Matcher m4 = p4.matcher(ligneJsoupContainer);
 		
@@ -139,6 +139,10 @@ public class Vol {
 			
 			this.compagnieRetour=m4.group(13+4);
 			this.numVolRetour=m4.group(14+4);
+			
+			System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHEURE vol depart: "+m4.group(5+1)+"h"+m4.group(5+2));
+			System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHEURE vol arrivée: "+m4.group(12+3)+"h"+m4.group(12+4));
+			//System.out.println("*\n"+ligneJsoupContainer+"\n*");
 		}
 
 		
@@ -153,7 +157,6 @@ public class Vol {
 
 		if (m3.find())
 			prix=m3.group();
-			System.out.println("*\n"+ligneJsoupContainer+"\n*");
 		
 		
 		

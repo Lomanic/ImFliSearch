@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -57,13 +58,11 @@ public class ModelTable extends DefaultTableModel
 				}
 				else if(k==5)
 				{	
-					long dureeAller=parResultat.get(i).getDateAllerArrivee().getTime()-parResultat.get(i).getDateAllerDepart().getTime();
+					long millis=parResultat.get(i).getDateAllerArrivee().getTime()-parResultat.get(i).getDateAllerDepart().getTime();
 					
-					dureeAller=dureeAller-(3600*1000);
-					DateFormat df = new SimpleDateFormat("HH'h'mm");
+					String stringduree= TimeUnit.MILLISECONDS.toHours(millis)+"h"+TimeUnit.MILLISECONDS.toMinutes(millis)/60;
 					
-					
-					this.setValueAt(df.format(dureeAller), i, k);
+					this.setValueAt(stringduree, i, k);
 				}
 				else if(k==6)
 				{
