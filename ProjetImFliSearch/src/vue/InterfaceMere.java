@@ -350,34 +350,46 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 			{
 				Calendar calendarChangeDepart = Calendar.getInstance();
 				
-				int numJourDepart= Integer.parseInt(Constantes.joursDepart[chDateJour.getSelectedIndex()]);
 				int numMoisDepart=chDateMois.getSelectedIndex();
 				int numAnneeDepart= Integer.parseInt(Constantes.annees[chDateAnnee.getSelectedIndex()]);
 
-				calendarChangeDepart.set(numAnneeDepart, numMoisDepart, numJourDepart);
+				calendarChangeDepart.set(numAnneeDepart, numMoisDepart, 1);
 
 				int numDeJourMoisDepart=calendarChangeDepart.getActualMaximum(Calendar.DAY_OF_MONTH);
 				System.out.println("Nombre Jours du Mois Depart:" + numDeJourMoisDepart);
 				
+				int jourDateJour = chDateJour.getSelectedIndex();
+				System.out.println(jourDateJour);
 				remove(panelDateDepart);
 				constructionPanelDateDepart(numDeJourMoisDepart);
+				System.out.println(jourDateJour+" < " +(numDeJourMoisDepart-1));
+				if(jourDateJour<numDeJourMoisDepart)
+					chDateJour.setSelectedIndex(jourDateJour);
+				else
+					chDateJour.setSelectedIndex(chDateJour.getItemCount()-1);
 			}//if
 			
 			if(e.getSource()==chDateMoisRetour || e.getSource()==chDateAnneeRetour)
 			{
 				Calendar calendarChangeArrivee = Calendar.getInstance();
 				
-				int numJourArrivee= Integer.parseInt(Constantes.joursRetour[chDateJourRetour.getSelectedIndex()]);
 				int numMoisArrivee=chDateMoisRetour.getSelectedIndex();
-				int numAnneeArrivee= Integer.parseInt(Constantes.annees[chDateAnneeRetour.getSelectedIndex()]);
+				int numAnneeArrivee= Integer.parseInt(Constantes.annees[chDateAnneeRetour.getSelectedIndex()]);	
 				
-				calendarChangeArrivee.set(numAnneeArrivee, numMoisArrivee, numJourArrivee);
+				calendarChangeArrivee.set(numAnneeArrivee, numMoisArrivee, 1);
 
 				int numDeJourMoisArrivee=calendarChangeArrivee.getActualMaximum(Calendar.DAY_OF_MONTH);
 				System.out.println("Nombre Jours du Mois Arrivee:" + numDeJourMoisArrivee);
 				
+				int jourDateJourRetour = chDateJourRetour.getSelectedIndex();
+				System.out.println(jourDateJourRetour);
 				remove(panelDateRetour);
 				constructionPanelDateRetour(numDeJourMoisArrivee);
+				System.out.println(jourDateJourRetour+" < " +(numDeJourMoisArrivee-1));
+				if(jourDateJourRetour<numDeJourMoisArrivee)
+					chDateJourRetour.setSelectedIndex(jourDateJourRetour);
+				else
+					chDateJourRetour.setSelectedIndex(chDateJourRetour.getItemCount()-1);
 			}//if
 			
 			
