@@ -706,6 +706,10 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		//Lorsque l'utilisateur selectionne le bouton Annulation, l'interface est réinitialisee
 		else if(telEvenement.getSource()==chBoutonAnnulation)
 		{
+			this.chDateAnneeRetour.setEnabled(true);
+			this.chDateMoisRetour.setEnabled(true);
+			this.chDateJourRetour.setEnabled(true);
+			
 			chVilleDepart.setText("");
 			chVilleArrive.setText("");
 			chPerimetre.setText("");
