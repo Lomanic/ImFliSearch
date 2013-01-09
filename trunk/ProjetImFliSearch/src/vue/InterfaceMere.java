@@ -48,7 +48,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	//panelClasse
 	private JComboBox chClasse=new JComboBox(Constantes.classes);
 	//panelPerimetre
-	private JTextField chPerimetre = new JTextField(1);
+	private JTextField chPerimetre = new JTextField(5);
 	//panelDate
 
 	
@@ -405,6 +405,23 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 
 	public void actionPerformed (ActionEvent telEvenement)
 	{
+		//**************** Traitement de l'Interface pour Choix Aller-Retour ou Aller Simple**********
+				if (telEvenement.getSource()==chButtonAllerRetour[1])
+				{
+					this.chDateAnneeRetour.setEnabled(false);
+					this.chDateMoisRetour.setEnabled(false);
+					this.chDateJourRetour.setEnabled(false);
+				}
+				
+				else
+					if(telEvenement.getSource()==chButtonAllerRetour[0])
+					{
+						this.chDateAnneeRetour.setEnabled(true);
+						this.chDateMoisRetour.setEnabled(true);
+						this.chDateJourRetour.setEnabled(true);
+					}
+					
+				//**************** Fin Traitement de l'Interface pour Choix Aller-Retour ou Aller Simple**********
 		
 		
 		if(telEvenement.getSource()==chNbEnfants)
@@ -478,23 +495,6 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 					
 			
 			}//if
-			
-		if (telEvenement.getSource()==chButtonAllerRetour[1])
-		{
-			this.chDateAnneeRetour.setEnabled(false);
-			this.chDateMoisRetour.setEnabled(false);
-			this.chDateJourRetour.setEnabled(false);
-		}
-		
-		else
-			if(telEvenement.getSource()==chButtonAllerRetour[0])
-			{
-				this.chDateAnneeRetour.setEnabled(true);
-				this.chDateMoisRetour.setEnabled(true);
-				this.chDateJourRetour.setEnabled(true);
-			}
-			
-			
 		
 		
 		//On récupere les valeurs indiquées par l'utilisateur lorqu'il selectionne le bouton de validation
@@ -688,7 +688,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 					}// les deux villes n'existent pas 
 					
 					
-					else if(VilleDepart1.length()==0 || perimetreEntre==0 || VilleArrivee1.length()==0 || perimetreEntre==0 || (chNbAdulte.getSelectedIndex()==0 &&
+					else if(VilleDepart1.length()==0 || VilleArrivee1.length()==0 || perimetreEntre==0 || (chNbAdulte.getSelectedIndex()==0 &&
 							chNbEnfants.getSelectedIndex()==0 /*&& chNbBebe.getSelectedIndex()==0*/))
 					{
 						JOptionPane.showMessageDialog(this, "Une information est manquante. Veuillez remplir tous les champs",
