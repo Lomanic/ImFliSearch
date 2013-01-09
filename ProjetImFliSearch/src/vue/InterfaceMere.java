@@ -8,8 +8,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+
+import java.net.UnknownHostException;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.*;
@@ -426,7 +430,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 
 				for(int l=0;l<chNbEnfants.getSelectedIndex();l++)
 					{
-						ageEnfant[l]=tab[l].getSelectedIndex();
+						ageEnfant[l]=tab[l].getSelectedIndex()/*+1*/;
 						System.out.println(ageEnfant[l]);
 						
 					}			
@@ -447,12 +451,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		//On récupere les valeurs indiquées par l'utilisateur lorqu'il selectionne le bouton de validation
 		if (telEvenement.getSource()==chBoutonValidation)
 		{
-			//-----------------Test de la connexion internet-------------------------//
-			
-			try{
-				//On teste la connexion internet
-				testConnexion();
-			
+	
 			
 			//On recupere le type de vol
 			int AllerRetour=Integer.parseInt(chboutonGroupe.getSelection().getActionCommand());
@@ -536,15 +535,6 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 								{
 									for(int z=0;z<listeVilleArriveeAeroportCorrige.length;z++)
 									{
-										//Lance le navigateur avec autant d'onglets que de combinaisons
-										//System.out.println(ListeVilleDepartCorrige[f]+" avec "+ListeVilleDepartCorrige[z]);
-										/*hey.openURL("http://www.ebookers.fr/shop/home?type=air&ar.type=roundTrip&ar.rt.leaveSlice.orig.key="+listeVilleDepartAeroportCorrige[f]+
-												"&ar.rt.leaveSlice.dest.key="+listeVilleArriveeAeroportCorrige[z]+"&ar.rt.leaveSlice.date=12%2F12%2F12&ar.rt.leaveSlice." +
-														"time=Anytime&ar.rt.returnSlice.date=22%2F01%2F13&ar.rt.returnSlice.time=Anytime&_ar.rt.flexAirSearch=0&ar.rt.numAdult="+
-														Constantes.nombres[chNbAdulte.getSelectedIndex()]+"&ar.rt.numChild="+Constantes.nombres[chNbEnfants.getSelectedIndex()]+
-														"&ar.rt.child[0]=3&ar.rt.child[1]=4&ar.rt.child[2]=4&ar.rt.child[3]=&ar.rt.child[4]=5&ar.rt.child[5]=&ar.rt.child[6]=3" +
-														"&ar.rt.child[7]=&_ar.rt.nonStop=0&_ar.rt.narrowSel=0&ar.rt.narrow=airlines&ar.rt.carriers[0]=&ar.rt.carriers[1]=&ar.rt." +
-														"carriers[2]=&ar.rt.cabin=C&search=Rechercher&search=Rechercher");*/
 										System.out.println(lesCriteres.urlRecherche(listeVilleDepartAeroportCorrige[f], listeVilleArriveeAeroportCorrige[z]));
 										
 										
@@ -552,7 +542,8 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 										
 										if(doc.select(".container").isEmpty())
 										{
-											JOptionPane.showMessageDialog(this, "Pas  de vols trouvés entre "+listeVilleDepartAeroportCorrige[f].getChNom()+" et "+listeVilleArriveeAeroportCorrige[z].getChNom());
+											//JOptionPane.showMessageDialog(this, "Pas  de vols trouvés entre "+listeVilleDepartAeroportCorrige[f].getChNom()+" et "+listeVilleArriveeAeroportCorrige[z].getChNom());
+											System.out.println("Pas  de vols trouvés entre "+listeVilleDepartAeroportCorrige[f].getChNom()+" et "+listeVilleArriveeAeroportCorrige[z].getChNom());
 										}
 										else
 										{
@@ -600,6 +591,15 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 								}//for
 								
 								//affichage de la liste des vols :
+
+								if (!resultatsRecherche.isEmpty())
+								{
+									InterfaceResultat interfaceR = new InterfaceResultat(resultatsRecherche);
+									interfaceR.setLocationRelativeTo(this);
+								}
+								else
+									JOptionPane.showMessageDialog(this, "Aucun vols trouvés selon vos critères");
+
 								
 								if(resultatsRecherche.size()!=0)
 								{
@@ -609,9 +609,8 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 								{
 									JOptionPane.showMessageDialog(this, "Aucun vol n'a été trouvé. Réessayez avec d'autres données");
 								}
+
 								
-								//normalement...
-								//InterfaceResultat interfaceR =new InterfaceResultat(resultatsRecherche);
 							}//recherche confirmée
 							
 							
@@ -666,19 +665,12 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	            System.out.println("Erreur: La valeur entrée pour le périmètre n'est pas un entier.");
 	            JOptionPane.showMessageDialog(this, "Erreur: La valeur entrée pour le périmètre n'est pas un entier.", "Erreur", JOptionPane.ERROR_MESSAGE);
 			}//catch
- catch (IOException e) {
-	 			System.out.println("JSOUP");
-				e.printStackTrace();
+			catch (IOException e) {
+				JOptionPane.showMessageDialog(this, "Ebookers met trop de temps à répondre.\nVérifiez votre connexion et réessayez.","Erreur",JOptionPane.ERROR_MESSAGE);
+				//e.printStackTrace();
 			}
 			
-			}
 			
-			
-			catch(Exception e)
-			{
-				JOptionPane.showMessageDialog(this, "Aucune connexion internet n'a été trouvé.\n Veuillez vous connecter pour utiliser ImFliSearch.","Connexion internet introuvable",JOptionPane.ERROR_MESSAGE);
-			}//catch de la connexion internet
-				
 		}//if
 		
 		//Lorsque l'utilisateur selectionne le bouton Annulation, l'interface est réinitialisee
