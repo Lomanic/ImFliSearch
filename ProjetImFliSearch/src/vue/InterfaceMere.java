@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import java.net.UnknownHostException;
@@ -42,6 +43,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	private JComboBox chNbAdulte = new JComboBox(Constantes.nombres);
 	private JComboBox chNbEnfants = new JComboBox(Constantes.nombres);
 	//private JComboBox chNbBebe = new JComboBox(Constantes.nombres);
+	private int [] ageEnfant=new int[8];
 	
 	//panelClasse
 	private JComboBox chClasse=new JComboBox(Constantes.classes);
@@ -86,7 +88,10 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	private int numAnnee=calendarMaintenant.get(Calendar.YEAR);
 	private int numDeJourMois=calendarMaintenant.getActualMaximum(Calendar.DAY_OF_MONTH);
 	
+	private JButton unBouton = new JButton("Valider");
 	
+	private JDialog choixEnfants;
+
 	
 	public InterfaceMere(String parTitre)
 	{
@@ -388,14 +393,14 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 
 	public void actionPerformed (ActionEvent telEvenement)
 	{
-		int [] ageEnfant=new int[8];
+		
 		
 		if(telEvenement.getSource()==chNbEnfants)
 		{
 		//System.out.println(chNbEnfants.getSelectedIndex());
 			if(chNbEnfants.getSelectedIndex()!=0)
 			{
-				JDialog choixEnfants= new JDialog(new JFrame(),"Indiquer l'âge des enfants",true);
+				choixEnfants= new JDialog(new JFrame(),"Indiquer l'âge des enfants",true);
 				Container contentPaneDuDialogue = choixEnfants.getContentPane();
 				JPanel uneFenetre= new JPanel();
 				JComboBox [] tab = new JComboBox[Constantes.agesEnfants.length];
@@ -419,9 +424,10 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				}
 				
 				JPanel uneFenetre1 = new JPanel();
-				//JButton unBouton = new JButton("Valider");
-			//	unBouton.addActionListener(this);
+				
+				
 				//uneFenetre1.add(unBouton,"CENTER");
+				uneFenetre1.add(new JLabel("Pour valider, fermez la fenêtre."));
 				BorderLayout unLayout1= new BorderLayout();
 				contentPaneDuDialogue.setLayout(unLayout1);
 				contentPaneDuDialogue.add(uneFenetre,"North");
@@ -435,19 +441,28 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 
 				for(int l=0;l<chNbEnfants.getSelectedIndex();l++)
 					{
-						ageEnfant[l]=tab[l].getSelectedIndex()/*+1*/;
+						ageEnfant[l]=tab[l].getSelectedIndex()+1;
 						System.out.println(ageEnfant[l]);
 						
-					}			
+					}		//for	
 				}//if
 			
-			else{
-					for (int f=0;f<7;f++)
+			
+			
+			/*if(telEvenement.getSource()==unBouton)
+			{
+				choixEnfants.setVisible (false);
+				choixEnfants.dispatchEvent (new WindowEvent (choixEnfants, WindowEvent.WINDOW_CLOSING));
+				System.out.println("OKFFNJH");
+			}*/
+			//si nb enfants sélectionné = 0
+			/*else if( chNbEnfants.getSelectedIndex()==0){
+					for (int f=0;f<8;f++)
 					{
 						ageEnfant[f]=0;
 						System.out.println(ageEnfant[f]);
 					}
-				}
+				}*/
 					
 			
 			}//if
@@ -471,7 +486,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		
 		
 		//On récupere les valeurs indiquées par l'utilisateur lorqu'il selectionne le bouton de validation
-		if (telEvenement.getSource()==chBoutonValidation)
+		else if (telEvenement.getSource()==chBoutonValidation)
 		{
 	
 			
@@ -527,6 +542,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 						    
 						if (VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && listeVilleArriveeAeroportCorrige.length!=0 && listeVilleDepartAeroportCorrige.length!=0 )
 						{
+							System.out.println("L'âge de "+ageEnfant[1]);
 							//On instancie un objet CritereVol qui va contenir les critères du vol recherché par l'utilisateur
 							CritereVol lesCriteres= new CritereVol(VilleDepart,VilleArrivee,perimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
 							/*chNbBebe.getSelectedIndex(),*/ageEnfant[0],ageEnfant[1],ageEnfant[2],ageEnfant[3],ageEnfant[4],ageEnfant[5],ageEnfant[6],ageEnfant[7],chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
@@ -623,14 +639,6 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 									JOptionPane.showMessageDialog(this, "Aucun vols trouvés selon vos critères");
 
 								
-								if(resultatsRecherche.size()!=0)
-								{
-								InterfaceResultat interfaceR = new InterfaceResultat(resultatsRecherche);
-								interfaceR.setLocationRelativeTo(this);}
-								else
-								{
-									JOptionPane.showMessageDialog(this, "Aucun vol n'a été trouvé. Réessayez avec d'autres données");
-								}
 
 								
 							}//recherche confirmée

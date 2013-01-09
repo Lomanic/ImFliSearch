@@ -37,7 +37,7 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		//-------------------------------------------------------------------------------------------------//
 		//Creation de la JTable
 		tableDesVols = new JTable();
-		tableDesVols.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tableDesVols.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		//Ajout du model a la JTable
 		tableDesVols.setModel(new ModelTable(parResultat));
 		tableDesVols.setSize(this.getSize());
