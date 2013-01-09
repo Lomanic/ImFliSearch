@@ -542,7 +542,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 						    
 						if (VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && listeVilleArriveeAeroportCorrige.length!=0 && listeVilleDepartAeroportCorrige.length!=0 )
 						{
-							System.out.println("L'âge de "+ageEnfant[1]);
+							
 							//On instancie un objet CritereVol qui va contenir les critères du vol recherché par l'utilisateur
 							CritereVol lesCriteres= new CritereVol(VilleDepart,VilleArrivee,perimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
 							/*chNbBebe.getSelectedIndex(),*/ageEnfant[0],ageEnfant[1],ageEnfant[2],ageEnfant[3],ageEnfant[4],ageEnfant[5],ageEnfant[6],ageEnfant[7],chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
