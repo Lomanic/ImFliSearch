@@ -181,6 +181,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		
 		this.ajoutComposant(chLabelAdulte, panelVoyageur, 0, 0, 1, 1);
 		this.ajoutComposant(chNbAdulte, panelVoyageur, 1, 0, 1, 1);
+		chNbAdulte.setSelectedIndex(1);
 		
 		this.ajoutComposant(chLabelEnfant, panelVoyageur, 0, 1, 1, 1);
 		this.ajoutComposant(chNbEnfants, panelVoyageur, 1, 1, 1, 1);
@@ -255,11 +256,12 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		this.ajoutComposant(chBoutonAnnulation,contentPane, 1, 5, 1, 1);
 		
 		
-		this.setVisible(true);
 		this.pack();
 		this.setMinimumSize(this.getSize());
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		
 
 	}//InterfaceMere(String parTitre)
 	
@@ -679,7 +681,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 			chVilleDepart.setText("");
 			chVilleArrive.setText("");
 			chPerimetre.setText("");
-			chNbAdulte.setSelectedIndex(0);
+			chNbAdulte.setSelectedIndex(1);
 			chNbEnfants.setSelectedIndex(0);
 			//chNbBebe.setSelectedIndex(0);
 			chButtonAllerRetour[0].setSelected(true);
