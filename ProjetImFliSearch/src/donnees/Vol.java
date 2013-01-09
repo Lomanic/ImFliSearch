@@ -148,11 +148,12 @@ public class Vol {
 		lien=ligneJsoupButtonLink;
 		
 		//prix
-		p3 = Pattern.compile("(\\d\\s)*(\\d+)\\s*+[$€£]");
+		p3 = Pattern.compile("[0-9]{0,2}\\.+\\d{1,3}\\s+[$€£]");
 		m3 = p3.matcher(ligneJsoupContainer);
 
 		if (m3.find())
 			prix=m3.group();
+			System.out.println("*\n"+ligneJsoupContainer+"\n*");
 		
 		
 		
