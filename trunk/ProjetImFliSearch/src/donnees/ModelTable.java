@@ -21,7 +21,7 @@ public class ModelTable extends DefaultTableModel
 	{
 		//colonnes :
 		//les entetes de colonne :
-		String[] identifierColumn = {"N° Vol Aller","Aeroport depart","Aeroport arrivee","Date-heure/Départ/Aller","Date-heure/Arrivée/Aller","Durée Aller","Compagnie Aller","N° Vol Retour","Date-heure/Départ/Retour","Date-heure/Arrivée/Retour","Durée Retour","Compagnie Retour","Prix","Lien"};
+		String[] identifierColumn = {"N° Vol Aller","Aeroport depart","Aeroport arrivee","Date-heure/Départ/Aller","Date-heure/Arrivée/Aller","Durée Aller","Compagnie Aller","N° Vol Retour","Date-heure/Départ/Retour","Date-heure/Arrivée/Retour","Durée Retour","Compagnie Retour","Tarif total","Lien"};
 		//le nombre de colonne :
 		this.setColumnCount(identifierColumn.length);
 		//On ajoute les entetes
@@ -60,7 +60,7 @@ public class ModelTable extends DefaultTableModel
 				{	
 					long millis=parResultat.get(i).getDateAllerArrivee().getTime()-parResultat.get(i).getDateAllerDepart().getTime();
 					
-					String dureeAller= TimeUnit.MILLISECONDS.toHours(millis)+"h"+TimeUnit.MILLISECONDS.toMinutes(millis)/60;
+					String dureeAller= TimeUnit.MILLISECONDS.toHours(millis)+"h"+TimeUnit.MILLISECONDS.toMinutes(millis)%60;
 					
 					this.setValueAt(dureeAller, i, k);
 				}
@@ -82,11 +82,13 @@ public class ModelTable extends DefaultTableModel
 				}
 				else if(k==10)
 				{
-					long millis=parResultat.get(i).getDateRetourArrivee().getTime()-parResultat.get(i).getDateRetourDepart().getTime();
-					
-					String dureeRetour=TimeUnit.MILLISECONDS.toHours(millis)+"h"+TimeUnit.MILLISECONDS.toMinutes(millis)/60;
-					
-					this.setValueAt(dureeRetour, i, k);
+					try{
+						long millis=parResultat.get(i).getDateRetourArrivee().getTime()-parResultat.get(i).getDateRetourDepart().getTime();
+						
+						String dureeRetour=TimeUnit.MILLISECONDS.toHours(millis)+"h"+TimeUnit.MILLISECONDS.toMinutes(millis)%60;
+						
+						this.setValueAt(dureeRetour, i, k);
+					}catch(NullPointerException e){/*en cas d'aller simple*/}
 				}
 				else if(k==11)
 				{

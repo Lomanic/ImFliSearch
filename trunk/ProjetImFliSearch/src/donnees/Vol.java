@@ -139,10 +139,6 @@ public class Vol {
 			
 			this.compagnieRetour=m4.group(13+4);
 			this.numVolRetour=m4.group(14+4);
-			
-			System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHEURE vol depart: "+m4.group(5+1)+"h"+m4.group(5+2));
-			System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHEURE vol arrivée: "+m4.group(12+3)+"h"+m4.group(12+4));
-			//System.out.println("*\n"+ligneJsoupContainer+"\n*");
 		}
 
 		
@@ -175,14 +171,29 @@ public class Vol {
 		
 		
 		//1 751 € Tarif total Choisir Détails du vol Aller jeu. 10 janv. 19:25 Paris ORY 11:55 Berlin TXL 1 escale 16h 30 Air Berlin 5085 Lufthansa 3373 Vol de nuit, arrivée le lendemain. Changement de compagnie aérienne Vol 5085 Opéré par British Airways
+		Pattern o2=Pattern.compile("Aller\\s+([a-zA-Z]{3}\\.)\\s+([0-9]{1,2})\\s+([a-zA-ZÀ-ÿ -]{4}\\.)\\s+(\\d{2})\\:(\\d{2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3}).+\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([A-Z]{3}).+\\D(\\d{1,2})h\\s+(\\d{1,2})\\s+([a-zA-ZÀ-ÿ -]{2,})\\s+([0-9 /]{2,})");
+		//										(1)					(2)					(3)					(4)			(5)				(6)aero			(7)iata			(8)aero				(9)iata			(10)h				(11)		(12)cmpnie			(13)n°vol
+		Matcher n1 = o2.matcher(ligneJsoupContainer);
 		
-		Pattern o2=Pattern.compile("Aller\\s+([a-zA-Z]{3}\\.)\\s+([0-9]{1,2})\\s+([a-zA-ZÀ-ÿ -]{4}\\.)\\s+(\\d{2})\\:(\\d{2})\\s+([a-zA-ZÀ-ÿ -]{2,})");
-		//										(1)					(2)					(3)					(4)			(5)				(6)
-		Matcher n2 = o2.matcher(ligneJsoupContainer);
-		
-		if (n2.find())
+		if (n1.find())
 		{
-			String stringDateAllerDepart=n2.group(1)+" "+n2.group(2)+" "+n2.group(3)+" "+this.dateRechercheDepartAnnee+" "+n2.group(4)+":"+n2.group(5)+":00";
+			for(Aeroport j:AeroportsDepart)
+			{
+				if(n1.group(7).equals(j.getChCodeIATA()));
+					{
+						aeroportDepart=j;
+					}
+			}
+			
+			for(Aeroport j:AeroportsArrivee)
+			{
+				if(n1.group(9).equals(j.getChCodeIATA()));
+					{
+						aeroportArrivee=j;
+					}
+			}
+			
+			String stringDateAllerDepart=n1.group(1)+" "+n1.group(2)+" "+n1.group(3)+" "+this.dateRechercheDepartAnnee+" "+n1.group(4)+":"+n1.group(5)+":00";
 			
 			SimpleDateFormat parseur = new SimpleDateFormat("EEE dd MMM yyyy HH:mm:ss", Locale.FRENCH);
 			try{
@@ -190,7 +201,21 @@ public class Vol {
 			}catch(ParseException e){System.out.println(stringDateAllerDepart);}
 			
 	/**/	//dateAllerArrivee=		//finir l'implémentation de l'aller simple
+			Long l=dateAllerDepart.getTime()+Long.parseLong(n1.group(10))* 3600000L+Long.parseLong(n1.group(11))*60000L;
+			dateAllerArrivee=new Date(l);
+			
+			System.out.println(n1.group(10)+"h"+n1.group(11));
+			
+			
+			this.compagnieAller=n1.group(12);
+			this.numVolAller=n1.group(13);
+			
+			System.out.println(ligneJsoupContainer);
 		}
+		else
+			System.out.println("erreur->"+ligneJsoupContainer);
+		
+		
 		
 		
 		
@@ -275,31 +300,21 @@ public class Vol {
 		this.dateRetourArrivee = dateRetourArrivee;
 	}
 
-
-
 	public String getCompagnieAller() {
 		return compagnieAller;
 	}
-
-
 
 	public void setCompagnieAller(String compagnieAller) {
 		this.compagnieAller = compagnieAller;
 	}
 
-
-
 	public String getCompagnieRetour() {
 		return compagnieRetour;
 	}
 
-
-
 	public void setCompagnieRetour(String compagnieRetour) {
 		this.compagnieRetour = compagnieRetour;
 	}
-
-
 
 	public String getNumVolAller() {
 		return numVolAller;
@@ -309,17 +324,11 @@ public class Vol {
 		this.numVolAller = numVol;
 	}
 
-
-
 	public String getNumVolRetour() {
 		return numVolRetour;
 	}
 
-
-
 	public void setNumVolRetour(String numVolRetour) {
 		this.numVolRetour = numVolRetour;
-	}
-	
-	
+	}	
 }
