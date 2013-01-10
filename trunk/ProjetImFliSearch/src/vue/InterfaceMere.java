@@ -500,8 +500,9 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		//On récupere les valeurs indiquées par l'utilisateur lorqu'il selectionne le bouton de validation
 		else if (telEvenement.getSource()==chBoutonValidation)
 		{
-	
-			
+			//On créé un ArrayList contenant les erreurs saisies par l'utilisateur
+			ArrayList <String> tabErreurs = new ArrayList <String> ();
+			 
 			//On recupere le type de vol
 			int AllerRetour=Integer.parseInt(chboutonGroupe.getSelection().getActionCommand());
 			
@@ -515,18 +516,55 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				// Creation des objets villes
 				Ville VilleDepart= new Ville(VilleDepart1);
 				Ville VilleArrivee= new Ville(VilleArrivee1);
-								
+					
+				
 				if(chVilleDepart.getText().equals("") && chVilleArrive.getText().equals(""))
 				{
-					JOptionPane.showMessageDialog(this, "Veuillez remplir les champs Ville de départ/arrivée",
-					"Erreur : Ville départ/arrivée",JOptionPane.ERROR_MESSAGE);
-				}//if les champs ville départ/arrivée n'ont pas été remplie
-				else
+					tabErreurs.add("Veuillez remplir les champs Ville de départ et d'arrivée.\n");
+					
+				}//if les champs ville départ/arrivée n'ont pas été remplis
+				else if(chVilleDepart.getText().equals(""))
 				{
-					//Condition permettant d'indiquer si l'utilisateur a bien entre toutes les valeurs demandees
-					if(VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && perimetreEntre>0 && (chNbAdulte.getSelectedIndex()!=0 ||
-							chNbEnfants.getSelectedIndex()!=0/* || chNbBebe.getSelectedIndex()!=0*/) )
-					{	
+					tabErreurs.add("Veuillez remplir le champ Ville de départ.\n");
+				}
+				else if(chVilleArrive.getText().equals(""))
+				{
+					tabErreurs.add("Veuillez remplir le champ Ville d'arrivée.\n");
+				}
+				
+				
+				else if (VilleDepart.existe()==0 && VilleArrivee.existe()!=0)
+				{
+					tabErreurs.add("La ville de depart n'existe pas.\n");
+			
+				}// la ville de départ n'existe pas mais la ville d'arrivée existe
+				
+				else if (VilleDepart.existe()!=0 && VilleArrivee.existe()==0)
+				{
+					tabErreurs.add("La ville d'arrivee n'existe pas.\n");
+					
+				}// la ville de départ existe  mais la ville d'arrivée n'existe pas
+				
+				else if (VilleDepart.existe()==0 && VilleArrivee.existe()==0)
+				{
+					tabErreurs.add("Les villes de depart et d'arrivée n'existent pas.\n");
+					
+				}// les deux villes n'existent pas 
+				
+				if (perimetreEntre<=0)
+				{
+					tabErreurs.add("Votre périmètre de recherche est inférieur ou égal à 0. Spécifiez un périmètre positif.\n ");
+					
+				}// le périmètre est null ou négatif
+				else if (perimetreEntre>300)
+				{
+					tabErreurs.add("Votre périmètre ne peut pas être supérieur à 300 km.\n");
+					
+				}// le périmètre est null ou négatif
+	
+				//Condition permettant d'indiquer si l'utilisateur a bien entre toutes les valeurs demandees
+				if(tabErreurs.size()==0)
+				{	
 						
 						//------------------Création de la liste d'aéroports proches de la ville de départ--------//
 						
@@ -546,7 +584,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 							"Erreur : Perimetre trop faible",JOptionPane.ERROR_MESSAGE);
 					    }//if la liste des aéroports est vide pour la ville de départ
 						    
-					    else if (listeVilleArriveeAeroportCorrige.length==0 || listeVilleDepartAeroportCorrige.length==0)
+					    if (listeVilleArriveeAeroportCorrige.length==0 || listeVilleDepartAeroportCorrige.length==0)
 						{
 					    	JOptionPane.showMessageDialog(this, "Aucun aéroport n'a été trouvé pour le périmètre choisi.",
 							"Erreur : Perimetre trop faible",JOptionPane.ERROR_MESSAGE);
@@ -593,7 +631,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 										if(doc.select(".container").isEmpty())
 										{
 											//JOptionPane.showMessageDialog(this, "Pas  de vols trouvés entre "+listeVilleDepartAeroportCorrige[f].getChNom()+" et "+listeVilleArriveeAeroportCorrige[z].getChNom());
-											System.out.println("Pas  de vols trouvés entre "+listeVilleDepartAeroportCorrige[f].getChNom()+" et "+listeVilleArriveeAeroportCorrige[z].getChNom());
+											System.out.println("Pas  de vols trouvés entre "+listeVilleDepartAeroportCorrige[f].getChCodeIATA()+" et "+listeVilleArriveeAeroportCorrige[z].getChCodeIATA());
 										}
 										else
 										{
@@ -649,69 +687,45 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 								}
 								else
 									JOptionPane.showMessageDialog(this, "Aucun vols trouvés selon vos critères");
-
-								
-
-								
-							}//recherche confirmée
-							
-							
-							
+	
 							
 						}//if les villes départ/arrivée existent et la liste des aéroports n'est pas vide
 					}//if toutes les info ont été saisies correctement
-					else if (perimetreEntre<=0)
-					{
-						JOptionPane.showMessageDialog(this, "Votre périmètre est négatif, ou égal à zéro... ",
-						"Erreur : Périmètre",JOptionPane.ERROR_MESSAGE);
-					}// le périmètre est null ou négatif
-					else if (perimetreEntre>300)
-					{
-						JOptionPane.showMessageDialog(this, "Votre périmètre ne peut pas être supérieur à 300 km. ",
-						"Erreur : Périmètre",JOptionPane.ERROR_MESSAGE);
-					}// le périmètre est null ou négatif
+						
 					
-					else if (VilleDepart.existe()==0 && VilleArrivee.existe()!=0)
-					{
-						JOptionPane.showMessageDialog(this, "La ville de depart n'existe pas. ",
-								"Erreur : ville de depart",JOptionPane.ERROR_MESSAGE);
-					}// la ville de départ n'existe pas mais la ville d'arrivée existe
-					else if (VilleDepart.existe()!=0 && VilleArrivee.existe()==0)
-					{
-						JOptionPane.showMessageDialog(this, "La ville d'arrivee n'existe pas. ",
-								"Erreur : ville d'arrivée",JOptionPane.ERROR_MESSAGE);
-					}// la ville de départ existe  mais la ville d'arrivée n'existe pas
-					else if (VilleDepart.existe()==0 && VilleArrivee.existe()==0)
-					{
-						JOptionPane.showMessageDialog(this, "Les villes de depart et d'arrivee n'existent pas. ",
-								"Erreur : ville Depart/Arrivée",JOptionPane.ERROR_MESSAGE);
-					}// les deux villes n'existent pas 
-					
-					
-					else if(VilleDepart1.length()==0 || VilleArrivee1.length()==0 || perimetreEntre==0 || (chNbAdulte.getSelectedIndex()==0 &&
-							chNbEnfants.getSelectedIndex()==0 /*&& chNbBebe.getSelectedIndex()==0*/))
-					{
-						JOptionPane.showMessageDialog(this, "Une information est manquante. Veuillez remplir tous les champs",
-								"Erreur lors de l'entrée des informations",JOptionPane.ERROR_MESSAGE);
-					}//au moins une information est manquante
-					else if (VilleDepart1.length()==0 && VilleArrivee1.length()==0 && perimetreEntre==0 && (chNbAdulte.getSelectedIndex()==0 && chNbEnfants.getSelectedIndex()==0
-							/*&& chNbBebe.getSelectedIndex()==0*/))
-					{
-						JOptionPane.showMessageDialog(this, "Une information est manquante. Veuillez remplir tous les champs",
-							"Erreur lors de l'entree des informations",JOptionPane.ERROR_MESSAGE);	
-					}//aucune info n'a été saisie
 				}//else
+				
 			}//try
 			catch(NumberFormatException e)
 			{
+
+				tabErreurs.add("La valeur entrée pour le périmètre n'est pas un entier.");
+
 	            System.out.println("Erreur: La valeur entrée pour le périmètre n'est pas un entier."+this.chPerimetre.getText());
 	            JOptionPane.showMessageDialog(this, "Erreur: La valeur entrée pour le périmètre n'est pas un entier.", "Erreur", JOptionPane.ERROR_MESSAGE);
+
 			}//catch
 			catch (IOException e) {
 				JOptionPane.showMessageDialog(this, "Ebookers met trop de temps à répondre.\nVérifiez votre connexion et réessayez.","Erreur",JOptionPane.ERROR_MESSAGE);
 				//e.printStackTrace();
 			}
 			
+			//Si le tableau des erreurs n'est pas vide
+			if(tabErreurs.size()!=0)
+			{
+			//On copie l'ArrayList dans un tableau à cause des crochets dans l'affichage
+			int taille=tabErreurs.size();
+			String[] tabErreurs1=new String[taille];
+			
+			for(int d=0;d<taille;d++)
+			{
+				tabErreurs1[d]=tabErreurs.get(d);
+			}
+			
+			
+			//On affiche les erreurs du tableau 
+			JOptionPane.showMessageDialog(this, tabErreurs1,"Erreur dans les informations entrées",JOptionPane.ERROR_MESSAGE);
+			}
 			
 		}//if
 		
