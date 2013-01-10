@@ -60,9 +60,9 @@ public class ModelTable extends DefaultTableModel
 				{	
 					long millis=parResultat.get(i).getDateAllerArrivee().getTime()-parResultat.get(i).getDateAllerDepart().getTime();
 					
-					String stringduree= TimeUnit.MILLISECONDS.toHours(millis)+"h"+TimeUnit.MILLISECONDS.toMinutes(millis)/60;
+					String dureeAller= TimeUnit.MILLISECONDS.toHours(millis)+"h"+TimeUnit.MILLISECONDS.toMinutes(millis)/60;
 					
-					this.setValueAt(stringduree, i, k);
+					this.setValueAt(dureeAller, i, k);
 				}
 				else if(k==6)
 				{
@@ -82,11 +82,11 @@ public class ModelTable extends DefaultTableModel
 				}
 				else if(k==10)
 				{
-					long dureeRetour=parResultat.get(i).getDateRetourArrivee().getTime()-parResultat.get(i).getDateRetourDepart().getTime();
-					dureeRetour=dureeRetour-(3600*1000);
-					DateFormat df = new SimpleDateFormat("HH'h'mm");
-
-					this.setValueAt(df.format(dureeRetour), i, k);
+					long millis=parResultat.get(i).getDateRetourArrivee().getTime()-parResultat.get(i).getDateRetourDepart().getTime();
+					
+					String dureeRetour=TimeUnit.MILLISECONDS.toHours(millis)+"h"+TimeUnit.MILLISECONDS.toMinutes(millis)/60;
+					
+					this.setValueAt(dureeRetour, i, k);
 				}
 				else if(k==11)
 				{
@@ -104,25 +104,11 @@ public class ModelTable extends DefaultTableModel
 				
 			}
 		}
-		
-		/*//Ajout des valeurs dans les cellules
-		Iterator <Reservation> it = treesetannee.iterator();
-		Reservation res;
-				numcolonne=res.chjour;
-				this.setValueAt(res,numligne,numcolonne);
-		
-			}//if
-
-		}//while
-		*/
-		
-	
 	}//ModelePourTable
 
 	
 	public Class getColumnClass(int parNum)
 	{
-		
 		return String.class;
 	}//getColumnClass
 	
