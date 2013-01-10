@@ -704,7 +704,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 			}//try
 			catch(NumberFormatException e)
 			{
-	            System.out.println("Erreur: La valeur entrée pour le périmètre n'est pas un entier.");
+	            System.out.println("Erreur: La valeur entrée pour le périmètre n'est pas un entier."+this.chPerimetre.getText());
 	            JOptionPane.showMessageDialog(this, "Erreur: La valeur entrée pour le périmètre n'est pas un entier.", "Erreur", JOptionPane.ERROR_MESSAGE);
 			}//catch
 			catch (IOException e) {
