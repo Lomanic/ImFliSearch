@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import donnees.CelluleRenderer;
 import donnees.ModelTable;
+import donnees.MouseActionEcouteur;
 import donnees.Vol;
 
 
@@ -47,18 +49,30 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		//Empeche l'utilisateur de modifier la JTable
 		tableDesVols.getTableHeader().setResizingAllowed(true);
 		tableDesVols.getTableHeader().setReorderingAllowed(false);
+		
+		
+		tableDesVols.getTableHeader().setReorderingAllowed(false);
+		//tableDesVols.setDefaultRenderer(String.class, new CelluleRenderer());
+		tableDesVols.addMouseListener(new MouseActionEcouteur());
+		tableDesVols.setAutoCreateRowSorter(true);
 		//Spécifie une largeur predefinie a chaque colonne ( attention : en cas de modification du nombre de colonne, il sera necessaire
 		// de modifier ces lignes ci dessous )
-		/*tableDesVols.getColumnModel().getColumn(0).setPreferredWidth(150);
-		tableDesVols.getColumnModel().getColumn(1).setPreferredWidth(150);
-		tableDesVols.getColumnModel().getColumn(2).setPreferredWidth(200);
-		tableDesVols.getColumnModel().getColumn(3).setPreferredWidth(100);
+		//tableDesVols.getColumnModel().getColumn(0).setPreferredWidth(150);
+		//tableDesVols.getColumnModel().getColumn(1).setPreferredWidth(150);
+		//tableDesVols.getColumnModel().getColumn(2).setWidth(10);
+		/*tableDesVols.getColumnModel().getColumn(3).setPreferredWidth(100);
 		tableDesVols.getColumnModel().getColumn(4).setPreferredWidth(200);
 		tableDesVols.getColumnModel().getColumn(5).setPreferredWidth(100);
 		tableDesVols.getColumnModel().getColumn(6).setPreferredWidth(100);
 		tableDesVols.getColumnModel().getColumn(7).setPreferredWidth(100);
-		tableDesVols.getColumnModel().getColumn(8).setPreferredWidth(100);*/
-		
+		tableDesVols.getColumnModel().getColumn(8).setPreferredWidth(100);
+		tableDesVols.getColumnModel().getColumn(9).setPreferredWidth(100);
+		tableDesVols.getColumnModel().getColumn(10).setPreferredWidth(100);
+		tableDesVols.getColumnModel().getColumn(11).setPreferredWidth(100);
+		tableDesVols.getColumnModel().getColumn(12).setPreferredWidth(100);
+		tableDesVols.getColumnModel().getColumn(13).setPreferredWidth(100);
+		tableDesVols.getColumnModel().getColumn(14).setPreferredWidth(100);
+		tableDesVols.getColumnModel().getColumn(15).setPreferredWidth(100);*/
 		
 		// Ajout de la JTable dans son panel
 	//panelTables	= new JPanel();
