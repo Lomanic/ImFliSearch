@@ -40,13 +40,13 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	private JTextField chVilleArrive = new JTextField(1);
 
 	//panelVoyageur
-	private JComboBox<String> chNbAdulte = new JComboBox<String>(Constantes.nombres);
-	private JComboBox<String> chNbEnfants = new JComboBox<String>(Constantes.nombres);
+	private JComboBox chNbAdulte = new JComboBox(Constantes.nombres);
+	private JComboBox chNbEnfants = new JComboBox(Constantes.nombres);
 	//private JComboBox chNbBebe = new JComboBox(Constantes.nombres);
 	private int [] ageEnfant=new int[8];
 	
 	//panelClasse
-	private JComboBox<String> chClasse=new JComboBox<String>(Constantes.classes);
+	private JComboBox chClasse=new JComboBox(Constantes.classes);
 	//panelPerimetre
 	private JTextField chPerimetre = new JTextField(5);
 	//panelDate
@@ -60,13 +60,13 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	JLabel chLabelJourRetour=new JLabel("Jour du retour :");
 	
 	
-	private JComboBox<String> chDateJour;
+	private JComboBox chDateJour;
 
-	private JComboBox<String> chDateMois=new JComboBox<String>(Constantes.mois);
-	private JComboBox<String> chDateAnnee;
-	private JComboBox<String> chDateJourRetour;
-	private JComboBox<String> chDateMoisRetour=new JComboBox<String>(Constantes.mois);
-	private JComboBox<String> chDateAnneeRetour;
+	private JComboBox chDateMois=new JComboBox(Constantes.mois);
+	private JComboBox chDateAnnee;
+	private JComboBox chDateJourRetour;
+	private JComboBox chDateMoisRetour=new JComboBox(Constantes.mois);
+	private JComboBox chDateAnneeRetour;
 	
 	
 	
@@ -92,8 +92,6 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 	
 	private JDialog choixEnfants;
 
-	private int chPerimetreEntre;
-
 	
 	public InterfaceMere(String parTitre)
 	{
@@ -108,8 +106,8 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		{
 			Constantes.annees[i]= String.valueOf(numAnnee+i);
 		}
-		chDateAnnee=new JComboBox<String>(Constantes.annees);
-		chDateAnneeRetour=new JComboBox<String>(Constantes.annees);
+		chDateAnnee=new JComboBox(Constantes.annees);
+		chDateAnneeRetour=new JComboBox(Constantes.annees);
 		
 		//-----------------FIN Instanciation de Constantes.annees--------------------//
 				
@@ -293,7 +291,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		{
 			Constantes.joursDepart[i]= String.valueOf(i+1);
 		}
-		chDateJour=new JComboBox<String>(Constantes.joursDepart);
+		chDateJour=new JComboBox(Constantes.joursDepart);
 		
 		panelDateDepart = new JPanel();
 		panelDateDepart.setBorder(new TitledBorder("Dates du Départ"));
@@ -321,7 +319,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		{
 			Constantes.joursRetour[i]= String.valueOf(i+1);
 		}
-		chDateJourRetour=new JComboBox<String>(Constantes.joursRetour);
+		chDateJourRetour=new JComboBox(Constantes.joursRetour);
 		
 		panelDateRetour = new JPanel();
 		panelDateRetour.setBorder(new TitledBorder("Date du Retour"));
@@ -358,13 +356,10 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				calendarChangeDepart.set(numAnneeDepart, numMoisDepart, 1);
 
 				int numDeJourMoisDepart=calendarChangeDepart.getActualMaximum(Calendar.DAY_OF_MONTH);
-				System.out.println("Nombre Jours du Mois Depart:" + numDeJourMoisDepart);
 				
 				int jourDateJour = chDateJour.getSelectedIndex();
-				System.out.println(jourDateJour);
 				remove(panelDateDepart);
 				constructionPanelDateDepart(numDeJourMoisDepart);
-				System.out.println(jourDateJour+" < " +(numDeJourMoisDepart-1));
 				if(jourDateJour<numDeJourMoisDepart)
 					chDateJour.setSelectedIndex(jourDateJour);
 				else
@@ -381,13 +376,13 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				calendarChangeArrivee.set(numAnneeArrivee, numMoisArrivee, 1);
 
 				int numDeJourMoisArrivee=calendarChangeArrivee.getActualMaximum(Calendar.DAY_OF_MONTH);
-				System.out.println("Nombre Jours du Mois Arrivee:" + numDeJourMoisArrivee);
+				//System.out.println("Nombre Jours du Mois Arrivee:" + numDeJourMoisArrivee);
 				
 				int jourDateJourRetour = chDateJourRetour.getSelectedIndex();
-				System.out.println(jourDateJourRetour);
+				
 				remove(panelDateRetour);
 				constructionPanelDateRetour(numDeJourMoisArrivee);
-				System.out.println(jourDateJourRetour+" < " +(numDeJourMoisArrivee-1));
+			//	System.out.println(jourDateJourRetour+" < " +(numDeJourMoisArrivee-1));
 				if(jourDateJourRetour<numDeJourMoisArrivee)
 					chDateJourRetour.setSelectedIndex(jourDateJourRetour);
 				else
@@ -434,11 +429,11 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				choixEnfants= new JDialog(new JFrame(),"Indiquer l'âge des enfants",true);
 				Container contentPaneDuDialogue = choixEnfants.getContentPane();
 				JPanel uneFenetre= new JPanel();
-				JComboBox<String> [] tab = new JComboBox[Constantes.agesEnfants.length];
+				JComboBox [] tab = new JComboBox[Constantes.agesEnfants.length];
 				
 				for(int h=0;h<tab.length;h++)
 				{
-					tab[h]=new JComboBox<String>(Constantes.agesEnfants);
+					tab[h]=new JComboBox(Constantes.agesEnfants);
 				}
 				
 				choixEnfants.setLocation(300, 300);
@@ -514,19 +509,58 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 			
 			try
 			{
-				try{
-					this.chPerimetreEntre=Integer.parseInt(chPerimetre.getText());
-				}catch(NumberFormatException e){tabErreurs.add("La valeur entrée pour le périmètre n'est pas un entier.");}
+				int perimetreEntre=0;
 				// Creation des objets villes
 				Ville VilleDepart= new Ville(VilleDepart1);
 				Ville VilleArrivee= new Ville(VilleArrivee1);
+				try{
+				perimetreEntre=Integer.parseInt(chPerimetre.getText());
+				if (perimetreEntre<=0)
+				{
+					tabErreurs.add("Votre périmètre est négatif, ou égal à zéro...\n ");
 					
+				}// le périmètre est null ou négatif
+				else if (perimetreEntre>300)
+				{
+					tabErreurs.add("Votre périmètre ne peut pas être supérieur à 300 km.\n");
+					
+				}// le périmètre est null ou négatif
+				}
+				catch(NumberFormatException e)
+				{
+
+					tabErreurs.add("La valeur entrée pour le périmètre n'est pas un entier.");
+
+				}//catch
 				
-				if(chVilleDepart.getText().equals(""))
+				
+				double temps=(chDateMoisRetour.getSelectedIndex()+1)*chDateJourRetour.getSelectedIndex()*24*3600+
+						Integer.parseInt(Constantes.annees[chDateAnneeRetour.getSelectedIndex()])*365.25*24*3600;
+				
+				double temps1=(chDateMois.getSelectedIndex()+1)*chDateJour.getSelectedIndex()*24*3600+
+						Integer.parseInt(Constantes.annees[chDateAnnee.getSelectedIndex()])*365.25*24*3600;
+				
+				/*if(temps-temps1>0)
+				{
+					System.out.println("La date est bonne");
+				}
+				else*/ if ((temps-temps1)<0 && chButtonAllerRetour[0].isSelected())
+				{
+					tabErreurs.add("La date de départ doit être antérieur à celle de retour.\n");
+				}
+				
+			
+				
+				if(chVilleDepart.getText().equals("") && chVilleArrive.getText().equals(""))
+				{
+					tabErreurs.add("Veuillez remplir les champs Ville de départ et d'arrivée.\n");
+					
+				}//if les champs ville départ/arrivée n'ont pas été remplie
+				else if(chVilleDepart.getText().equals(""))
 				{
 					tabErreurs.add("Veuillez remplir le champ Ville de départ.\n");
 				}
-				if(chVilleArrive.getText().equals(""))
+				else if(chVilleArrive.getText().equals(""))
 				{
 					tabErreurs.add("Veuillez remplir le champ Ville d'arrivée.\n");
 				}
@@ -546,20 +580,10 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				
 				else if (VilleDepart.existe()==0 && VilleArrivee.existe()==0)
 				{
-					tabErreurs.add("Les villes de depart et d'arrivée n'existent pas.\n");
+					tabErreurs.add("Les villes de depart et d'arrivee n'existent pas.\n");
 					
 				}// les deux villes n'existent pas 
 				
-				if (chPerimetreEntre<=0)
-				{
-					tabErreurs.add("Votre périmètre de recherche est inférieur ou égal à 0. Spécifiez un périmètre positif.\n ");
-					
-				}// le périmètre est null ou négatif
-				else if (chPerimetreEntre>300)
-				{
-					tabErreurs.add("Votre périmètre ne peut pas être supérieur à 300 km.\n");
-					
-				}// le périmètre est null ou négatif
 	
 				//Condition permettant d'indiquer si l'utilisateur a bien entre toutes les valeurs demandees
 				if(tabErreurs.size()==0)
@@ -567,13 +591,13 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 						
 						//------------------Création de la liste d'aéroports proches de la ville de départ--------//
 						
-						Aeroport [] listeVilleDepartAeroportCorrige = VilleDepart.listAirport((double)chPerimetreEntre);
+						Aeroport [] listeVilleDepartAeroportCorrige = VilleDepart.listAirport((double)perimetreEntre);
 					
 			  		  
 						//------------------Création de la liste d'aéroports proches de la ville d'arrivée--------//
 						
 						
-						Aeroport [] listeVilleArriveeAeroportCorrige = VilleArrivee.listAirport((double)chPerimetreEntre);
+						Aeroport [] listeVilleArriveeAeroportCorrige = VilleArrivee.listAirport((double)perimetreEntre);
 						
 						//------------------------------------------------------------------------//
 						
@@ -593,17 +617,9 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 						{
 							
 							//On instancie un objet CritereVol qui va contenir les critères du vol recherché par l'utilisateur
-							CritereVol lesCriteres= new CritereVol(VilleDepart,VilleArrivee,chPerimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
+							CritereVol lesCriteres= new CritereVol(VilleDepart,VilleArrivee,perimetreEntre,AllerRetour,chNbAdulte.getSelectedIndex(),chNbEnfants.getSelectedIndex(),
 							/*chNbBebe.getSelectedIndex(),*/ageEnfant[0],ageEnfant[1],ageEnfant[2],ageEnfant[3],ageEnfant[4],ageEnfant[5],ageEnfant[6],ageEnfant[7],chClasse.getSelectedIndex(),chDateJour.getSelectedIndex(),chDateMois.getSelectedIndex(),
 							chDateAnnee.getSelectedIndex(),chDateJourRetour.getSelectedIndex(),chDateMoisRetour.getSelectedIndex(),chDateAnneeRetour.getSelectedIndex());
-							
-						
-							
-							
-							
-							
-							//Il faudrait créer une classe pour récuperer les valeurs de la page web comme les prix, les aéroports, les dates de départ, etc.
-							//Il faudrait aussi créer une interface pour afficher les résultats à l'utilisateur.
 						
 						
 							//On affiche une fenetre indiquant les informations sur le vol pour que l'utilisateur puisse confirmer
@@ -695,15 +711,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				}//else
 				
 			}//try
-			catch(NumberFormatException e)
-			{
-
-				tabErreurs.add("La valeur entrée pour le périmètre n'est pas un entier.");
-
-	            //System.out.println("Erreur: La valeur entrée pour le périmètre n'est pas un entier."+this.chPerimetre.getText());
-	           // JOptionPane.showMessageDialog(this, "Erreur: La valeur entrée pour le périmètre n'est pas un entier.", "Erreur", JOptionPane.ERROR_MESSAGE);
-
-			}//catch
+			
 			catch (IOException e) {
 				JOptionPane.showMessageDialog(this, "Ebookers met trop de temps à répondre.\nVérifiez votre connexion et réessayez.","Erreur",JOptionPane.ERROR_MESSAGE);
 				//e.printStackTrace();
@@ -712,8 +720,18 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 			//Si le tableau des erreurs n'est pas vide
 			if(tabErreurs.size()!=0)
 			{
-				//On affiche les erreurs du tableau 
-				JOptionPane.showMessageDialog(this, tabErreurs.toArray(),"Erreur dans les informations entrées",JOptionPane.ERROR_MESSAGE);
+			//On copie l'ArrayList dans un tableau à cause des crochets dans l'affichage
+			int taille=tabErreurs.size();
+			String[] tabErreurs1=new String[taille];
+			
+			for(int d=0;d<taille;d++)
+			{
+				tabErreurs1[d]=tabErreurs.get(d);
+			}
+			
+			
+			//On affiche les erreurs du tableau 
+			JOptionPane.showMessageDialog(this, tabErreurs1,"Erreur dans les informations entrées",JOptionPane.ERROR_MESSAGE);
 			}
 			
 		}//if
