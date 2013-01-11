@@ -13,13 +13,13 @@ import javax.swing.JTable;
 
 public class MouseActionEcouteur extends MouseAdapter implements ActionListener{
 	
-
+	private boolean chAllerRetour;
 	
 	//ajouter champs
 	
-	public MouseActionEcouteur()
+	public MouseActionEcouteur(boolean parAllerRetour)
 	{
-		
+		chAllerRetour=parAllerRetour;
 		
 	}//MouseActionEcouteur()
 
@@ -38,13 +38,20 @@ public class MouseActionEcouteur extends MouseAdapter implements ActionListener{
 
 	            int row = table.rowAtPoint(p);
 	            int column =table.columnAtPoint(p);
-	            	if ( column == 15 ) 
+	            
+	            	//Si le resultat comporte des vols aller-retour
+	            	if ( column == 15 && chAllerRetour==true ) 
 	            	{
-	            		//System.out.println(table.getValueAt(1,15).toString());
-	            		
+	            		BareBonesBrowserLaunch lanceur = new BareBonesBrowserLaunch();
+	            		//On lance le navigateur avec l'adresse URL correspondant au vol
+	            		lanceur.openURL(table.getValueAt(row,15).toString());
+	            	}
+	            	else //si le resultat ne comporte que des vols aller
+	            	{
 	            		BareBonesBrowserLaunch lanceur = new BareBonesBrowserLaunch();
 	            		
-	            		lanceur.openURL(table.getValueAt(row,15).toString());
+	            		
+	            		lanceur.openURL(table.getValueAt(row,9).toString());
 	            	}
 	            }
 		
