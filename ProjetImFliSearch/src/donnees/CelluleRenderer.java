@@ -24,14 +24,20 @@ public class CelluleRenderer extends JLabel implements TableCellRenderer {
 			boolean estSelectionne, boolean aLeFocus, int ligne, int colonne)
 	{
 		
-		//NE FONCTIONNE PAS
-		/*	if(colonne==15 && ligne ==1)
+		
+		if(colonne==15)
 			{
 			//System.out.println(parTable.getValueAt(1, 15));
-			this.setBackground(Color.blue);
+			this.setText("Choisir");
+			//this.setBackground(Color.blue);
 			return this;
 			}
+		else
+		{	this.setBackground(Color.white);
+			this.setText((String) parValeur);
 		
+			return this;
+		}
 		//System.out.println(parValeur+" "+" "+ligne+" "+colonne);
 		
 		
@@ -48,7 +54,7 @@ public class CelluleRenderer extends JLabel implements TableCellRenderer {
 			 this.setToolTipText(lareservation.toString());
 		 }*/
 		
-		 return this;
+		
  
 	}//getTableCellRendererComponent(JTable,Object,boolean,boolean,int,int)
 
