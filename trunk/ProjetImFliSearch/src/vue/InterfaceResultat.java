@@ -10,6 +10,7 @@ import javax.swing.*;
 import donnees.CelluleRenderer;
 import donnees.ModelTable;
 import donnees.MouseActionEcouteur;
+import donnees.TableColumnAdjuster;
 import donnees.Vol;
 
 
@@ -39,7 +40,10 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		//-------------------------------------------------------------------------------------------------//
 		//Creation de la JTable
 		tableDesVols = new JTable();
-		tableDesVols.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		//tableDesVols.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tableDesVols.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		TableColumnAdjuster tca = new TableColumnAdjuster(tableDesVols);
+		
 		//Ajout du model a la JTable
 		tableDesVols.setModel(new ModelTable(parResultat));
 		tableDesVols.setSize(this.getSize());
@@ -55,6 +59,8 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		//tableDesVols.setDefaultRenderer(String.class, new CelluleRenderer());
 		tableDesVols.addMouseListener(new MouseActionEcouteur());
 		tableDesVols.setAutoCreateRowSorter(true);
+		
+		tca.adjustColumns();
 		//Spécifie une largeur predefinie a chaque colonne ( attention : en cas de modification du nombre de colonne, il sera necessaire
 		// de modifier ces lignes ci dessous )
 		//tableDesVols.getColumnModel().getColumn(0).setPreferredWidth(150);
