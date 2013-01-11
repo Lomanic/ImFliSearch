@@ -37,6 +37,14 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		JPanel contentPane=new JPanel();
 		contentPane.setLayout(new BorderLayout());
 		
+		//Pour voir si le tableau comporte des vols aller retour
+		boolean allerretour=false;
+		if(parResultat.size()>12)
+		{
+			allerretour=true;
+		}
+		
+		
 		//-------------------------------------------------------------------------------------------------//
 		//Creation de la JTable
 		tableDesVols = new JTable();
@@ -57,7 +65,7 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		
 		tableDesVols.getTableHeader().setReorderingAllowed(false);
 		//tableDesVols.setDefaultRenderer(String.class, new CelluleRenderer());
-		tableDesVols.addMouseListener(new MouseActionEcouteur());
+		tableDesVols.addMouseListener(new MouseActionEcouteur(allerretour));
 		tableDesVols.setAutoCreateRowSorter(true);
 		
 		tca.adjustColumns();
