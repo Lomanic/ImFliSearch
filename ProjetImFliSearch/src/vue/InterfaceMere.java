@@ -418,7 +418,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 						this.chDateJourRetour.setEnabled(true);
 					}
 					
-				//**************** Fin Traitement de l'Interface pour Choix Aller-Retour ou Aller Simple**********
+		//**************** Fin Traitement de l'Interface pour Choix Aller-Retour ou Aller Simple**********
 		
 		
 		if(telEvenement.getSource()==chNbEnfants)
@@ -513,24 +513,23 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				// Creation des objets villes
 				Ville VilleDepart= new Ville(VilleDepart1);
 				Ville VilleArrivee= new Ville(VilleArrivee1);
-				try{
-				perimetreEntre=Integer.parseInt(chPerimetre.getText());
-				if (perimetreEntre<=0)
+				try
 				{
-					tabErreurs.add("Votre périmètre est négatif, ou égal à zéro...\n ");
-					
-				}// le périmètre est null ou négatif
-				else if (perimetreEntre>300)
-				{
-					tabErreurs.add("Votre périmètre ne peut pas être supérieur à 300 km.\n");
-					
-				}// le périmètre est null ou négatif
+					perimetreEntre=Integer.parseInt(chPerimetre.getText());
+					if (perimetreEntre<=0)
+					{
+						tabErreurs.add("Votre périmètre est négatif, ou égal à zéro...\n ");
+						
+					}// le périmètre est null ou négatif
+					else if (perimetreEntre>300)
+					{
+						tabErreurs.add("Votre périmètre ne peut pas être supérieur à 300 km.\n");
+						
+					}// le périmètre est null ou négatif
 				}
 				catch(NumberFormatException e)
 				{
-
 					tabErreurs.add("La valeur entrée pour le périmètre n'est pas un entier.");
-
 				}//catch
 				
 				
@@ -546,7 +545,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 				}
 				else*/ if ((temps-temps1)<0 && chButtonAllerRetour[0].isSelected())
 				{
-					tabErreurs.add("La date de départ doit être antérieur à celle de retour.\n");
+					tabErreurs.add("La date de départ doit être antérieure à celle de retour.\n");
 				}
 				
 			
@@ -604,15 +603,10 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 					    if (listeVilleDepartAeroportCorrige.length==0 && listeVilleArriveeAeroportCorrige.length==0)
 						{
 					    	JOptionPane.showMessageDialog(this, "Aucun aéroport n'a été trouvé pour le périmètre choisi.",
-							"Erreur : Perimetre trop faible",JOptionPane.ERROR_MESSAGE);
+							"Erreur : Périmètre trop faible.",JOptionPane.ERROR_MESSAGE);
 					    }//if la liste des aéroports est vide pour la ville de départ
 						    
-					    if (listeVilleArriveeAeroportCorrige.length==0 || listeVilleDepartAeroportCorrige.length==0)
-						{
-					    	JOptionPane.showMessageDialog(this, "Aucun aéroport n'a été trouvé pour le périmètre choisi.",
-							"Erreur : Perimetre trop faible",JOptionPane.ERROR_MESSAGE);
-					    }//if la liste des aéroports est vide pour la ville d'arrivée
-						    
+					    
 						if (VilleDepart.existe()!=0 && VilleArrivee.existe()!=0 && listeVilleArriveeAeroportCorrige.length!=0 && listeVilleDepartAeroportCorrige.length!=0 )
 						{
 							
@@ -623,8 +617,8 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 						
 						
 							//On affiche une fenetre indiquant les informations sur le vol pour que l'utilisateur puisse confirmer
-							int confirmation=JOptionPane.showConfirmDialog(this, "Voici les informations que vous avez tapées:"+"\n"+lesCriteres.toString()+"\n"
-							+"Voulez vous valider ces informations ?","Resume",JOptionPane.OK_CANCEL_OPTION);
+							int confirmation=JOptionPane.showConfirmDialog(this, "Voici les informations que vous avez tapées:"+"\n"+lesCriteres.toString()+"\n",
+									"Voulez vous valider ces informations ?",JOptionPane.OK_CANCEL_OPTION);
 							
 							if (confirmation==JOptionPane.YES_OPTION)
 							{
@@ -719,19 +713,9 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 			
 			//Si le tableau des erreurs n'est pas vide
 			if(tabErreurs.size()!=0)
-			{
-			//On copie l'ArrayList dans un tableau à cause des crochets dans l'affichage
-			int taille=tabErreurs.size();
-			String[] tabErreurs1=new String[taille];
-			
-			for(int d=0;d<taille;d++)
-			{
-				tabErreurs1[d]=tabErreurs.get(d);
-			}
-			
-			
-			//On affiche les erreurs du tableau 
-			JOptionPane.showMessageDialog(this, tabErreurs1,"Erreur dans les informations entrées",JOptionPane.ERROR_MESSAGE);
+			{		
+				//On affiche les erreurs du tableau 
+				JOptionPane.showMessageDialog(this, tabErreurs.toArray(),"Erreur dans les informations entrées",JOptionPane.ERROR_MESSAGE);
 			}
 			
 		}//if
@@ -772,16 +756,5 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		}//bouton Annulation
 		
 	}//actionPerformed
-
-	//Méthode permettant de tester la connexion internet
-	public void testConnexion() throws IOException{
-		 
-		//On utilise l'URL du site ebookers.fr, comme ça si le site ne fonctionne pas le logiciel non plus
-		URL url = new URL("http://www.ebookers.fr/");
-		HttpURLConnection urlConn = (HttpURLConnection)url.openConnection();
-		urlConn.connect();
- 
-	}
-
 	
 }//class InterfaceMere
