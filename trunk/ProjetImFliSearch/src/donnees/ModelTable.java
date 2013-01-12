@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +20,7 @@ public class ModelTable extends DefaultTableModel
 	//constructeur pour la class ModelTable
 	public ModelTable (ArrayList<Vol> parResultat)
 	{
+		SimpleDateFormat parseur = new SimpleDateFormat("EEE dd MMM yyyy HH:mm", Locale.getDefault());
 		//colonnes :
 		//les entetes de colonne :
 		
@@ -26,7 +28,7 @@ public class ModelTable extends DefaultTableModel
 		if(parResultat.get(12).getNumVolRetour()!=null)
 		{
 			
-		String[] identifierColumn = {"N° Vol Aller","Aeroport depart","Distance (km)","Aeroport arrivee","Distance (km)","Date-heure/Départ/Aller","Date-heure/Arrivée/Aller","Durée Aller","Compagnie Aller","N° Vol Retour","Date-heure/Départ/Retour","Date-heure/Arrivée/Retour","Durée Retour","Compagnie Retour","Tarif total","Lien"};
+		String[] identifierColumn = {"N° vol Aller","Aéroport départ","Distance (km)","Aéroport arrivée","Distance (km)","Date de départ/Aller","Date d'arrivée/Aller","Durée Aller","Compagnie Aller","N° Vol Retour","Date de départ/Retour","Date d'arrivée/Retour","Durée Retour","Compagnie Retour","Tarif total","Lien"};
 		//le nombre de colonne 
 
 
@@ -37,7 +39,7 @@ public class ModelTable extends DefaultTableModel
 		this.setColumnIdentifiers(identifierColumn);
 	
 		//lignes :
-		this.setRowCount(parResultat.size());
+		this.setRowCount(parResultat.size()-1);
 		
 		
 		for(int i=0;i<parResultat.size()-1;i++)
@@ -66,11 +68,11 @@ public class ModelTable extends DefaultTableModel
 				}
 				else if(k==5)
 				{
-					this.setValueAt(parResultat.get(i).getDateAllerDepart(), i, k);
+					this.setValueAt(parseur.format(parResultat.get(i).getDateAllerDepart()), i, k);
 				}
 				else if(k==6)
 				{
-					this.setValueAt(parResultat.get(i).getDateAllerArrivee(), i, k);
+					this.setValueAt(parseur.format(parResultat.get(i).getDateAllerArrivee()), i, k);
 				}
 				else if(k==7)
 				{	
@@ -90,11 +92,11 @@ public class ModelTable extends DefaultTableModel
 				}
 				else if(k==10)
 				{
-					this.setValueAt(parResultat.get(i).getDateRetourDepart(), i, k);
+					this.setValueAt(parseur.format(parResultat.get(i).getDateRetourDepart()), i, k);
 				}
 				else if(k==11)
 				{
-					this.setValueAt(parResultat.get(i).getDateRetourArrivee(), i, k);
+					this.setValueAt(parseur.format(parResultat.get(i).getDateRetourArrivee()), i, k);
 				}
 				else if(k==12)
 				{
@@ -127,7 +129,7 @@ public class ModelTable extends DefaultTableModel
 		else //Si le tableau ne comporte que des vols aller
 		{
 			//On adapte le tableau pour permettre d'afficher les vols aller
-			String[] identifierColumn = {"N° Vol Aller","Aeroport depart","Distance (km)","Aeroport arrivee","Date-heure/Départ/Aller","Date-heure/Arrivée/Aller","Durée Aller","Compagnie Aller","Tarif total","Lien"};
+			String[] identifierColumn = {"N° vol","Aéroport départ","Distance (km)","Aéroport arrivée","Date de départ","Date d'arrivée","Durée","Compagnie","Tarif total","Lien"};
 			//le nombre de colonne 
 
 			this.setColumnCount(identifierColumn.length);
@@ -160,11 +162,11 @@ public class ModelTable extends DefaultTableModel
 					}
 					else if(k==4)
 					{
-						this.setValueAt(parResultat.get(i).getDateAllerDepart(), i, k);
+						this.setValueAt(parseur.format(parResultat.get(i).getDateAllerDepart()), i, k);
 					}
 					else if(k==5)
 					{
-						this.setValueAt(parResultat.get(i).getDateAllerArrivee(), i, k);
+						this.setValueAt(parseur.format(parResultat.get(i).getDateAllerArrivee()), i, k);
 					}
 					else if(k==6)
 					{	
@@ -201,4 +203,8 @@ public class ModelTable extends DefaultTableModel
 		return String.class;
 	}//getColumnClass
 	
+	public boolean isCellEditable(int i, int j)
+	{
+		return false;
+	}
 }
