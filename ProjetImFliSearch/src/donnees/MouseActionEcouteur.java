@@ -42,25 +42,22 @@ public class MouseActionEcouteur extends MouseAdapter implements ActionListener{
 	            	//Si le resultat comporte des vols aller-retour
 	            	if ( column == 15 && chAllerRetour==true ) 
 	            	{
-	            		BareBonesBrowserLaunch lanceur = new BareBonesBrowserLaunch();
 	            		//On lance le navigateur avec l'adresse URL correspondant au vol
-	            		lanceur.openURL(table.getValueAt(row,15).toString());
+	            		BareBonesBrowserLaunch.openURL(table.getValueAt(row,15).toString());
 	            	}
-	            	else //si le resultat ne comporte que des vols aller
+	            	else if (column==9)//si le resultat ne comporte que des vols aller
 	            	{
-	            		BareBonesBrowserLaunch lanceur = new BareBonesBrowserLaunch();
-	            		
-	            		
-	            		lanceur.openURL(table.getValueAt(row,9).toString());
+	            		BareBonesBrowserLaunch.openURL(table.getValueAt(row,9).toString());
 	            	}
 	            }
 		
 	}	 //mouseClicked(MouseEvent)
-	
-		public void actionPerformed(ActionEvent telEvt) {
-				    
-	
-			 }
-									
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+								
 	
 }//class MouseActionEcouteur
