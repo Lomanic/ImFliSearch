@@ -101,11 +101,10 @@ public class InterfaceResultat extends JFrame implements ActionListener
 		//-------------------------------------------------------------------------------------------------//
 		//Ajout du panel principal dans la JFrame
 		this.setContentPane(contentPane);
-
-		setVisible(true);
+		this.setIconImage(new ImageIcon("img/icone.png").getImage());
 		setSize(950,600);
-		
-	}
+		setVisible(true);
+}
 	
 	
 	/*private void ajouteComposant ( JPanel panel, Component parComposant, int parColonne, int parLigne, int parLargeur, int parHauteur)
