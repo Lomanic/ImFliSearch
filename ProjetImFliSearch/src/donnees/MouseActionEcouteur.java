@@ -38,17 +38,18 @@ public class MouseActionEcouteur extends MouseAdapter implements ActionListener{
 
 	            int row = table.rowAtPoint(p);
 	            int column =table.columnAtPoint(p);
-	            
-	            	//Si le resultat comporte des vols aller-retour
-	            	if ( column == 15 && chAllerRetour==true ) 
-	            	{
-	            		//On lance le navigateur avec l'adresse URL correspondant au vol
-	            		BareBonesBrowserLaunch.openURL(table.getValueAt(row,15).toString());
-	            	}
-	            	else if (column==9)//si le resultat ne comporte que des vols aller
-	            	{
-	            		BareBonesBrowserLaunch.openURL(table.getValueAt(row,9).toString());
-	            	}
+	            	try{
+		            	//Si le resultat comporte des vols aller-retour
+		            	if ( column == 15 && chAllerRetour==true ) 
+		            	{
+		            		//On lance le navigateur avec l'adresse URL correspondant au vol
+		            		BareBonesBrowserLaunch.openURL(table.getValueAt(row,15).toString());
+		            	}
+		            	else if (column==9)//si le resultat ne comporte que des vols aller
+		            	{
+		            		BareBonesBrowserLaunch.openURL(table.getValueAt(row,9).toString());
+		            	}
+	            	}catch(NullPointerException e){}
 	            }
 		
 	}	 //mouseClicked(MouseEvent)

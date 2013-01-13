@@ -25,7 +25,7 @@ public class ModelTable extends DefaultTableModel
 		//les entetes de colonne :
 		
 		//Si le resultat comporte des vols aller retour
-		if(parResultat.get(12).getNumVolRetour()!=null)
+		if(parResultat.get(0).getNumVolRetour()!=null)
 		{
 			
 		String[] identifierColumn = {"N° vol Aller","Aéroport départ","Distance (km)","Aéroport arrivée","Distance (km)","Date de départ/Aller","Date d'arrivée/Aller","Durée Aller","Compagnie Aller","N° Vol Retour","Date de départ/Retour","Date d'arrivée/Retour","Durée Retour","Compagnie Retour","Tarif total","Lien"};
