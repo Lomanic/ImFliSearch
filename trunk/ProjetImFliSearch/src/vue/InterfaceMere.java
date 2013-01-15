@@ -265,7 +265,7 @@ public class InterfaceMere extends JFrame implements ActionListener, ItemListene
 		
 		this.pack();
 		this.setMinimumSize(this.getSize());
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setIconImage(new ImageIcon("img/icone.png").getImage());
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
