@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import donnees.Aeroport;
 
-public class Vol {
+public class Vol implements Comparable<Vol> {
 
 	private Aeroport aeroportDepart;
 	private Aeroport aeroportArrivee;
@@ -330,5 +330,33 @@ public class Vol {
 
 	public void setNumVolRetour(String numVolRetour) {
 		this.numVolRetour = numVolRetour;
-	}	
+	}
+
+
+
+	@Override
+	public int compareTo(Vol arg0) {
+		String s=arg0.getPrix();
+		String s2=this.getPrix();
+		
+		s = s.substring(0, s.length() - 2);
+		s=s.replace(" ", "");
+		s2 = s2.substring(0, s2.length() - 2);
+		s2=s2.replace(" ", "");
+		
+		//s=s.replace("[ ]", "");s2=s2.replace("[ ]", "");
+		
+		/*
+		if (Integer.parseInt(s)<Integer.parseInt(s2))
+			return +1;
+		else if (Integer.parseInt(s)>Integer.parseInt(s2))
+			return -1;
+		return 0;*/
+		return Integer.parseInt(s2)-Integer.parseInt(s);
+	}
 }
+
+
+/*
+ * tri par prix de la Arraylist<Vol> utilisée dans le constructeur de InterfaceReservation
+ */
