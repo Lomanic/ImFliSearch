@@ -114,7 +114,7 @@ public class Vol {
 		{
 			for(Aeroport j:AeroportsDepart)
 			{
-				if(m4.group(2).equals(j.getChCodeIATA()));
+				if(m4.group(2).equals(j.getChCodeIATA()))
 					{
 						aeroportDepart=j;
 					}
@@ -122,7 +122,7 @@ public class Vol {
 			
 			for(Aeroport j:AeroportsArrivee)
 			{
-				if(m4.group(5).equals(j.getChCodeIATA()));
+				if(m4.group(5).equals(j.getChCodeIATA()))
 					{
 						aeroportArrivee=j;
 					}
@@ -179,7 +179,7 @@ public class Vol {
 		{
 			for(Aeroport j:AeroportsDepart)
 			{
-				if(n1.group(7).equals(j.getChCodeIATA()));
+				if(n1.group(7).equals(j.getChCodeIATA()))
 					{
 						aeroportDepart=j;
 					}
@@ -187,7 +187,7 @@ public class Vol {
 			
 			for(Aeroport j:AeroportsArrivee)
 			{
-				if(n1.group(9).equals(j.getChCodeIATA()));
+				if(n1.group(9).equals(j.getChCodeIATA()))
 					{
 						aeroportArrivee=j;
 					}
